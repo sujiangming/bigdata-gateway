@@ -66,6 +66,20 @@ public class ResourceServiceImpl implements ResourceService {
 	}
 
 	@Override
+	public Page<Resource> select(int pageNo, int pageSize, Resource queryRes) {
+		Page<Resource> page = PageHelper.startPage(pageNo, pageSize, true);
+		resourceMapper.select(queryRes);
+		log.debug("total user : {}", page.getTotal());
+		log.debug("ret users : {}", page.getResult());
+
+		Page<Resource> pageRet = new Page<>(pageNo, pageSize);
+		pageRet.setTotal(page.getTotal());
+		pageRet.addAll(page.getResult());
+
+		return pageRet;
+	}
+
+	@Override
 	public List<Resource> getResourceByUser(int userId) {
 		return resourceMapper.getResourceByUser(userId);
 	}
@@ -78,11 +92,6 @@ public class ResourceServiceImpl implements ResourceService {
 			resourceMapper.unlinkRole(ids);
 		}
 		return num;
-	}
-
-	@Override
-	public Page<Resource> select(int pageNo, int pageSize, Resource queryRes) {
-		return null;
 	}
 
 }

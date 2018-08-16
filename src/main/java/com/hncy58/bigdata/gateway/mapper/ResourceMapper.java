@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 
+import com.github.pagehelper.Page;
 import com.hncy58.bigdata.gateway.model.Resource;
 
 public interface ResourceMapper {
@@ -72,5 +73,35 @@ public interface ResourceMapper {
 			+ " </foreach>"
 			+ "</script>")
 	int unlinkRole(@Param("resIds") List<String> resIds);
+
+	@Select("<script>"
+			+ "select r.* from sys_res r "
+			+ "<where>  "
+			+ "	<if test=\"resName != null and resName != ''\"> "
+			+ "		res_name = #{resName} "
+			+ "	</if> "
+			+ "	<if test=\"pResCode != null and pResCode != ''\"> "
+			+ "		and p_res_code = #{pResCode} "
+			+ "	</if> "
+			+ "	<if test=\"resCode != null and resCode != ''\"> "
+			+ "		and res_code = #{resCode} "
+			+ "	</if> "
+			+ "	<if test=\"mark != null and mark != ''\"> "
+			+ "		and mark like '%${mark}%' "
+			+ "	</if> "
+			+ "	<if test='resType != null'> "
+			+ "		and res_type = #{resType} "
+			+ "	</if> "
+			+ "	<if test='createTime != null'> "
+			+ "		and create_time  &gt;= #{createTime} "
+			+ "	</if> "
+			+ "	<if test='updateTime != null'> "
+			+ "		and update_time  &gt;= #{updateTime} "
+			+ "	</if> "
+			+ "</where> "
+			+ "</script>"
+			)
+	@ResultMap("all_cols")
+	Page<Resource> select(Resource queryRes);
 	
 }

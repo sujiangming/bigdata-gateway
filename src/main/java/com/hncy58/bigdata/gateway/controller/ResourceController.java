@@ -56,7 +56,6 @@ public class ResourceController {
 
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
 	public Map<String, Object> selectByPage(int pageNo, int pageSize, Resource queryRes) {
-		// TODO 还未完全实现
 		Map<String, Object> ret = new HashMap<>();
 		Page<Resource> roles = resourceService.select(pageNo, pageSize, queryRes);
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
