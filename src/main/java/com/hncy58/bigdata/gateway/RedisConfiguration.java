@@ -17,9 +17,8 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
-import com.hncy58.bigdata.gateway.msg.receiver.RedisMsgReceiver;
+import com.hncy58.bigdata.gateway.msg.receiver.AuthChageRedisMsgReceiver;
 
 /**
  * Redis初始化配置类
@@ -42,10 +41,10 @@ public class RedisConfiguration {
 	 * 实例化Redis连接工厂
 	 * @return
 	 */
-//	@Bean
-//	public RedisConnectionFactory redisConnectionFactory() {
-//		return new JedisConnectionFactory();
-//	}
+	@Bean
+	public RedisConnectionFactory redisConnectionFactory() {
+		return new JedisConnectionFactory();
+	}
 
 	/**
 	 * 注入 RedisConnectionFactory
@@ -54,12 +53,12 @@ public class RedisConfiguration {
 	RedisConnectionFactory redisConnectionFactory;
 
 	/**
-	 * 利用反射来创建监听到消息之后的执行方法
+	 * 利用反射来创建监听到权限变更消息之后的执行方法
 	 * @param redisReceiver
 	 * @return
 	 */
     @Bean
-    MessageListenerAdapter listenerAdapter(RedisMsgReceiver<?> redisReceiver) {
+    MessageListenerAdapter listenerAdapter(AuthChageRedisMsgReceiver<?> redisReceiver) {
         return new MessageListenerAdapter(redisReceiver, "receiveMessage");
     }
 

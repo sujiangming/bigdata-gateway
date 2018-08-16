@@ -3,18 +3,19 @@ package com.hncy58.bigdata.gateway.service.imlp;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.hncy58.bigdata.gateway.model.AuthInfo;
 import com.hncy58.bigdata.gateway.service.AbstractCacheService;
 
-@Deprecated
 @Service
-public class AuthInfoCacheService extends AbstractCacheService<AuthInfo> {
+public class AuthInfoCacheService extends AbstractCacheService<Object> {
 
 	@Value("${cache.user.key:authinfo}")
 	protected String cacheKey;
 	
 	@Value("${cache.user.key:-1}")
 	protected long cacheExpire;
+
+	@Value("${redis.pubsub.patterntopic:pubsub}")
+	private String patternTopic;
 	
 	@Override
 	protected String getCacheKey() {
@@ -25,5 +26,8 @@ public class AuthInfoCacheService extends AbstractCacheService<AuthInfo> {
 	protected long getCacheExpire() {
 		return cacheExpire;
 	}
-
+	
+	public void sendMsg(Object msg) {
+		sendChannelMess(patternTopic, msg);
+	}
 }

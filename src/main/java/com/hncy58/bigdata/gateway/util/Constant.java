@@ -27,7 +27,7 @@ public class Constant {
 	/**
 	 * 请求成功响应码
 	 */
-	public static final Integer REQ_SUCCESS_CODE = 0;
+	public static final String REQ_SUCCESS_CODE = "0";
 
 	/**
 	 * 请求头token名称

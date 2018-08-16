@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.util.StringUtil;
+import com.hncy58.bigdata.gateway.domain.AuthChangeMsg;
 import com.hncy58.bigdata.gateway.exception.RestfulJsonException;
 import com.hncy58.bigdata.gateway.model.AuthInfo;
 import com.hncy58.bigdata.gateway.model.Role;
@@ -29,6 +31,7 @@ import com.hncy58.bigdata.gateway.service.ResourceService;
 import com.hncy58.bigdata.gateway.service.RoleService;
 import com.hncy58.bigdata.gateway.service.TokenService;
 import com.hncy58.bigdata.gateway.service.UserService;
+import com.hncy58.bigdata.gateway.service.imlp.AuthInfoCacheService;
 import com.hncy58.bigdata.gateway.util.Constant;
 import com.hncy58.bigdata.gateway.util.Utils;
 
@@ -55,14 +58,17 @@ public class UserController {
 	private RoleService roleService;
 
 	@Autowired
+	private ResourceService resourceService;
+	
+	@Autowired
 	private TokenService tokenService;
 	
 	@Autowired
 	private AuthorityService authorityService;
 
 	@Autowired
-	private ResourceService resourceService;
-
+	private AuthInfoCacheService authInfoCacheService;
+	
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> selectByPrimaryKey(int id) {
 		Map<String, Object> ret = new HashMap<>();
@@ -180,26 +186,28 @@ public class UserController {
 
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
 	public Map<String, Object> delete(String ids) {
+		
 		Map<String, Object> ret = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
 		log.info("start delete users:{}", ids);
 		int num = userService.delete(Arrays.asList(ids.trim().split(",")));
+		
 		if (num > 0) {
 			data.put("num", num);
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
+			
+			Arrays.asList(ids.trim().split(";")).forEach(userId -> {
+				String token = tokenService.getToken(Integer.valueOf(userId.trim()));
+				// 如果token存在则移除
+				if (!StringUtil.isEmpty(token) && tokenService.validateToken(token)) {
+					tokenService.removeToken(token);
+					log.info("remove token cache, token:{}", token);
+				}
+			});
 		} else {
 			ret.put("msg", "删除用户失败，系统删除没有删除任何用户");
 			ret.put("code", "2004");
 		}
-
-		Arrays.asList(ids.trim().split(";")).forEach(userId -> {
-			String token = tokenService.getToken(Integer.valueOf(userId.trim()));
-			// 如果token存在则移除
-			if (!StringUtil.isEmpty(token) && tokenService.validateToken(token)) {
-				tokenService.removeToken(token);
-				log.info("remove token cache, token:{}", token);
-			}
-		});
 
 		ret.put("data", data);
 		return ret;
@@ -280,6 +288,13 @@ public class UserController {
 			roleList = Arrays.asList(roleIds.trim().split(","));
 		}
 		int num = userService.linkRole(userId, roleList);
+		// 如果用户角色信息有更改，则发送消息
+		if(num > 0) {
+			// 发送用户权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
+			AuthChangeMsg msg = new AuthChangeMsg("user", "linkRole", Arrays.asList(userId, roleIds));
+			authInfoCacheService.sendMsg(JSONObject.wrap(msg).toString());
+		}
+		
 		data.put("num", num);
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
 		ret.put("data", data);
