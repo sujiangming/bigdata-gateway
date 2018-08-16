@@ -58,6 +58,7 @@ public class LoginController {
 		String password = req.getParameter("password");
 
 		Map<String, Object> ret = new HashMap<>();
+		Map<String, Object> data = new HashMap<>();
 		User user = userService.selectByUserCode(userCode);
 		HttpSession session = req.getSession();
 
@@ -73,10 +74,10 @@ public class LoginController {
 			}
 			
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
-			ret.put("token", token);
+			data.put("token", token);
 			// 屏蔽密码信息
 			user.setPassword("******");
-			ret.put("user", user);
+			data.put("user", user);
 			List<AuthInfo> authInfos = authorityService.selectByUserId(user.getId());
 			if (!authInfos.isEmpty()) {
 				AuthInfo authInfo = authInfos.get(0);
@@ -84,15 +85,15 @@ public class LoginController {
 				// 生成菜单栏
 				// 判断是否具有超管角色
 				if (Utils.hasSuperRole(authInfo)) {
-					ret.put("menu", Utils.generateMenu(resourceService.selectAll()));
+					data.put("menu", Utils.generateMenu(resourceService.selectAll()));
 					// 缓存设置用户具有超级管理员角色
 					tokenService.putCacheByToken(token, "superrole", "1");
 				} else {
-					ret.put("menu", Utils.generateMenu(authInfo));
+					data.put("menu", Utils.generateMenu(authInfo));
 				}
 
 				// 放置所有权限
-				ret.put("authInfo", authInfo);
+				data.put("authInfo", authInfo);
 				// 缓存登录用户权限信息
 				tokenService.putCacheByToken(token, "authinfo", authInfo);
 			}
@@ -101,6 +102,7 @@ public class LoginController {
 			ret.put("msg", "用户不存在或者密码错误");
 		}
 
+		ret.put("data", data);
 		return ResponseEntity.ok(ret);
 	}
 
