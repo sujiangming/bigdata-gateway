@@ -26,11 +26,12 @@ import com.hncy58.bigdata.gateway.util.Utils;
 
 /**
  * 权限、菜单API
- * @author	tokings
- * @company	hncy58	湖南长银五八
- * @website	http://www.hncy58.com
+ * 
+ * @author tokings
+ * @company hncy58 湖南长银五八
+ * @website http://www.hncy58.com
  * @version 1.0
- * @date	2018年8月15日 上午11:51:24
+ * @date 2018年8月15日 上午11:51:24
  *
  */
 @RestController
@@ -119,25 +120,41 @@ public class AuthorityController {
 		String token = req.getHeader(Constant.REQ_TOKEN_HEADER_KEY);
 		Object data = Collections.EMPTY_LIST;
 		Integer id = 0;
+		Object authInfo = null;
 
-		if (!StringUtils.isEmpty(token)) {
-			id = Integer.valueOf(token.split(":")[1]);
+		if (token.trim().split("#").length != 3 || !tokenService.validateToken(token)) {
+			ret.put("code", "1004");
+			ret.put("msg", "用户token令牌无效");
+			return ResponseEntity.ok(ret);
 		}
 
-		Object authInfo = null;
+		if (!StringUtils.isEmpty(token)) {
+			id = Integer.valueOf(token.split("#")[1]);
+		}
 
 		if (id > 0) {
 			// 从redis中获取缓存信息
 			authInfo = tokenService.getCacheFromToken(token, "authinfo");
 		}
 
+		// 没有获取到则直接从DB中获取
 		if (authInfo == null) {
-			// 没有获取到则直接从DB中获取
 			List<AuthInfo> authInfos = authorityService.selectByUserId(id);
 			if (!authInfos.isEmpty()) {
 				authInfo = authInfos.get(0);
-				tokenService.putCacheByToken(token, "authinfo", authInfo);
-				data = Utils.generateMenu(authInfos.get(0));
+				tokenService.putCacheByToken(token, "authinfo", authInfos.get(0));
+			}
+		}
+
+		if (authInfo != null) {
+			// 生成菜单栏
+			// 判断是否具有超管角色
+			if (Utils.hasSuperRole((AuthInfo) authInfo)) {
+				data = Utils.generateMenu(resourceService.selectAll());
+				// 缓存设置用户具有超级管理员角色
+				tokenService.putCacheByToken(token, "superrole", "1");
+			} else {
+				data = Utils.generateMenu((AuthInfo) authInfo);
 			}
 		}
 

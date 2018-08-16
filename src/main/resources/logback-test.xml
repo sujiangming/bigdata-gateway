@@ -27,7 +27,8 @@
 		</encoder>
 	</appender>
 
-	<root level="warn">
+	<root level="debug">
+		<appender-ref ref="console" />
 		<appender-ref ref="file" />
 	</root>
 	<logger name="org.springframework.scheduling" level="error" />

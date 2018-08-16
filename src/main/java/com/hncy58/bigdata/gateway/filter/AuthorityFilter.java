@@ -56,7 +56,7 @@ public class AuthorityFilter extends ZuulFilter {
 		AuthInfo authInfo = null;
 		// 如果请求未携带token直接拒绝请求
 		if (StringUtils.isEmpty(token)) {
-			log.warn("session:{},user cache is empty", session.getId());
+			log.warn("session:{},user token is empty", session.getId());
 			return generateResponseBody(ctx, "1003", "用户token为空");
 		}
 		// 验证token有效性
