@@ -21,8 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.util.StringUtil;
 import com.hncy58.bigdata.gateway.exception.RestfulJsonException;
+import com.hncy58.bigdata.gateway.model.AuthInfo;
 import com.hncy58.bigdata.gateway.model.Role;
 import com.hncy58.bigdata.gateway.model.User;
+import com.hncy58.bigdata.gateway.service.AuthorityService;
+import com.hncy58.bigdata.gateway.service.ResourceService;
 import com.hncy58.bigdata.gateway.service.RoleService;
 import com.hncy58.bigdata.gateway.service.TokenService;
 import com.hncy58.bigdata.gateway.service.UserService;
@@ -53,6 +56,12 @@ public class UserController {
 
 	@Autowired
 	private TokenService tokenService;
+	
+	@Autowired
+	private AuthorityService authorityService;
+
+	@Autowired
+	private ResourceService resourceService;
 
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> selectByPrimaryKey(int id) {
@@ -67,8 +76,10 @@ public class UserController {
 	public ResponseEntity<Map<String, Object>> getByToken(HttpServletRequest req) {
 
 		Map<String, Object> ret = new HashMap<>();
+		Map<String, Object> data = new HashMap<>();
 		String token = req.getHeader(Constant.REQ_TOKEN_HEADER_KEY);
 		Integer id = 0;
+		Object authInfo = null;
 
 		if (!StringUtils.isEmpty(token)) {
 			id = Integer.valueOf(token.split("#")[1]);
@@ -77,7 +88,37 @@ public class UserController {
 		User user = new User();
 		if (id > 0)
 			user = userService.selectByPrimaryKey(id);
-		ret.put("data", user);
+
+		if (id > 0) {
+			// 从redis中获取缓存信息
+			authInfo = tokenService.getCacheFromToken(token, "authinfo");
+		}
+
+		// 没有获取到则直接从DB中获取
+		if (authInfo == null) {
+			List<AuthInfo> authInfos = authorityService.selectByUserId(id);
+			if (!authInfos.isEmpty()) {
+				authInfo = authInfos.get(0);
+				tokenService.putCacheByToken(token, "authinfo", authInfos.get(0));
+			}
+		}
+
+		if (authInfo != null) {
+			// 生成菜单栏
+			// 判断是否具有超管角色
+			Object menu = Collections.EMPTY_LIST;
+			if (Utils.hasSuperRole((AuthInfo) authInfo)) {
+				menu = Utils.generateMenu(resourceService.selectAll());
+				// 缓存设置用户具有超级管理员角色
+				tokenService.putCacheByToken(token, "superrole", "1");
+			} else {
+				menu = Utils.generateMenu((AuthInfo) authInfo);
+			}
+			data.put("menu", menu);
+		}
+		
+		data.put("user", user);
+		ret.put("data", data);
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
 		return ResponseEntity.ok(ret);
 	}
