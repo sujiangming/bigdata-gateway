@@ -12,6 +12,7 @@ import com.hncy58.bigdata.gateway.model.Role;
 
 @Controller
 @RequestMapping("/test")
+@Deprecated
 public class HelloController {
 
 	/**

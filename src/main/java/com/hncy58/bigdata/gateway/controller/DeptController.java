@@ -14,6 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hncy58.bigdata.gateway.model.Dept;
 import com.hncy58.bigdata.gateway.service.DeptService;
 
+/**
+ * 部门管理API（暂不实现）
+ * @author	tokings
+ * @company	hncy58	湖南长银五八
+ * @website	http://www.hncy58.com
+ * @version 1.0
+ * @date	2018年8月16日 下午3:50:16
+ *
+ */
+@Deprecated
 @RestController
 @RequestMapping("/api/dept")
 public class DeptController {

@@ -233,7 +233,27 @@ public class UserController {
 		}
 		ret.put("data", Collections.emptyMap());
 		return ret;
-
+	}
+	
+	@RequestMapping(value = "/updateByToken", method = RequestMethod.PUT)
+	public Map<String, Object> updateByToken(HttpServletRequest req, User user) {
+		Map<String, Object> ret = new HashMap<>();
+		String token = req.getHeader(Constant.REQ_TOKEN_HEADER_KEY);
+		Integer id = 0;
+		if (!StringUtils.isEmpty(token)) {
+			id = Integer.valueOf(token.split("#")[1]);
+			user.setId(id);
+		}
+		
+		int num = userService.updateByPrimaryKeySelective(user);
+		if (num > 0) {
+			ret.put("code", Constant.REQ_SUCCESS_CODE);
+		} else {
+			ret.put("code", "2002");
+			ret.put("msg", "更新用户失败");
+		}
+		ret.put("data", Collections.emptyMap());
+		return ret;
 	}
 
 	@Deprecated

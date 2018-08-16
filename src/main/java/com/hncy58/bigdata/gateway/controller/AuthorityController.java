@@ -55,6 +55,7 @@ public class AuthorityController {
 	 * @param userId
 	 * @return
 	 */
+	@Deprecated
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> selectByUserId(HttpSession session, int userId) {
 
@@ -76,6 +77,7 @@ public class AuthorityController {
 	 * @param userId
 	 * @return
 	 */
+	@Deprecated
 	@RequestMapping(value = "/getByToken", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getByToken(HttpServletRequest req) {
 
