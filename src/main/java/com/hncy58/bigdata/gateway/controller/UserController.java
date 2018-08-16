@@ -154,7 +154,7 @@ public class UserController {
 		Arrays.asList(ids.trim().split(";")).forEach(userId -> {
 			String token = tokenService.getToken(Integer.valueOf(userId.trim()));
 			// 如果token存在则移除
-			if (tokenService.validateToken(token)) {
+			if (!StringUtil.isEmpty(token) && tokenService.validateToken(token)) {
 				tokenService.removeToken(token);
 				log.info("remove token cache, token:{}", token);
 			}

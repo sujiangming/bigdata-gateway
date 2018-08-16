@@ -17,13 +17,15 @@ public class MenuInfo implements Serializable {
 	private String resUri;
 	private int rank;
 	private String mark;
+	private String resIcon;
+	private List<MenuInfo> subMenus;
 
 	public MenuInfo() {
 		super();
 	}
 
 	public MenuInfo(int id, String resCode, String resName, String pResCode, String resUri, int rank, String mark,
-			List<MenuInfo> subMenus) {
+			String resIcon, List<MenuInfo> subMenus) {
 		super();
 		this.id = id;
 		this.resCode = resCode;
@@ -32,10 +34,17 @@ public class MenuInfo implements Serializable {
 		this.resUri = resUri;
 		this.rank = rank;
 		this.mark = mark;
+		this.resIcon = resIcon;
 		this.subMenus = subMenus;
 	}
 
-	private List<MenuInfo> subMenus;
+	public String getResIcon() {
+		return resIcon;
+	}
+
+	public void setResIcon(String resIcon) {
+		this.resIcon = resIcon;
+	}
 
 	public int getId() {
 		return id;
@@ -103,12 +112,13 @@ public class MenuInfo implements Serializable {
 
 	public static MenuInfo resourceToMenu(Resource res) {
 		return new MenuInfo(res.getId(), res.getResCode(), res.getResName(), res.getpResCode(), res.getResUri(),
-				res.getRank(), res.getMark(), new ArrayList<>());
+				res.getRank(), res.getMark(), res.getResIcon(), new ArrayList<>());
 	}
 
 	@Override
 	public String toString() {
-		return "{code:" + this.getResCode() + ", pCode:" + this.getpResCode() + ", rank:" + this.getRank() + ", subMenus:" + this.getSubMenus() + "}";
+		return "{code:" + this.getResCode() + ", pCode:" + this.getpResCode() + ", rank:" + this.getRank()
+				+ ", subMenus:" + this.getSubMenus() + "}";
 	}
 
 }

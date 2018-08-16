@@ -169,12 +169,19 @@
 			(#{userId, jdbcType=INTEGER},#{roleId, jdbcType=INTEGER})
 		</foreach>
 	</insert>
-	<insert id="unlinkRoles">
+	
+	<delete id="unlinkRoles">
 		delete from sys_user_role where user_id = #{userId} and role_id in
 		<foreach collection="roleIds" item="roleId" index="index" open="(" close=")" separator=",">
 			#{roleId, jdbcType=INTEGER}
 		</foreach>
-	</insert>
+	</delete>
+	<delete id="unlinkUserRoles">
+		delete from sys_user_role where user_id in
+		<foreach collection="userIds" item="userId" index="index" open="(" close=")" separator=",">
+			#{userId, jdbcType=INTEGER}
+		</foreach>
+	</delete>
 	
 	
 </mapper>

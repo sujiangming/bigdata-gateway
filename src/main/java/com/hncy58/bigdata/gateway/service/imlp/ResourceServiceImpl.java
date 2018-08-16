@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -15,7 +16,7 @@ import com.hncy58.bigdata.gateway.service.ResourceService;
 
 @Service
 public class ResourceServiceImpl implements ResourceService {
-	
+
 	Logger log = LoggerFactory.getLogger(ResourceServiceImpl.class);
 
 	@Autowired
@@ -66,6 +67,21 @@ public class ResourceServiceImpl implements ResourceService {
 
 	@Override
 	public List<Resource> getResourceByUser(int userId) {
+		return resourceMapper.getResourceByUser(userId);
+	}
+
+	@Transactional(rollbackFor = { Exception.class })
+	@Override
+	public int delete(List<String> ids) {
+		int num = resourceMapper.delete(ids);
+		if (num > 0) {
+			resourceMapper.unlinkRole(ids);
+		}
+		return num;
+	}
+
+	@Override
+	public Page<Resource> select(int pageNo, int pageSize, Resource queryRes) {
 		return null;
 	}
 

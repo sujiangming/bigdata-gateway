@@ -30,4 +30,6 @@ public interface UserMapper {
 
 	int unlinkRoles(@Param("userId") String userId, @Param("roleIds") List<String> roleIds);
 
+	int unlinkUserRoles(@Param("userIds") List<String> userIds);
+
 }

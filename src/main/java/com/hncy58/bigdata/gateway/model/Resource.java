@@ -17,15 +17,17 @@ public class Resource implements Serializable {
 	private String resUri;
 	private int rank;
 	private String mark;
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	private String resIcon;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
 	public Resource() {
 	}
 
-	public Resource(int id, String resType, String resName, String pResCode, String resCode, String resUri, int rank) {
+	public Resource(int id, String resType, String resName, String pResCode, String resCode, String resUri, int rank,
+			String resIcon) {
 		super();
 		this.id = id;
 		this.resType = resType;
@@ -34,6 +36,15 @@ public class Resource implements Serializable {
 		this.resCode = resCode;
 		this.resUri = resUri;
 		this.rank = rank;
+		this.resIcon = resIcon;
+	}
+
+	public String getResIcon() {
+		return resIcon;
+	}
+
+	public void setResIcon(String resIcon) {
+		this.resIcon = resIcon;
 	}
 
 	public int getId() {
@@ -86,7 +97,7 @@ public class Resource implements Serializable {
 
 	public Date getUpdateTime() {
 		return updateTime;
-	} 
+	}
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;

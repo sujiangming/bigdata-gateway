@@ -153,9 +153,14 @@ public class UserServiceImpl implements UserService {
 		return userMapper.unlinkRoles(userId, roleIds);
 	}
 
+	@Transactional(rollbackFor = { Exception.class })
 	@Override
 	public int delete(List<String> ids) {
-		return userMapper.delete(ids);
+		int num = userMapper.delete(ids);
+		if (num > 0) {
+			userMapper.unlinkUserRoles(ids);
+		}
+		return num;
 	}
 
 }

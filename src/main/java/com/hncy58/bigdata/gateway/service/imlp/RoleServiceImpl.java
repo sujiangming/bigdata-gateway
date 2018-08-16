@@ -18,7 +18,6 @@ import com.hncy58.bigdata.gateway.exception.RestfulJsonException;
 import com.hncy58.bigdata.gateway.mapper.RoleMapper;
 import com.hncy58.bigdata.gateway.model.Resource;
 import com.hncy58.bigdata.gateway.model.Role;
-import com.hncy58.bigdata.gateway.model.Role;
 import com.hncy58.bigdata.gateway.service.RoleService;
 import com.hncy58.bigdata.gateway.util.Utils;
 
@@ -79,7 +78,7 @@ public class RoleServiceImpl implements RoleService {
 		return pageRet;
 	}
 
-	@Transactional(rollbackFor={Exception.class})
+	@Transactional(rollbackFor = { Exception.class })
 	@Override
 	public int linkRes(String roleId, List<String> resIds) {
 
@@ -147,9 +146,16 @@ public class RoleServiceImpl implements RoleService {
 		return roleMapper.getResourceByRole(roleId);
 	}
 
+	@Transactional(rollbackFor = { Exception.class })
 	@Override
 	public int delete(List<String> ids) {
-		return roleMapper.delete(ids);
+		int num = roleMapper.delete(ids);
+		// 删除成功之后需要同时删除角色和资源以及用户的关联关系
+		if (num > 0) {
+			roleMapper.unlinkRoleReses(ids);
+			roleMapper.unlinkRoleUsers(ids);
+		}
+		return num;
 	}
 
 }

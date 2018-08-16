@@ -107,5 +107,21 @@ public interface RoleMapper {
 			+ " </foreach>"
 			+ "</script>")
 	int delete(@Param("ids") List<String> ids);
+	
+	@Delete("<script>"
+			+ "delete from sys_role_res where role_id in "
+			+ " <foreach collection='roleIds' item='roleId' index='index' open='(' close=')' separator=','> "
+			+ "  #{roleId, jdbcType=INTEGER} "
+			+ " </foreach>"
+			+ "</script>")
+	int unlinkRoleReses(@Param("roleIds") List<String> ids);
+	
+	@Delete("<script>"
+			+ "delete from sys_user_role where role_id in "
+			+ " <foreach collection='roleIds' item='roleId' index='index' open='(' close=')' separator=','> "
+			+ "  #{roleId, jdbcType=INTEGER} "
+			+ " </foreach>"
+			+ "</script>")
+	int unlinkRoleUsers(@Param("roleIds") List<String> ids);
 
 }
