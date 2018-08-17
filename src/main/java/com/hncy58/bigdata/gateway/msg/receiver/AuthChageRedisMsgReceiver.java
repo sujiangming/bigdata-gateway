@@ -46,8 +46,11 @@ public class AuthChageRedisMsgReceiver<T> extends RedisService<T> {
 	 * @param msg
 	 */
 	public void receiveMessage(String srcMsg) {
-		log.info("received redis msg:{}", srcMsg);
 		// 解决string序列化之后不是字符串问题
+		if (!srcMsg.contains("{") || !srcMsg.endsWith("}")) {
+			log.info("received redis msg is not json string, msg:{}", srcMsg);
+		}
+		log.debug("received redis msg:{}", srcMsg);
 		AuthChangeMsg msg = new AuthChangeMsg(srcMsg.substring(srcMsg.indexOf("{")));
 		log.info("received redis msg, type:{}, operate:{}, data:{}", msg.getType(), msg.getOperate(), msg.getData());
 
