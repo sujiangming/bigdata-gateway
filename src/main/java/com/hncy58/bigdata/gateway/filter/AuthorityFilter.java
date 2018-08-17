@@ -121,7 +121,6 @@ public class AuthorityFilter extends ZuulFilter {
 	 * @param response
 	 */
 	private void setResponseAttrs(HttpServletResponse response) {
-		response.addHeader("Access-Control-Allow-Origin", "*");
 		response.setContentType("application/json;charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setLocale(new java.util.Locale("zh", "CN"));

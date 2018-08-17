@@ -15,6 +15,9 @@
 			type : "post",
 			url : 'http://162.16.109.102:9000/local/api/login',
 			contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+			headers : {
+				'Access-Token' : 'token#1#78221278318592'
+			},
 			dataType : "json",
 			data : {
 				"userCode" : "1000",
@@ -26,7 +29,10 @@
 		});
 		$.ajax({
 			type : "post",
-			url : 'http://162.16.109.102:9000/local/api/dept/update1',
+			url : 'http://162.16.109.102:9000/local/api/user/getByToken',
+			headers : {
+				'Access-Token' : 'token#1#78221278318592'
+			},
 			dataType : "json",
 			data : {
 				"id" : 4,
@@ -74,5 +80,6 @@
 			}
 		});
 	</script>
+	<form action=""></form>
 </body>
 </html>

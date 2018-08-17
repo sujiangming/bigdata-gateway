@@ -32,5 +32,5 @@ public class Constant {
 	/**
 	 * 请求头token名称
 	 */
-	public static final String REQ_TOKEN_HEADER_KEY = "Token";
+	public static final String REQ_TOKEN_HEADER_KEY = "Access-Token";
 }

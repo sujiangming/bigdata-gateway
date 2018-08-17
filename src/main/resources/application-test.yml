@@ -65,19 +65,12 @@ zuul:
   sensitiveHeaders:
   # 路由配置
   routes:
-    baidu:
-      path: /baidu/**
-      url: http://www.baidu.com
     api-local:
       path: /local/**
       url: http://localhost:9000
-    api-1:
-      path: /user/**
-      url: http://localhost:8081
-    api-2:
-      path: /personas/**
-      url: http://localhost:8082
-
+    api-backbond:
+      path: /backbond/**
+      url: http://162.16.109.119:8080/bigdata
   # 限流配置
   ratelimit:
     key-prefix: pig-ratelimite 
@@ -85,29 +78,15 @@ zuul:
     repository: IN_MEMORY 
     behind-proxy: true
     policies:
-      api-1:
+      api-local:
         limit: 2
         quota: 1
         refresh-interval: 3
         type:
           - url
-      api-2:
+      api-backbond:
         limit: 2
         quota: 1
         refresh-interval: 3
         type:
           - url
-      baidu:
-        limit: 1
-        quota: 1
-        refresh-interval: 10
-        type:
-          - url
-
-# 反向代理配置
-#api-1:
-#  ribbon:
-#    listOfServers: localhost:8081
-#api-2:
-#  ribbon:
-#    listOfServers: localhost:8082
