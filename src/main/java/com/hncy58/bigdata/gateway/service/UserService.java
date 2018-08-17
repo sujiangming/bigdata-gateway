@@ -12,6 +12,8 @@ public interface UserService {
 
 	List<User> selectAll();
 
+	List<User> selectUserByRole(List<String> roleIds);
+
 	Page<User> selectAll(int pageNo, int pageSize, User queryUser);
 
 	int deleteByPrimaryKey(int id);

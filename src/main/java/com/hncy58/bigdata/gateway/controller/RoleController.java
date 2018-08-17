@@ -6,7 +6,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +20,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.util.StringUtil;
+import com.hncy58.bigdata.gateway.domain.AuthChangeMsg;
 import com.hncy58.bigdata.gateway.model.Role;
+import com.hncy58.bigdata.gateway.model.User;
 import com.hncy58.bigdata.gateway.service.RoleService;
+import com.hncy58.bigdata.gateway.service.UserService;
+import com.hncy58.bigdata.gateway.service.imlp.AuthInfoCacheService;
 import com.hncy58.bigdata.gateway.util.Constant;
 
 import io.swagger.annotations.ApiOperation;
@@ -39,7 +47,13 @@ public class RoleController {
 	private Logger log = LoggerFactory.getLogger(RoleController.class);
 
 	@Autowired
+	private AuthInfoCacheService authInfoCacheService;
+
+	@Autowired
 	private RoleService roleService;
+
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> selectByPrimaryKey(int id) {
@@ -70,13 +84,22 @@ public class RoleController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-	public Map<String, Object> delete(String ids) {
+	public Map<String, Object> delete(HttpServletRequest req, String ids) {
 		Map<String, Object> ret = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
+		// 首先获取与角色有关联的用户，如果删除了角色需要通知到这些用户更新角色和权限缓存信息
+		List<User> users = userService.selectUserByRole(Arrays.asList(ids.trim().split(",")));
+		log.info("role linked users:{}", users);
 		int num = roleService.delete(Arrays.asList(ids.trim().split(",")));
 		if (num > 0) {
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
 			data.put("num", num);
+			// 发送权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
+			if (!users.isEmpty()) {
+				AuthChangeMsg msg = new AuthChangeMsg("role", "delete", users.stream().map(u -> u.getId()).collect(Collectors.toList()));
+				authInfoCacheService.sendMsg(JSONObject.wrap(msg).toString());
+				log.info("role delete:{}, send auth info change msg", ids);
+			}
 		} else {
 			ret.put("code", "3004");
 			ret.put("msg", "删除角色失败，没有删除任何用户");
@@ -122,16 +145,25 @@ public class RoleController {
 		Map<String, Object> ret = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
 		List<String> resList = new ArrayList<>();
+
 		if (!StringUtil.isEmpty(resIds.trim())) {
 			resList = Arrays.asList(resIds.trim().split(","));
 		}
 
 		int num = roleService.linkRes(roleId, resList);
+
+		if (num > 0) {
+			// 发送权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
+			AuthChangeMsg msg = new AuthChangeMsg("role", "linkRes", Arrays.asList(roleId, resIds));
+			authInfoCacheService.sendMsg(JSONObject.wrap(msg).toString());
+			log.info("role:{} link res:{}, send auth info change msg", roleId, resIds);
+
+		}
+
 		data.put("num", num);
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
 		ret.put("data", data);
 		return ret;
-
 	}
 
 	@Deprecated

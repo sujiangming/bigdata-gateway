@@ -32,4 +32,6 @@ public interface UserMapper {
 
 	int unlinkUserRoles(@Param("userIds") List<String> userIds);
 
+	List<User> selectUserByRole(@Param("roleIds") List<String> roleIds);
+
 }

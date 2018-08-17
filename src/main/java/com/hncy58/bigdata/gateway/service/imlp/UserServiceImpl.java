@@ -163,4 +163,9 @@ public class UserServiceImpl implements UserService {
 		return num;
 	}
 
+	@Override
+	public List<User> selectUserByRole(List<String> roleIds) {
+		return userMapper.selectUserByRole(roleIds);
+	}
+
 }

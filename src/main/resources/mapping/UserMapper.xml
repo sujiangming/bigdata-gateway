@@ -180,5 +180,12 @@
 		</foreach>
 	</delete>
 	
+	<select id="selectUserByRole" resultMap="BaseResultMap" >
+		select u.* from sys_user u left join sys_user_role ur on u.id = ur.user_id where ur.role_id in 
+		<foreach collection="roleIds" item="roleId" index="index" open="(" close=")" separator=",">
+			#{roleId, jdbcType=INTEGER}
+		</foreach>
+	</select>
+	
 	
 </mapper>
