@@ -31,5 +31,7 @@ public interface UserService {
 	int linkRole(String userId, List<String> roleIds);
 
 	int unLinkRole(String userId, List<String> roleIds) throws RestfulJsonException;
+
+	List<User> selectUserByRes(List<String> resIds);
 	
 }

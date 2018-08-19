@@ -34,4 +34,6 @@ public interface UserMapper {
 
 	List<User> selectUserByRole(@Param("roleIds") List<String> roleIds);
 
+	List<User> selectUserByRes(@Param("resIds") List<String> resIds);
+
 }

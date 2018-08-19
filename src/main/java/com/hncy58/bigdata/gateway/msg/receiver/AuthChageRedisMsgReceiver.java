@@ -77,7 +77,7 @@ public class AuthChageRedisMsgReceiver<T> extends RedisService<T> {
 		case "role":
 			roleMsgHandler.handle(msg);
 			break;
-		case "auth":
+		case "res":
 			authMsgHandler.handle(msg);
 			break;
 		default:

@@ -187,5 +187,15 @@
 		</foreach>
 	</select>
 	
+	<select id="selectUserByRes" resultMap="BaseResultMap" >
+		SELECT DISTINCT u.* FROM sys_user u
+		LEFT JOIN sys_user_role ur ON u.id = ur.user_id
+		LEFT JOIN sys_role_res rr on ur.role_id = rr.role_id
+		WHERE rr.res_id IN 
+		<foreach collection="resIds" item="resId" index="index" open="(" close=")" separator=",">
+			#{resId, jdbcType=INTEGER}
+		</foreach>
+	</select>
+	
 	
 </mapper>

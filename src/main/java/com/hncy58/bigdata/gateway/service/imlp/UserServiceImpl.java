@@ -167,5 +167,10 @@ public class UserServiceImpl implements UserService {
 	public List<User> selectUserByRole(List<String> roleIds) {
 		return userMapper.selectUserByRole(roleIds);
 	}
+	
+	@Override
+	public List<User> selectUserByRes(List<String> resIds) {
+		return userMapper.selectUserByRes(resIds);
+	}
 
 }

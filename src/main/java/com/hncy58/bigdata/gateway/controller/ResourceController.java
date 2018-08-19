@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.Page;
+import com.hncy58.bigdata.gateway.domain.AuthChangeMsg;
 import com.hncy58.bigdata.gateway.model.Resource;
+import com.hncy58.bigdata.gateway.model.User;
 import com.hncy58.bigdata.gateway.service.ResourceService;
+import com.hncy58.bigdata.gateway.service.UserService;
+import com.hncy58.bigdata.gateway.service.imlp.AuthInfoCacheService;
 import com.hncy58.bigdata.gateway.util.Constant;
 
 @RestController
@@ -23,6 +29,12 @@ import com.hncy58.bigdata.gateway.util.Constant;
 public class ResourceController {
 
 	private static Logger log = LoggerFactory.getLogger(ResourceController.class);
+
+	@Autowired
+	private AuthInfoCacheService authInfoCacheService;
+
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private ResourceService resourceService;
@@ -69,16 +81,23 @@ public class ResourceController {
 		Map<String, Object> ret = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
 		log.info("start delete res:{}", ids);
-		int num = resourceService.delete(Arrays.asList(ids.trim().split(",")));
+		List<String> resIds = Arrays.asList(ids.trim().split(","));
+		// 删除资源之前需要先查询已经关联此资源的用户，用于发送用户权限信息更改消息
+		List<User> users = userService.selectUserByRes(resIds);
+		int num = resourceService.delete(resIds);
+
 		if (num > 0) {
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
 			data.put("num", num);
+			// 发送权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
+			AuthChangeMsg msg = new AuthChangeMsg("res", "delete",
+					users.stream().map(user -> user.getId()).collect(Collectors.toList()));
+			authInfoCacheService.sendMsg(JSONObject.wrap(msg).toString());
+			log.info("role delete:{}, send auth info change msg", ids);
 		} else {
 			ret.put("code", "3004");
 			ret.put("msg", "删除资源失败，系统删除没有删除任何资源");
 		}
-
-		// TODO 还需要发送消息给缓存，告知更新缓存信息，后面实现
 
 		ret.put("data", data);
 		return ret;
