@@ -8,7 +8,6 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.hncy58.bigdata.gateway.filter.AuthorityFilter;
 import com.hncy58.bigdata.gateway.util.SnowflakeIdWorker;
 
 @EnableZuulProxy
@@ -37,10 +36,4 @@ public class BigdataGatewayApplication {
 	public SnowflakeIdWorker initTokenWorker() {
 		return new SnowflakeIdWorker(workerId, datacenterId);
 	}
-
-	@Bean
-	public AuthorityFilter customZuulFilter() {
-		return new AuthorityFilter();
-	}
-
 }

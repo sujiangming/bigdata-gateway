@@ -1,6 +1,9 @@
 package com.hncy58.bigdata.gateway.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +41,60 @@ public class HttpUtils {
 		result = EntityUtils.toString(defaultHttpClient.execute(get).getEntity(), "utf-8");
 		return result;
 	}
+	
+	public static OutputStream doGetForStream(String url, Map<String, String> headerMap) throws IOException {
+		defaultHttpClient = HttpClients.createDefault();
+		HttpGet get = new HttpGet(url);
+		setHeader(get, headerMap);
+		CloseableHttpResponse response = defaultHttpClient.execute(get);
+		HttpEntity entity = null;
+		ByteArrayOutputStream bio = null;
+
+		try {
+			entity = response.getEntity();
+			// EntityUtils.consume(entity);
+			InputStream in = entity.getContent();
+			byte[] bytes = new byte[1024];
+			bio = new ByteArrayOutputStream();
+			int len = 0;
+
+			while ((len = in.read(bytes)) > 0) {
+				bio.write(bytes, 0, len);
+			}
+
+			bio.flush();
+		} finally {
+			response.close();
+		}
+		return bio;
+	}
+	
+	public static OutputStream doGetForStream(String url) throws IOException {
+		
+		defaultHttpClient = HttpClients.createDefault();
+		HttpGet get = new HttpGet(url);
+		CloseableHttpResponse response = defaultHttpClient.execute(get);
+		HttpEntity entity = null;
+		ByteArrayOutputStream bio = null;
+
+		try {
+			entity = response.getEntity();
+			// EntityUtils.consume(entity);
+			InputStream in = entity.getContent();
+			byte[] bytes = new byte[1024];
+			bio = new ByteArrayOutputStream();
+			int len = 0;
+
+			while ((len = in.read(bytes)) > 0) {
+				bio.write(bytes, 0, len);
+			}
+
+			bio.flush();
+		} finally {
+			response.close();
+		}
+		return bio;
+	}
 
 	public static String doPost(String url, String data) throws IOException {
 		String result;
@@ -72,15 +129,26 @@ public class HttpUtils {
 		CloseableHttpResponse response = httpclient.execute(httpPost);
 
 		HttpEntity entity = null;
+		ByteArrayOutputStream bio = null;
 
 		try {
 			entity = response.getEntity();
-			EntityUtils.consume(entity);
+			// EntityUtils.consume(entity);
+			InputStream in = entity.getContent();
+			byte[] bytes = new byte[1024];
+			bio = new ByteArrayOutputStream();
+			int len = 0;
+
+			while ((len = in.read(bytes)) > 0) {
+				bio.write(bytes, 0, len);
+			}
+
+			bio.flush();
 		} finally {
 			response.close();
 		}
 
-		return entity;
+		return bio;
 	}
 
 	public static Object doPost(String url, Map<String, String> headerMap, Map<String, String> paramMap)
@@ -99,20 +167,30 @@ public class HttpUtils {
 
 		CloseableHttpResponse response = httpclient.execute(httpPost);
 		HttpEntity entity = null;
+		ByteArrayOutputStream bio = null;
 
 		try {
 			entity = response.getEntity();
-			EntityUtils.consume(entity);
+			// EntityUtils.consume(entity);
+			InputStream in = entity.getContent();
+			byte[] bytes = new byte[1024];
+			bio = new ByteArrayOutputStream();
+			int len = 0;
+
+			while ((len = in.read(bytes)) > 0) {
+				bio.write(bytes, 0, len);
+			}
+
+			bio.flush();
 		} finally {
 			response.close();
 		}
 
-		return entity;
+		return bio;
 	}
 
 	private static void setHeader(HttpRequestBase httpRequestBase, Map<String, String> headers) {
 		headers.forEach((k, v) -> httpRequestBase.setHeader(k, v));
 	}
-
 
 }
