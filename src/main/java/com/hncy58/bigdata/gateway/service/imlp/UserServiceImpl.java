@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.hncy58.bigdata.gateway.domain.UserDomain;
 import com.hncy58.bigdata.gateway.exception.RestfulJsonException;
 import com.hncy58.bigdata.gateway.mapper.RoleMapper;
 import com.hncy58.bigdata.gateway.mapper.UserMapper;
@@ -75,7 +76,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Transactional(readOnly = true)
 	@Override
-	public Page<User> selectAll(int pageNum, int pageSize, User queryUser) {
+	public Page<User> selectAll(int pageNum, int pageSize, UserDomain queryUser) {
 		Page<User> page = PageHelper.startPage(pageNum, pageSize, true);
 		userMapper.select(queryUser);
 		log.debug("total user : {}", page.getTotal());

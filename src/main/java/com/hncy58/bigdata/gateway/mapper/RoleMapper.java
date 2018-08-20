@@ -14,6 +14,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 
+import com.hncy58.bigdata.gateway.domain.RoleDomain;
 import com.hncy58.bigdata.gateway.model.Resource;
 import com.hncy58.bigdata.gateway.model.Role;
 
@@ -38,7 +39,7 @@ public interface RoleMapper {
 			+ "select r.* from sys_role r "
 			+ "<where>  "
 			+ "	<if test=\"roleName != null and roleName != ''\"> "
-			+ "		role_name = #{roleName} "
+			+ "		role_name like '%${roleName}%' "
 			+ "	</if> "
 			+ "	<if test=\"roleCode != null and roleCode != ''\"> "
 			+ "		and role_code = #{roleCode} "
@@ -56,9 +57,12 @@ public interface RoleMapper {
 			+ "		and update_time  &gt;= #{updateTime} "
 			+ "	</if> "
 			+ "</where> "
+			+ "	<if test=\"sortField != null and sortField != '' and sortType != null and sortType != ''\"> "
+			+ "		order by ${sortField} ${sortType}"
+			+ "	</if> "
 			+ "</script>"
 			)
-	List<Role> select(Role queryRole);
+	List<Role> select(RoleDomain roleDomain);
 
 	@Delete("delete from sys_role where id = #{id}")
 	int deleteByPrimaryKey(int id);

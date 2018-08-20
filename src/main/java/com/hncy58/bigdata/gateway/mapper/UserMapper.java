@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.hncy58.bigdata.gateway.domain.UserDomain;
 import com.hncy58.bigdata.gateway.model.User;
 
 public interface UserMapper {
@@ -12,7 +13,7 @@ public interface UserMapper {
 
 	List<User> selectAll();
 
-	List<User> select(User queryUser);
+	List<User> select(UserDomain queryUser);
 
 	int deleteByPrimaryKey(int id);
 

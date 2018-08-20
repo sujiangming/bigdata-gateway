@@ -3,6 +3,7 @@ package com.hncy58.bigdata.gateway.service;
 import java.util.List;
 
 import com.github.pagehelper.Page;
+import com.hncy58.bigdata.gateway.domain.RoleDomain;
 import com.hncy58.bigdata.gateway.exception.RestfulJsonException;
 import com.hncy58.bigdata.gateway.model.Resource;
 import com.hncy58.bigdata.gateway.model.Role;
@@ -13,7 +14,7 @@ public interface RoleService {
 
 	List<Role> selectAll();
 
-	Page<Role> select(int pageNo, int pageSize, Role queryRole);
+	Page<Role> select(int pageNo, int pageSize, RoleDomain roleDomain);
 
 	int deleteByPrimaryKey(int id);
 

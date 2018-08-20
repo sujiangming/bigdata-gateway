@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.Page;
 import com.hncy58.bigdata.gateway.domain.AuthChangeMsg;
+import com.hncy58.bigdata.gateway.domain.ResourceDomain;
 import com.hncy58.bigdata.gateway.model.Resource;
 import com.hncy58.bigdata.gateway.model.User;
 import com.hncy58.bigdata.gateway.service.ResourceService;
@@ -67,11 +68,18 @@ public class ResourceController {
 	}
 
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
-	public Map<String, Object> selectByPage(int pageNo, int pageSize, Resource queryRes) {
+	public Map<String, Object> selectByPage(int pageNo, int pageSize, ResourceDomain queryRes) {
+
 		Map<String, Object> ret = new HashMap<>();
-		Page<Resource> roles = resourceService.select(pageNo, pageSize, queryRes);
+		Page<Resource> pageRet = resourceService.select(pageNo, pageSize, queryRes);
+
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
-		ret.put("data", roles);
+		ret.put("total", pageRet.getTotal());
+		ret.put("pages", pageRet.getPages());
+		ret.put("curPageNum", pageRet.getPageNum());
+		ret.put("pageSize", pageRet.getPageSize());
+		ret.put("data", pageRet.getResult());
+
 		return ret;
 
 	}

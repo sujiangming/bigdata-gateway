@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.util.StringUtil;
 import com.hncy58.bigdata.gateway.domain.AuthChangeMsg;
+import com.hncy58.bigdata.gateway.domain.UserDomain;
 import com.hncy58.bigdata.gateway.exception.RestfulJsonException;
 import com.hncy58.bigdata.gateway.model.AuthInfo;
 import com.hncy58.bigdata.gateway.model.Role;
@@ -152,7 +153,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
-	public Map<String, Object> selectByPage(int pageNo, int pageSize, User queryUser) {
+	public Map<String, Object> selectByPage(int pageNo, int pageSize, UserDomain queryUser) {
 
 		Map<String, Object> ret = new HashMap<String, Object>();
 		Page<User> pageRet = userService.selectAll(pageNo, pageSize, queryUser);

@@ -14,6 +14,7 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 
 import com.github.pagehelper.Page;
+import com.hncy58.bigdata.gateway.domain.ResourceDomain;
 import com.hncy58.bigdata.gateway.model.Resource;
 
 public interface ResourceMapper {
@@ -78,7 +79,7 @@ public interface ResourceMapper {
 			+ "select r.* from sys_res r "
 			+ "<where>  "
 			+ "	<if test=\"resName != null and resName != ''\"> "
-			+ "		res_name = #{resName} "
+			+ "		res_name like '%${resName}%' "
 			+ "	</if> "
 			+ "	<if test=\"pResCode != null and pResCode != ''\"> "
 			+ "		and p_res_code = #{pResCode} "
@@ -92,16 +93,19 @@ public interface ResourceMapper {
 			+ "	<if test='resType != null'> "
 			+ "		and res_type = #{resType} "
 			+ "	</if> "
-			+ "	<if test='createTime != null'> "
+			+ "	<if test=\"createTime != null and createTime != ''\"> "
 			+ "		and create_time  &gt;= #{createTime} "
 			+ "	</if> "
-			+ "	<if test='updateTime != null'> "
+			+ "	<if test=\"updateTime != null and updateTime != ''\"> "
 			+ "		and update_time  &gt;= #{updateTime} "
 			+ "	</if> "
 			+ "</where> "
+			+ "	<if test=\"sortField != null and sortField != '' and sortType != null and sortType != ''\"> "
+			+ "		order by ${sortField} ${sortType}"
+			+ "	</if> "
 			+ "</script>"
 			)
 	@ResultMap("all_cols")
-	Page<Resource> select(Resource queryRes);
+	Page<Resource> select(ResourceDomain queryRes);
 	
 }

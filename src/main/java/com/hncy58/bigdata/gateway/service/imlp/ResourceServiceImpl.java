@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.hncy58.bigdata.gateway.domain.ResourceDomain;
 import com.hncy58.bigdata.gateway.mapper.ResourceMapper;
 import com.hncy58.bigdata.gateway.model.Resource;
 import com.hncy58.bigdata.gateway.service.ResourceService;
@@ -66,7 +67,7 @@ public class ResourceServiceImpl implements ResourceService {
 	}
 
 	@Override
-	public Page<Resource> select(int pageNo, int pageSize, Resource queryRes) {
+	public Page<Resource> select(int pageNo, int pageSize, ResourceDomain queryRes) {
 		Page<Resource> page = PageHelper.startPage(pageNo, pageSize, true);
 		resourceMapper.select(queryRes);
 		log.debug("total user : {}", page.getTotal());

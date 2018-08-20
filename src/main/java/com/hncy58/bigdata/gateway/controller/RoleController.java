@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.util.StringUtil;
 import com.hncy58.bigdata.gateway.domain.AuthChangeMsg;
+import com.hncy58.bigdata.gateway.domain.RoleDomain;
 import com.hncy58.bigdata.gateway.model.Role;
 import com.hncy58.bigdata.gateway.model.User;
 import com.hncy58.bigdata.gateway.service.RoleService;
@@ -74,11 +76,18 @@ public class RoleController {
 	}
 
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
-	public Map<String, Object> selectByPage(int pageNo, int pageSize, Role queryRole) {
-		// TODO 没有完全实现好
+	public Map<String, Object> selectByPage(int pageNo, int pageSize, RoleDomain roleDomain) {
+		
 		Map<String, Object> ret = new HashMap<>();
+		Page<Role> pageRet = roleService.select(pageNo, pageSize, roleDomain);
+
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
-		ret.put("data", roleService.select(pageNo, pageSize, queryRole));
+		ret.put("total", pageRet.getTotal());
+		ret.put("pages", pageRet.getPages());
+		ret.put("curPageNum", pageRet.getPageNum());
+		ret.put("pageSize", pageRet.getPageSize());
+		ret.put("data", pageRet.getResult());
+		
 		return ret;
 
 	}

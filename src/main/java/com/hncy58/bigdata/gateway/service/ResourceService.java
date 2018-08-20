@@ -3,6 +3,7 @@ package com.hncy58.bigdata.gateway.service;
 import java.util.List;
 
 import com.github.pagehelper.Page;
+import com.hncy58.bigdata.gateway.domain.ResourceDomain;
 import com.hncy58.bigdata.gateway.model.Resource;
 
 public interface ResourceService {
@@ -25,5 +26,5 @@ public interface ResourceService {
 
 	int delete(List<String> ids);
 
-	Page<Resource> select(int pageNo, int pageSize, Resource queryRes);
+	Page<Resource> select(int pageNo, int pageSize, ResourceDomain queryRes);
 }

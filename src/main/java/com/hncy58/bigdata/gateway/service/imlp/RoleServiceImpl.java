@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.hncy58.bigdata.gateway.domain.RoleDomain;
 import com.hncy58.bigdata.gateway.exception.RestfulJsonException;
 import com.hncy58.bigdata.gateway.mapper.RoleMapper;
 import com.hncy58.bigdata.gateway.model.Resource;
@@ -65,9 +66,9 @@ public class RoleServiceImpl implements RoleService {
 	 * 每页显示的数据条数
 	 */
 	@Override
-	public Page<Role> select(int pageNo, int pageSize, Role queryRole) {
+	public Page<Role> select(int pageNo, int pageSize, RoleDomain roleDomain) {
 		Page<Role> page = PageHelper.startPage(pageNo, pageSize, true);
-		roleMapper.select(queryRole);
+		roleMapper.select(roleDomain);
 		log.debug("total user : {}", page.getTotal());
 		log.debug("ret users : {}", page.getResult());
 

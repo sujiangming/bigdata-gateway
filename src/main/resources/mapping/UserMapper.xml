@@ -46,23 +46,23 @@
 		<include refid="Base_Column_List" />
 		from sys_user 
 		<where> 
-			<if test="userName != null">
-				user_name = #{userName}
+			<if test="userName != null  and userName != ''">
+				user_name like '%${userName}%'
 			</if>
-			<if test="userCode != null">
+			<if test="userCode != null  and userCode != ''">
 				and user_code = #{userCode}
 			</if>
-			<if test="mark != null">
+			<if test="mark != null  and mark != ''">
 				and mark like '%${mark}%'
 			</if>
-			<if test="mobilePhone != null">
-				and mobile_phone = #{mobilePhone}
+			<if test="mobilePhone != null  and mobilePhone != ''">
+				and mobile_phone like '%${mobilePhone}%'
 			</if>
-			<if test="deptCode != null">
+			<if test="deptCode != null  and deptCode != ''">
 				and dept_code = #{deptCode}
 			</if>
-			<if test="position != null">
-				and position = #{position}
+			<if test="position != null  and position != ''">
+				and position like '%${position}%'
 			</if>
 			<if test="loginStatus != null">
 				and login_status = #{loginStatus}
@@ -70,13 +70,16 @@
 			<if test="actStatus != null">
 				and act_status = #{actStatus}
 			</if>
-			<if test="createTime != null">
+			<if test="createTime != null  and createTime != ''">
 				and create_time  &gt;= #{createTime}
 			</if>
-			<if test="updateTime != null">
+			<if test="updateTime != null  and updateTime != ''">
 				and update_time  &gt;= #{updateTime}
 			</if>
 		</where>
+		<if test="sortField != null and sortField != '' and sortType != null and sortType != ''">
+			order by ${sortField} ${sortType}
+		</if>
 	</select>
 	
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
