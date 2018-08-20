@@ -77,7 +77,7 @@ public class RoleController {
 
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
 	public Map<String, Object> selectByPage(int pageNo, int pageSize, RoleDomain roleDomain) {
-		
+
 		Map<String, Object> ret = new HashMap<>();
 		Page<Role> pageRet = roleService.select(pageNo, pageSize, roleDomain);
 
@@ -87,7 +87,7 @@ public class RoleController {
 		ret.put("curPageNum", pageRet.getPageNum());
 		ret.put("pageSize", pageRet.getPageSize());
 		ret.put("data", pageRet.getResult());
-		
+
 		return ret;
 
 	}
@@ -105,7 +105,8 @@ public class RoleController {
 			data.put("num", num);
 			// 发送权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
 			if (!users.isEmpty()) {
-				AuthChangeMsg msg = new AuthChangeMsg("role", "delete", users.stream().map(u -> u.getId()).collect(Collectors.toList()));
+				AuthChangeMsg msg = new AuthChangeMsg("role", "delete",
+						users.stream().map(u -> u.getId()).collect(Collectors.toList()));
 				authInfoCacheService.sendMsg(JSONObject.wrap(msg).toString());
 				log.info("role delete:{}, send auth info change msg", ids);
 			}
@@ -166,13 +167,20 @@ public class RoleController {
 			AuthChangeMsg msg = new AuthChangeMsg("role", "linkRes", Arrays.asList(roleId, resIds));
 			authInfoCacheService.sendMsg(JSONObject.wrap(msg).toString());
 			log.info("role:{} link res:{}, send auth info change msg", roleId, resIds);
-
 		}
 
 		data.put("num", num);
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
 		ret.put("data", data);
 		return ret;
+	}
+
+	@RequestMapping(value = "/getResourceByRoleId", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getResourceByRoleId(int roleId) {
+		Map<String, Object> ret = new HashMap<>();
+		ret.put("code", Constant.REQ_SUCCESS_CODE);
+		ret.put("data", roleService.getResourceByRole(roleId));
+		return ResponseEntity.ok(ret);
 	}
 
 	@Deprecated
