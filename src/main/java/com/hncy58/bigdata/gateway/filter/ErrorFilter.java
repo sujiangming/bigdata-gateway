@@ -8,53 +8,64 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.netflix.zuul.util.ZuulRuntimeException;
 import org.springframework.stereotype.Component;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import com.netflix.zuul.exception.ZuulException;
 
 @Component
 public class ErrorFilter extends ZuulFilter {
-	/**
-	 * 错误统一返回码
-	 */
-	private static final String errorCode = "9995";
 
-    Logger log = LoggerFactory.getLogger(ErrorFilter.class);
+	Logger log = LoggerFactory.getLogger(ErrorFilter.class);
 
-    @Override
-    public String filterType() {
-        return "error";
-    }
+	@Override
+	public String filterType() {
+		return "error";
+	}
 
-    @Override
-    public int filterOrder() {
-        return -1;
-    }
+	@Override
+	public int filterOrder() {
+		return -1;
+	}
 
-    @Override
-    public boolean shouldFilter() {
-        return true;
-    }
+	@Override
+	public boolean shouldFilter() {
+		return true;
+	}
 
-    @Override
-    public Object run() {
-    	
-        RequestContext ctx = RequestContext.getCurrentContext();
-        Throwable throwable = ctx.getThrowable();
-        
-        log.error("this is a ErrorFilter : {}", throwable.getCause().getMessage());
-//        ctx.set("error.status_code", HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        
-        ctx.set("throwable", null);
-        ctx.set("sendErrorFilter.ran", true);
-        
-        return generateResponseBody(ctx, errorCode, throwable.getCause().getMessage());
-    }
+	@Override
+	public Object run() {
 
-	private Object generateResponseBody(RequestContext ctx, String code, String msg) {
+		RequestContext ctx = RequestContext.getCurrentContext();
+		Throwable throwable = ctx.getThrowable();
+
+		log.error("ErrorFilter : {}", throwable.getCause());
+		// ctx.set("error.status_code",
+		// HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
+		ctx.set("throwable", null);
+		ctx.set("sendErrorFilter.ran", true);
+		Object statusCode = "";
+		String msg = throwable.getCause().getMessage();
+		
+		if(throwable.getCause() instanceof ZuulRuntimeException) {
+			ZuulException e = (ZuulException) ((ZuulRuntimeException) throwable.getCause()).getCause();
+			statusCode = e.nStatusCode + "";
+		} else if(throwable instanceof ZuulException) {
+			statusCode = ((ZuulException) throwable).nStatusCode + "";
+		} else if(ctx.get("error.status_code") != null) {
+			statusCode = ctx.get("error.status_code");
+		}
+		
+		return generateResponseBody(ctx, "9995", statusCode, msg);
+	}
+
+	private Object generateResponseBody(RequestContext ctx, String code, Object statusCode, String msg) {
 		Map<String, Object> ret = new HashMap<>();
 		ret.put("code", code);
+		ret.put("statusCode", statusCode);
 		ret.put("msg", msg);
 		// 过滤该请求，不往下级服务去转发请求，到此结束
 		ctx.setSendZuulResponse(false);

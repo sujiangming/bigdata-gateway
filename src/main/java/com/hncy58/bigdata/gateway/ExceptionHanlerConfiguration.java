@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,17 +118,25 @@ public class ExceptionHanlerConfiguration {
 			@Override
 			public Map<String, Object> getErrorAttributes(RequestAttributes requestAttributes,
 					boolean includeStackTrace) {
+
 				ZuulException exception = (ZuulException) requestAttributes
 						.getAttribute("javax.servlet.error.exception", RequestAttributes.SCOPE_REQUEST);
+				int statusCode = (int) requestAttributes.getAttribute("javax.servlet.error.status_code",
+						RequestAttributes.SCOPE_REQUEST);
+				String msg = (String) requestAttributes.getAttribute("javax.servlet.error.message",
+						RequestAttributes.SCOPE_REQUEST);
 				Map<String, Object> errorAttributes = new HashMap<>();
 				Throwable cause = exception != null ? exception.getCause() : null;
-				// 如果封装的内部异常是ExceptionBase,则自动获取错误码和错误信息
+				
 				errorAttributes.put("code", "9994");
-				if (null != cause) {
-					errorAttributes.put("message", exception.getMessage());
+				errorAttributes.put("statusCode", statusCode);
+
+				if (!StringUtils.isEmpty(msg)) {
+					errorAttributes.put("msg", msg);
 				} else {
-					errorAttributes.put("message", "gateway error");
+					errorAttributes.put("msg", null != cause ? exception.getMessage() : "网关捕获到异常");
 				}
+
 				return errorAttributes;
 			}
 		};
@@ -168,6 +177,7 @@ public class ExceptionHanlerConfiguration {
 			private Object generateResponseBody(RequestContext ctx, String code, String msg) {
 				Map<String, Object> ret = new HashMap<>();
 				ret.put("code", code);
+				ret.put("statusCode", ctx.get("error.status_code"));
 				ret.put("msg", msg);
 				// 过滤该请求，不往下级服务去转发请求，到此结束
 				ctx.setSendZuulResponse(false);
