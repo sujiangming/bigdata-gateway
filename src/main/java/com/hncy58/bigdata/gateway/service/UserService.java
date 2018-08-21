@@ -17,15 +17,11 @@ public interface UserService {
 
 	Page<User> selectAll(int pageNo, int pageSize, UserDomain queryUser);
 
-	int deleteByPrimaryKey(int id);
-	
 	int delete(List<String> ids);
 
 	int insert(User user);
 
-	int updateByPrimaryKeySelective(User user);
-
-	int updateByPrimaryKey(User user);
+	int updateByPrimaryKeySelective(User user, List<String> allRoleIds);
 
 	User selectByUserCode(String userCode);
 

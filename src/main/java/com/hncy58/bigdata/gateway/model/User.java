@@ -18,12 +18,35 @@ public class User implements Serializable {
 	private String mobilePhone;
 	private String deptCode;
 	private String position;
-	private int loginStatus;
-	private int actStatus;
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	private int loginStatus = 1;
+	private int actStatus = 1;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
+
+	public User(int id, String userCode, String password, String userName, String mark, String email,
+			String mobilePhone, String deptCode, String position, int loginStatus, int actStatus, Date createTime,
+			Date updateTime) {
+		super();
+		this.id = id;
+		this.userCode = userCode;
+		this.password = password;
+		this.userName = userName;
+		this.mark = mark;
+		this.email = email;
+		this.mobilePhone = mobilePhone;
+		this.deptCode = deptCode;
+		this.position = position;
+		this.loginStatus = loginStatus;
+		this.actStatus = actStatus;
+		this.createTime = createTime;
+		this.updateTime = updateTime;
+	}
+
+	public User() {
+		super();
+	}
 
 	public int getId() {
 		return id;
@@ -120,7 +143,7 @@ public class User implements Serializable {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
+
 	public Date getUpdateTime() {
 		return updateTime;
 	}

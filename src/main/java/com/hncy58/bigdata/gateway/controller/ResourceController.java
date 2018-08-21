@@ -1,6 +1,7 @@
 package com.hncy58.bigdata.gateway.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,18 +113,18 @@ public class ResourceController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public Map<String, Object> insert(Resource user) {
+	public Map<String, Object> insert(Resource res) {
+		res.setUpdateTime(new Date());
+		res.setCreateTime(new Date());
 		Map<String, Object> ret = new HashMap<>();
-		Map<String, Object> data = new HashMap<>();
-		int num = resourceService.insert(user);
+		int num = resourceService.insert(res);
 		if (num > 0) {
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
-			data.put("id", user.getId());
 		} else {
 			ret.put("code", "3001");
 			ret.put("msg", "添加资源失败");
 		}
-		ret.put("data", data);
+		ret.put("data", res);
 		return ret;
 
 	}
@@ -146,9 +147,4 @@ public class ResourceController {
 		return ret;
 	}
 
-	@Deprecated
-	@RequestMapping(value = "/update2", method = RequestMethod.PUT)
-	public int updateByPrimaryKey(Resource user) {
-		return resourceService.updateByPrimaryKey(user);
-	}
 }

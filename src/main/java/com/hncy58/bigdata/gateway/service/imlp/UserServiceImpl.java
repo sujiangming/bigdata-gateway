@@ -46,26 +46,21 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int deleteByPrimaryKey(int id) {
-		int ret = userMapper.deleteByPrimaryKey(id);
-		return ret;
-	}
-
-	@Override
 	public int insert(User user) {
 		userMapper.insert(user);
 		return user.getId();
 	}
 
+	@Transactional(rollbackFor = { Exception.class })
 	@Override
-	public int updateByPrimaryKeySelective(User user) {
+	public int updateByPrimaryKeySelective(User user, List<String> allRoleIds) {
 		int ret = userMapper.updateByPrimaryKeySelective(user);
-		return ret;
-	}
 
-	@Override
-	public int updateByPrimaryKey(User user) {
-		int ret = userMapper.updateByPrimaryKey(user);
+		if (ret > 0 && user.getId() > 0 && allRoleIds != null) {
+			int roleNum = linkRole(user.getId() + "", allRoleIds);
+			log.info("update user:{}, update role num:{}", user.getId(), roleNum);
+		}
+
 		return ret;
 	}
 
@@ -168,7 +163,7 @@ public class UserServiceImpl implements UserService {
 	public List<User> selectUserByRole(List<String> roleIds) {
 		return userMapper.selectUserByRole(roleIds);
 	}
-	
+
 	@Override
 	public List<User> selectUserByRes(List<String> resIds) {
 		return userMapper.selectUserByRes(resIds);

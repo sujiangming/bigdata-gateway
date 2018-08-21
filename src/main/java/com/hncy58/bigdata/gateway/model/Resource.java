@@ -10,7 +10,7 @@ public class Resource implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
-	private String resType;
+	private int resType = 1;
 	private String resName;
 	private String pResCode;
 	private String resCode;
@@ -26,7 +26,7 @@ public class Resource implements Serializable {
 	public Resource() {
 	}
 
-	public Resource(int id, String resType, String resName, String pResCode, String resCode, String resUri, int rank,
+	public Resource(int id, int resType, String resName, String pResCode, String resCode, String resUri, int rank,
 			String resIcon) {
 		super();
 		this.id = id;
@@ -55,11 +55,11 @@ public class Resource implements Serializable {
 		this.id = id;
 	}
 
-	public String getResType() {
+	public int getResType() {
 		return resType;
 	}
 
-	public void setResType(String resType) {
+	public void setResType(int resType) {
 		this.resType = resType;
 	}
 

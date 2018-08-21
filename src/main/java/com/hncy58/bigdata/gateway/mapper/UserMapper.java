@@ -23,8 +23,6 @@ public interface UserMapper {
 
 	int updateByPrimaryKeySelective(User user);
 
-	int updateByPrimaryKey(User user);
-
 	User selectByUserCode(String userCode);
 
 	int linkRoles(@Param("userId") String userId, @Param("roleIds") List<String> roleIds);

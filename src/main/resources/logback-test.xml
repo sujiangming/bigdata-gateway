@@ -31,16 +31,16 @@
 		<appender-ref ref="console" />
 		<appender-ref ref="file" />
 	</root>
-	<logger name="org.springframework.scheduling" level="error" />
-	<logger name="com.hncy58" level="warn" />
-	<Logger name="org.apache.catalina.util.LifecycleBase" level="warn" />
-	<Logger name="org.apache.coyote.http11.Http11NioProtocol" level="warn" />
-	<Logger name="org.apache.tomcat.util.net.NioSelectorPool" level="warn" />
-	<Logger name="org.springframework" level="warn" />
-	<logger name="org.mybatis" level="warn" />
-	<logger name="java.sql" level="error" />
-	<logger name="java.sql.Connection" level="error" />
-	<logger name="java.sql.Statement" level="error" />
-	<logger name="java.sql.PreparedStatement" level="error" />
-	<logger name="java.sql.ResultSet" level="error" />
+	<logger name="org.springframework.scheduling" level="info" />
+	<logger name="com.hncy58" level="info" />
+	<Logger name="org.apache.catalina.util.LifecycleBase" level="info" />
+	<Logger name="org.apache.coyote.http11.Http11NioProtocol" level="info" />
+	<Logger name="org.apache.tomcat.util.net.NioSelectorPool" level="info" />
+	<Logger name="org.springframework" level="info" />
+	<logger name="org.mybatis" level="info" />
+	<logger name="java.sql" level="info" />
+	<logger name="java.sql.Connection" level="info" />
+	<logger name="java.sql.Statement" level="info" />
+	<logger name="java.sql.PreparedStatement" level="info" />
+	<logger name="java.sql.ResultSet" level="info" />
 </configuration>

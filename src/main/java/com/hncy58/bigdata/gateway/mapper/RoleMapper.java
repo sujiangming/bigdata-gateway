@@ -67,7 +67,7 @@ public interface RoleMapper {
 	@Delete("delete from sys_role where id = #{id}")
 	int deleteByPrimaryKey(int id);
 
-	@Insert("insert into sys_role values(#{id}, #{roleCode}, #{roleType}, #{roleName}, #{mark}, now(), now())")
+	@Insert("insert into sys_role values(#{id}, #{roleCode}, #{roleType}, #{roleName}, #{mark},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	int insert(Role role);
 

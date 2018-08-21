@@ -46,18 +46,24 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public int insert(Role dept) {
-		return roleMapper.insert(dept);
+	public int insert(Role role) {
+		return roleMapper.insert(role);
+	}
+
+	@Transactional(rollbackFor = { Exception.class })
+	@Override
+	public int updateByPrimaryKeySelective(Role role, List<String> resIds) {
+		int num = roleMapper.updateByPrimaryKeySelective(role);
+		if (num > 0) {
+			int resNum = linkRes(role.getId() + "", resIds);
+			log.info("update role:{}, update res num:{}", role.getId(), resNum);
+		}
+		return num;
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(Role dept) {
-		return roleMapper.updateByPrimaryKeySelective(dept);
-	}
-
-	@Override
-	public int updateByPrimaryKey(Role dept) {
-		return roleMapper.updateByPrimaryKey(dept);
+	public int updateByPrimaryKey(Role role) {
+		return roleMapper.updateByPrimaryKey(role);
 	}
 
 	/*

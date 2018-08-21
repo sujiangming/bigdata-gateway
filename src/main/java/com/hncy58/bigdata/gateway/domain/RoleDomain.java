@@ -5,6 +5,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.hncy58.bigdata.gateway.model.Role;
+
 public class RoleDomain implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -19,10 +21,21 @@ public class RoleDomain implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
+	/** 角色关联的资源列表 **/
+	private String resIds;
+
 	/** 排序字段 **/
 	private String sortField;
 	/** 排序类型(asc/desc) **/
 	private String sortType;
+
+	public String getResIds() {
+		return resIds;
+	}
+
+	public void setResIds(String resIds) {
+		this.resIds = resIds;
+	}
 
 	public String getSortField() {
 		return sortField;
@@ -96,4 +109,7 @@ public class RoleDomain implements Serializable {
 		this.updateTime = updateTime;
 	}
 
+	public Role toRole() {
+		return new Role(id, roleCode, roleType, roleName, mark, createTime, updateTime);
+	}
 }

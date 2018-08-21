@@ -3,6 +3,7 @@ package com.hncy58.bigdata.gateway.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,16 +61,16 @@ public class UserController {
 
 	@Autowired
 	private ResourceService resourceService;
-	
+
 	@Autowired
 	private TokenService tokenService;
-	
+
 	@Autowired
 	private AuthorityService authorityService;
 
 	@Autowired
 	private AuthInfoCacheService authInfoCacheService;
-	
+
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> selectByPrimaryKey(int id) {
 		Map<String, Object> ret = new HashMap<>();
@@ -123,7 +124,7 @@ public class UserController {
 			}
 			data.put("menu", menu);
 		}
-		
+
 		data.put("user", user);
 		ret.put("data", data);
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
@@ -168,35 +169,18 @@ public class UserController {
 		return ret;
 	}
 
-	@Deprecated
-	@RequestMapping(value = "/deleteByPrimaryKey", method = RequestMethod.DELETE)
-	public Map<String, Object> deleteByPrimaryKey(int id) {
-		Map<String, Object> ret = new HashMap<>();
-		Map<String, Object> data = new HashMap<>();
-		int num = userService.deleteByPrimaryKey(id);
-		if (num > 0) {
-			data.put("num", num);
-			ret.put("code", Constant.REQ_SUCCESS_CODE);
-		} else {
-			ret.put("msg", "删除用户失败");
-			ret.put("code", "2004");
-		}
-		ret.put("data", data);
-		return ret;
-	}
-
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
 	public Map<String, Object> delete(String ids) {
-		
+
 		Map<String, Object> ret = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
 		log.info("start delete users:{}", ids);
 		int num = userService.delete(Arrays.asList(ids.trim().split(",")));
-		
+
 		if (num > 0) {
 			data.put("num", num);
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
-			
+
 			Arrays.asList(ids.trim().split(";")).forEach(userId -> {
 				String token = tokenService.getToken(Integer.valueOf(userId.trim()));
 				// 如果token存在则移除
@@ -216,24 +200,30 @@ public class UserController {
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public Map<String, Object> insert(User user) {
+		user.setCreateTime(new Date());
+		user.setUpdateTime(new Date());
 		int num = userService.insert(user);
 		Map<String, Object> ret = new HashMap<>();
-		Map<String, Object> data = new HashMap<>();
 		if (num > 0) {
-			data.put("id", user.getId());
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
 		} else {
 			ret.put("code", "2001");
 			ret.put("msg", "添加失败");
 		}
-		ret.put("data", data);
+		ret.put("data", user);
 		return ret;
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
-	public Map<String, Object> updateByPrimaryKeySelective(User user) {
+	public Map<String, Object> updateByPrimaryKeySelective(UserDomain userDomain) {
+
 		Map<String, Object> ret = new HashMap<>();
-		int num = userService.updateByPrimaryKeySelective(user);
+		List<String> roleList = new ArrayList<>();
+		if (!StringUtil.isEmpty(userDomain.getRoleIds().trim()))
+			roleList = Arrays.asList(userDomain.getRoleIds().trim().split(","));
+
+		int num = userService.updateByPrimaryKeySelective(userDomain.toUser(), roleList);
+
 		if (num > 0) {
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
 		} else {
@@ -243,7 +233,7 @@ public class UserController {
 		ret.put("data", Collections.emptyMap());
 		return ret;
 	}
-	
+
 	@RequestMapping(value = "/updateByToken", method = RequestMethod.PUT)
 	public Map<String, Object> updateByToken(HttpServletRequest req, User user) {
 		Map<String, Object> ret = new HashMap<>();
@@ -253,27 +243,12 @@ public class UserController {
 			id = Integer.valueOf(token.split("#")[1]);
 			user.setId(id);
 		}
-		
-		int num = userService.updateByPrimaryKeySelective(user);
+
+		int num = userService.updateByPrimaryKeySelective(user, null);
 		if (num > 0) {
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
 		} else {
 			ret.put("code", "2002");
-			ret.put("msg", "更新用户失败");
-		}
-		ret.put("data", Collections.emptyMap());
-		return ret;
-	}
-
-	@Deprecated
-	@RequestMapping(value = "/update2", method = RequestMethod.PUT)
-	public Map<String, Object> updateByPrimaryKey(User user) {
-		Map<String, Object> ret = new HashMap<>();
-		int num = userService.updateByPrimaryKey(user);
-		if (num > 0) {
-			ret.put("code", Constant.REQ_SUCCESS_CODE);
-		} else {
-			ret.put("code", "2003");
 			ret.put("msg", "更新用户失败");
 		}
 		ret.put("data", Collections.emptyMap());
@@ -290,12 +265,12 @@ public class UserController {
 		}
 		int num = userService.linkRole(userId, roleList);
 		// 如果用户角色信息有更改，则发送消息
-		if(num > 0) {
+		if (num > 0) {
 			// 发送用户权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
 			AuthChangeMsg msg = new AuthChangeMsg("user", "linkRole", Arrays.asList(userId, roleIds));
 			authInfoCacheService.sendMsg(JSONObject.wrap(msg).toString());
 		}
-		
+
 		data.put("num", num);
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
 		ret.put("data", data);

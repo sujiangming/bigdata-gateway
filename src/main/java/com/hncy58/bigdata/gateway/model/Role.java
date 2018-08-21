@@ -11,13 +11,28 @@ public class Role implements Serializable {
 
 	private int id;
 	private String roleCode;
-	private int roleType;
+	private int roleType = 1;
 	private String roleName;
 	private String mark;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
+
+	public Role() {
+		super();
+	}
+
+	public Role(int id, String roleCode, int roleType, String roleName, String mark, Date createTime, Date updateTime) {
+		super();
+		this.id = id;
+		this.roleCode = roleCode;
+		this.roleType = roleType;
+		this.roleName = roleName;
+		this.mark = mark;
+		this.createTime = createTime;
+		this.updateTime = updateTime;
+	}
 
 	public int getRoleType() {
 		return roleType;

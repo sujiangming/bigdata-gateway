@@ -42,8 +42,8 @@ public interface ResourceMapper {
 	@Delete("delete from sys_res where id = #{id}")
 	int deleteByPrimaryKey(int id);
 	
-	@Insert("insert into sys_res (id, res_code, p_res_code, res_type, res_name, res_uri, rank, create_time, update_time, mark, res_icon) "
-			+ " values (#{id}, #{resCode}, #{pResCode}, #{resType}, #{resName}, #{resUri}, #{rank}, now(), now(), #{mark}, #{resIcon})")
+	@Insert("insert into sys_res (id, res_code, p_res_code, res_type, res_name, res_uri, rank, mark, res_icon, create_time, update_time) "
+			+ " values (#{id}, #{resCode}, #{pResCode}, #{resType}, #{resName}, #{resUri}, #{rank}, #{mark}, #{resIcon}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	int insert(Resource res);
 	

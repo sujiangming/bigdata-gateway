@@ -18,13 +18,13 @@ public class MenuTest {
 	public static void testGenerateMenuList() {
 
 		List<Resource> reses = new ArrayList<>();
-		Resource res0 = new Resource(0, "1", "root", "", "01", "", 1, "");
-		Resource res1 = new Resource(1, "1", "test1", "01", "0101", "", 1, "");
-		Resource res2 = new Resource(1, "1", "test1", "01", "0102", "", 2, "");
-		Resource res3 = new Resource(1, "1", "test1", "0101", "010102", "", 1, "");
-		Resource res4 = new Resource(1, "1", "test1", "0101", "010101", "", 2, "");
-		Resource res5 = new Resource(1, "1", "test1", "01", "0103", "", 1, "");
-		Resource res6 = new Resource(0, "1", "test1", "01", "0104", "", 2, "");
+		Resource res0 = new Resource(0, 1, "root", "", "01", "", 1, "");
+		Resource res1 = new Resource(1, 1, "test1", "01", "0101", "", 1, "");
+		Resource res2 = new Resource(1, 1, "test1", "01", "0102", "", 2, "");
+		Resource res3 = new Resource(1, 1, "test1", "0101", "010102", "", 1, "");
+		Resource res4 = new Resource(1, 1, "test1", "0101", "010101", "", 2, "");
+		Resource res5 = new Resource(1, 1, "test1", "01", "0103", "", 1, "");
+		Resource res6 = new Resource(0, 1, "test1", "01", "0104", "", 2, "");
 		reses.add((res0));
 		reses.add((res1));
 		reses.add((res2));

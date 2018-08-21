@@ -20,8 +20,6 @@ public interface ResourceService {
 
 	int updateByPrimaryKeySelective(Resource resource);
 
-	int updateByPrimaryKey(Resource resource);
-
 	List<Resource> getResourceByUser(int userId);
 
 	int delete(List<String> ids);

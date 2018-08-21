@@ -3,6 +3,7 @@ package com.hncy58.bigdata.gateway.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +31,6 @@ import com.hncy58.bigdata.gateway.service.RoleService;
 import com.hncy58.bigdata.gateway.service.UserService;
 import com.hncy58.bigdata.gateway.service.imlp.AuthInfoCacheService;
 import com.hncy58.bigdata.gateway.util.Constant;
-
-import io.swagger.annotations.ApiOperation;
 
 /**
  * 角色操作API
@@ -121,33 +121,40 @@ public class RoleController {
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public Map<String, Object> insert(Role role) {
+		role.setCreateTime(new Date());
+		role.setUpdateTime(new Date());
 		int num = roleService.insert(role);
 		Map<String, Object> ret = new HashMap<>();
-		Map<String, Object> data = new HashMap<>();
 		if (num > 0) {
-			data.put("id", role.getId());
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
 		} else {
 			ret.put("code", "2001");
 			ret.put("msg", "添加角色失败");
 		}
-		ret.put("data", data);
+		ret.put("data", role);
 		return ret;
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
-	public Map<String, Object> updateByPrimaryKeySelective(Role role) {
+	public Map<String, Object> updateByPrimaryKeySelective(RoleDomain roleDomain) {
+
 		Map<String, Object> ret = new HashMap<>();
-		int num = roleService.updateByPrimaryKeySelective(role);
+		List<String> resIds = Collections.emptyList();
+
+		if (!StringUtils.isEmpty(roleDomain.getResIds().trim()))
+			resIds = Arrays.asList(roleDomain.getResIds().trim().split(","));
+
+		int num = roleService.updateByPrimaryKeySelective(roleDomain.toRole(), resIds);
+
 		if (num > 0) {
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
 		} else {
 			ret.put("code", "2002");
 			ret.put("msg", "更新角色失败");
 		}
+
 		ret.put("data", Collections.emptyMap());
 		return ret;
-
 	}
 
 	@RequestMapping(value = "/linkRes", method = RequestMethod.PUT)
@@ -181,13 +188,6 @@ public class RoleController {
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
 		ret.put("data", roleService.getResourceByRole(roleId));
 		return ResponseEntity.ok(ret);
-	}
-
-	@Deprecated
-	@ApiOperation(value = "测试组合注解", notes = "注意事项")
-	@RequestMapping(value = "/update2", method = RequestMethod.PUT)
-	public int updateByPrimaryKey(Role role) {
-		return roleService.updateByPrimaryKey(role);
 	}
 
 }

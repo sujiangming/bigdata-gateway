@@ -10,7 +10,7 @@
 			<id property="roleId" column="roleId" />
 			<collection property="resources"
 				ofType="com.hncy58.bigdata.gateway.model.Resource">
-				<id property="resId" column="resId" />
+				<id property="id" column="resId" />
 				<result property="resType" column="resType" />
 				<result property="resName" column="resName" />
 				<result property="pResCode" column="pResCode" />
@@ -28,7 +28,7 @@
 		parameterType="java.lang.Integer">
 		select u.id userId, u.user_code userCode
 			,ur.role_id roleId
-			,rr.id resId
+			,rr.res_id resId
 			,r.res_type resType ,r.res_name resName,r.res_uri resUri,r.p_res_code pResCode, r.rank
 			,r.res_code resCode ,r.mark ,r.create_time createTime ,r.update_time updateTime
 		from
@@ -43,7 +43,7 @@
 		parameterType="java.lang.String">
 		select u.id userId, u.user_code userCode
 			,ur.role_id roleId
-			,rr.id resId
+			,rr.res_id resId
 			,r.res_type resType ,r.res_name resName,r.res_uri resUri,r.p_res_code pResCode, r.rank
 			,r.res_code resCode ,r.mark ,r.create_time createTime ,r.update_time updateTime
 		from

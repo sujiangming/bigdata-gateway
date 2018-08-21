@@ -18,11 +18,11 @@ public interface RoleService {
 
 	int deleteByPrimaryKey(int id);
 
-	int insert(Role user);
+	int insert(Role role);
 
-	int updateByPrimaryKeySelective(Role user);
+	int updateByPrimaryKeySelective(Role role, List<String> resIds);
 
-	int updateByPrimaryKey(Role user);
+	int updateByPrimaryKey(Role role);
 
 	int linkRes(String roleId, List<String> asList);
 

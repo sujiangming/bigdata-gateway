@@ -5,6 +5,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.hncy58.bigdata.gateway.model.User;
+
 public class UserDomain implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -25,6 +27,9 @@ public class UserDomain implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
+	/** 角色ID列表（英文逗号隔开） **/
+	private String roleIds;
+
 	/** 排序字段 **/
 	private String sortField;
 	/** 排序类型(asc/desc) **/
@@ -32,6 +37,14 @@ public class UserDomain implements Serializable {
 
 	public String getSortField() {
 		return sortField;
+	}
+
+	public String getRoleIds() {
+		return roleIds;
+	}
+
+	public void setRoleIds(String roleIds) {
+		this.roleIds = roleIds;
 	}
 
 	public void setSortField(String sortField) {
@@ -148,6 +161,30 @@ public class UserDomain implements Serializable {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public User toUser() {
+
+		return new User(id, userCode, password, userName, mark, email, mobilePhone, deptCode, position, loginStatus,
+				actStatus, createTime, updateTime);
+		/*
+		User user = new User();
+		user.setActStatus(this.actStatus);
+		user.setCreateTime(this.createTime);
+		user.setDeptCode(this.deptCode);
+		user.setDeptCode(this.deptCode);
+		user.setId(this.id);
+		user.setLoginStatus(this.loginStatus);
+		user.setMark(this.mark);
+		user.setMobilePhone(this.mobilePhone);
+		user.setPassword(this.getPassword());
+		user.setPosition(this.position);
+		user.setUpdateTime(this.updateTime);
+		user.setUserCode(this.userCode);
+		user.setUserName(this.userName);
+		user.setEmail(this.email);
+		return user;
+		*/
 	}
 
 }
