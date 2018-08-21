@@ -79,14 +79,14 @@ zuul:
     behind-proxy: true
     policies:
       api-local:
-        limit: 2
-        quota: 1
-        refresh-interval: 3
+        limit: 2 #optional - request number limit per refresh interval window
+        #quota: 1200 #optional - request time limit per refresh interval window (in seconds)
+        refresh-interval: 1 #default value (in seconds)
         type:
           - url
       api-backbond:
-        limit: 2
-        quota: 1
-        refresh-interval: 3
+        limit: 300
+        #quota: 1800
+        refresh-interval: 60
         type:
           - url

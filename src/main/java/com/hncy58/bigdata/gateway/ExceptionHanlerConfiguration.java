@@ -4,18 +4,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.web.DefaultErrorAttributes;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hncy58.bigdata.gateway.domain.ErrorInfo;
 import com.hncy58.bigdata.gateway.exception.PageException;
 import com.hncy58.bigdata.gateway.exception.RestfulJsonException;
+import com.marcosbarbero.cloud.autoconfigure.zuul.ratelimit.config.repository.DefaultRateLimiterErrorHandler;
+import com.marcosbarbero.cloud.autoconfigure.zuul.ratelimit.config.repository.RateLimiterErrorHandler;
+import com.netflix.zuul.context.RequestContext;
+import com.netflix.zuul.exception.ZuulException;
 
 /**
  * 统一异常处理
@@ -95,5 +104,89 @@ public class ExceptionHanlerConfiguration {
 		ret.put("data", err);
 
 		return ret;
+	}
+
+	/**
+	 * 重写网关的异常属性，输出系统自定义的公异常属性
+	 * 
+	 * @return
+	 */
+	@Bean
+	public DefaultErrorAttributes errorAttributes() {
+		return new DefaultErrorAttributes() {
+			@Override
+			public Map<String, Object> getErrorAttributes(RequestAttributes requestAttributes,
+					boolean includeStackTrace) {
+				ZuulException exception = (ZuulException) requestAttributes
+						.getAttribute("javax.servlet.error.exception", RequestAttributes.SCOPE_REQUEST);
+				Map<String, Object> errorAttributes = new HashMap<>();
+				Throwable cause = exception != null ? exception.getCause() : null;
+				// 如果封装的内部异常是ExceptionBase,则自动获取错误码和错误信息
+				errorAttributes.put("code", "9994");
+				if (null != cause) {
+					errorAttributes.put("message", exception.getMessage());
+				} else {
+					errorAttributes.put("message", "gateway error");
+				}
+				return errorAttributes;
+			}
+		};
+	}
+
+	/**
+	 * 限流错误处理
+	 * 
+	 * @return
+	 */
+	@Bean
+	public RateLimiterErrorHandler rateLimitErrorHandler() {
+		return new DefaultRateLimiterErrorHandler() {
+
+			/**
+			 * 限流错误统一返回码
+			 */
+			private static final String errorCode = "9996";
+
+			@Override
+			public void handleSaveError(String key, Exception e) {
+				generateResponseBody(RequestContext.getCurrentContext(), errorCode,
+						key + ", handle save error:" + e.getMessage());
+			}
+
+			@Override
+			public void handleFetchError(String key, Exception e) {
+				generateResponseBody(RequestContext.getCurrentContext(), errorCode,
+						key + ", handle fetch error:" + e.getMessage());
+			}
+
+			@Override
+			public void handleError(String msg, Exception e) {
+				generateResponseBody(RequestContext.getCurrentContext(), errorCode,
+						msg + ", handle error:" + e.getMessage());
+			}
+
+			private Object generateResponseBody(RequestContext ctx, String code, String msg) {
+				Map<String, Object> ret = new HashMap<>();
+				ret.put("code", code);
+				ret.put("msg", msg);
+				// 过滤该请求，不往下级服务去转发请求，到此结束
+				ctx.setSendZuulResponse(false);
+				ctx.setResponseStatusCode(200);
+				ctx.setResponseBody(JSONObject.wrap(ret).toString());
+				setResponseAttrs(ctx.getResponse());
+				return null;
+			}
+
+			/**
+			 * 设置响应属性
+			 * 
+			 * @param response
+			 */
+			private void setResponseAttrs(HttpServletResponse response) {
+				response.setContentType("application/json;charset=UTF-8");
+				response.setCharacterEncoding("UTF-8");
+				response.setLocale(new java.util.Locale("zh", "CN"));
+			}
+		};
 	}
 }
