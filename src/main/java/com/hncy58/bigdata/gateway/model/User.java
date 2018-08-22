@@ -5,6 +5,14 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+/**
+ * 用户信息
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月22日 下午4:35:32
+ */
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;

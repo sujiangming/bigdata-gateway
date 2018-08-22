@@ -1,5 +1,6 @@
 package com.hncy58.bigdata.gateway.filter;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +17,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.github.pagehelper.util.StringUtil;
+import com.hncy58.bigdata.gateway.model.AuditInfo;
 import com.hncy58.bigdata.gateway.model.AuthInfo;
 import com.hncy58.bigdata.gateway.model.Resource;
 import com.hncy58.bigdata.gateway.model.RoleInfo;
+import com.hncy58.bigdata.gateway.msg.sender.AuditMsgSender;
 import com.hncy58.bigdata.gateway.service.AuthorityService;
 import com.hncy58.bigdata.gateway.service.TokenService;
 import com.hncy58.bigdata.gateway.util.Constant;
+import com.hncy58.bigdata.gateway.util.Utils;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
@@ -35,6 +39,9 @@ public class AuthorityFilter extends ZuulFilter {
 	@Autowired
 	private AuthorityService authorityService;
 
+	@Autowired
+	private AuditMsgSender<AuditInfo> auditMsgSender;
+
 	private static Logger log = LoggerFactory.getLogger(AuthorityFilter.class);
 
 	@Override
@@ -45,15 +52,24 @@ public class AuthorityFilter extends ZuulFilter {
 		HttpSession session = req.getSession();
 		String token = req.getHeader(Constant.REQ_TOKEN_HEADER_KEY);
 		String uri = req.getRequestURI();
+		AuthInfo authInfo = null;
 
 		log.info("session:{}, token:{} ,send {} request to {}", session.getId(), token, req.getMethod(),
 				req.getRequestURL().toString());
+
+		AuditInfo auditInfo = new AuditInfo(0, token, req.getRequestURI(), req.getQueryString(),
+				Utils.getIPAddress(req), req.getLocalAddr(), req.getMethod(), new Date(), "");
+		try {
+			auditMsgSender.sendMessage(auditInfo);
+		} catch (Exception e) {
+			log.error("send audit msg fail:" + e.getMessage(), e);
+		}
+
 		// 登录、登出不做验证
 		if (uri.contains("login") || uri.contains("logout") || uri.contains("baidu")) {
 			return null;
 		}
 
-		AuthInfo authInfo = null;
 		// 如果请求未携带token直接拒绝请求
 		if (StringUtils.isEmpty(token)) {
 			log.warn("session:{},user token is empty", session.getId());
@@ -64,6 +80,7 @@ public class AuthorityFilter extends ZuulFilter {
 			log.warn("session:{},user token token is invalidated, token:{}", session.getId(), token);
 			return generateResponseBody(ctx, "1004", "用户token令牌无效");
 		}
+
 		// 从redis中获取缓存信息
 		Object authObj = tokenService.getCacheFromToken(token, "authinfo");
 		if (authObj != null && authObj instanceof AuthInfo)

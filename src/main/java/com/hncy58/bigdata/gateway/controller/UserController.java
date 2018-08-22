@@ -268,7 +268,7 @@ public class UserController {
 		if (num > 0) {
 			// 发送用户权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
 			AuthChangeMsg msg = new AuthChangeMsg("user", "linkRole", Arrays.asList(userId, roleIds));
-			authInfoCacheService.sendMsg(JSONObject.wrap(msg).toString());
+			authInfoCacheService.sendMsg(msg);
 		}
 
 		data.put("num", num);

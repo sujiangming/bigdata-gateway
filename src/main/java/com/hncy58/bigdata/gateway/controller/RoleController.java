@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,7 +106,7 @@ public class RoleController {
 			if (!users.isEmpty()) {
 				AuthChangeMsg msg = new AuthChangeMsg("role", "delete",
 						users.stream().map(u -> u.getId()).collect(Collectors.toList()));
-				authInfoCacheService.sendMsg(JSONObject.wrap(msg).toString());
+				authInfoCacheService.sendMsg(msg);
 				log.info("role delete:{}, send auth info change msg", ids);
 			}
 		} else {
@@ -172,7 +171,7 @@ public class RoleController {
 		if (num > 0) {
 			// 发送权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
 			AuthChangeMsg msg = new AuthChangeMsg("role", "linkRes", Arrays.asList(roleId, resIds));
-			authInfoCacheService.sendMsg(JSONObject.wrap(msg).toString());
+			authInfoCacheService.sendMsg(msg);
 			log.info("role:{} link res:{}, send auth info change msg", roleId, resIds);
 		}
 

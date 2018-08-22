@@ -3,6 +3,14 @@ package com.hncy58.bigdata.gateway.model;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 用户权限信息
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月22日 下午4:34:44
+ */
 public class AuthInfo implements Serializable {
 
 	private static final long serialVersionUID = 1L;

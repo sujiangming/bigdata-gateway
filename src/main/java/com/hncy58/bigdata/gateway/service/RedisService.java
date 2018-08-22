@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -22,13 +23,19 @@ import org.springframework.data.redis.core.RedisTemplate;
 public abstract class RedisService<T> {
 
 	@Autowired
+	@Qualifier("redisTemplate")
 	protected RedisTemplate<String, Object> redisTemplate;
+	@Autowired
+	@Qualifier("plainRedisTemplate")
+	protected RedisTemplate<String, Object> plainRedisTemplate;
 	@Resource
 	protected HashOperations<String, String, T> hashOperations;
 
+	
+	
 	// 向通道发送消息的方法
 	public void sendChannelMess(String channel, T doamin) {
-		redisTemplate.convertAndSend(channel, doamin);
+		plainRedisTemplate.convertAndSend(channel, doamin);
 	}
 
 	/**

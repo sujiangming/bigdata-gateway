@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,7 +100,7 @@ public class ResourceController {
 			// 发送权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
 			AuthChangeMsg msg = new AuthChangeMsg("res", "delete",
 					users.stream().map(user -> user.getId()).collect(Collectors.toList()));
-			authInfoCacheService.sendMsg(JSONObject.wrap(msg).toString());
+			authInfoCacheService.sendMsg(msg);
 			log.info("role delete:{}, send auth info change msg", ids);
 		} else {
 			ret.put("code", "3004");

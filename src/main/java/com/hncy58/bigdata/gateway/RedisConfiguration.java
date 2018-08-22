@@ -1,6 +1,7 @@
 package com.hncy58.bigdata.gateway;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,30 +16,40 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.listener.PatternTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hncy58.bigdata.gateway.msg.receiver.AuditMsgReceiver;
 import com.hncy58.bigdata.gateway.msg.receiver.AuthChageRedisMsgReceiver;
 
 /**
  * Redis初始化配置类
+ * 
  * @author tdz
  * @company hncy58 湖南长银五八
  * @website http://www.hncy58.com
  * @date 2018年8月7日 上午9:33:02
  */
 @Configuration
-//@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 3600)
+// @EnableRedisHttpSession(maxInactiveIntervalInSeconds = 3600)
 public class RedisConfiguration {
-	
+
 	/**
 	 * Redis消息监听主题
 	 */
+	@Value("${redis.pubsub.audit:audit_topic}")
+	private String auditTopic;
+
 	@Value("${redis.pubsub.patterntopic:pubsub}")
-	private String patternTopic;
+	private String authChangeTopic;
 
 	/**
 	 * 实例化Redis连接工厂
+	 * 
 	 * @return
 	 */
 	@Bean
@@ -54,36 +65,52 @@ public class RedisConfiguration {
 
 	/**
 	 * 利用反射来创建监听到权限变更消息之后的执行方法
+	 * 
 	 * @param redisReceiver
 	 * @return
 	 */
-    @Bean
-    MessageListenerAdapter listenerAdapter(AuthChageRedisMsgReceiver<?> redisReceiver) {
-        return new MessageListenerAdapter(redisReceiver, "receiveMessage");
-    }
+	@Bean(name = "authChangeMsgListener")
+	MessageListenerAdapter authListenerAdapter(
+			@Qualifier("authChageRedisMsgReceiver") AuthChageRedisMsgReceiver redisReceiver) {
+		return new MessageListenerAdapter(redisReceiver, "receiveMessage");
+	}
 
-    /**
-     * 实例化Redis消息监听容器
-     * @param connectionFactory
-     * @param listenerAdapter
-     * @return
-     */
+	/**
+	 * 实例化审计消息监听器
+	 * 
+	 * @param redisReceiver
+	 * @return
+	 */
+	@Bean(name = "auditMsgListener")
+	MessageListenerAdapter auditListenerAdapter(@Qualifier("auditMsgReceiver") AuditMsgReceiver redisReceiver) {
+		return new MessageListenerAdapter(redisReceiver, "receiveMessage");
+	}
+
+	/**
+	 * 实例化Redis消息监听容器
+	 * 
+	 * @param connectionFactory
+	 * @param listenerAdapter
+	 * @return
+	 */
 	@Bean
 	RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory,
-			MessageListenerAdapter listenerAdapter) {
-		
+			@Qualifier("authChangeMsgListener") MessageListenerAdapter authListenerAdapter,
+			@Qualifier("auditMsgListener") MessageListenerAdapter auditListenerAdapter) {
+
 		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
-		container.addMessageListener(listenerAdapter, new PatternTopic(patternTopic));
+		container.addMessageListener(authListenerAdapter, new PatternTopic(authChangeTopic));
+		container.addMessageListener(auditListenerAdapter, new PatternTopic(auditTopic));
 		return container;
 	}
 
 	/**
-	 * 实例化 RedisTemplate 对象
+	 * 实例化 RedisTemplate 对象（这个redis模板是用来存储对象使用）
 	 *
 	 * @return
 	 */
-	@Bean
+	@Bean(name = "redisTemplate")
 	public RedisTemplate<String, Object> functionDomainRedisTemplate() {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 		initDomainRedisTemplate(redisTemplate, redisConnectionFactory);
@@ -91,7 +118,19 @@ public class RedisConfiguration {
 	}
 
 	/**
-	 * 设置数据存入 redis 的序列化方式
+	 * 实例化 RedisTemplate 对象（这个redis模板是用来存储普通文本使用，例如发送pub/sub消息）
+	 *
+	 * @return
+	 */
+	@Bean(name = "plainRedisTemplate")
+	public RedisTemplate<String, Object> plainTextRedisTemplate() {
+		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+		initPlainTextRedisTemplate(redisTemplate, redisConnectionFactory);
+		return redisTemplate;
+	}
+
+	/**
+	 * 设置对象数据存入 redis 的序列化方式
 	 *
 	 * @param redisTemplate
 	 * @param factory
@@ -102,6 +141,35 @@ public class RedisConfiguration {
 		redisTemplate.setHashValueSerializer(new JdkSerializationRedisSerializer());
 		redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
 		redisTemplate.setConnectionFactory(factory);
+	}
+
+	/**
+	 * 设置普通文本数据存入 redis 的序列化方式
+	 *
+	 * @param redisTemplate
+	 * @param factory
+	 */
+	private void initPlainTextRedisTemplate(RedisTemplate<String, Object> redisTemplate,
+			RedisConnectionFactory factory) {
+		// redisTemplate.setConnectionFactory(factory);
+		// redisTemplate.setKeySerializer(new StringRedisSerializer());
+		// redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+		// redisTemplate.setHashValueSerializer(new StringRedisSerializer());
+		// redisTemplate.setValueSerializer(new StringRedisSerializer());
+		// redisTemplate.afterPropertiesSet();
+
+		Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<Object>(Object.class);
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+		objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+		serializer.setObjectMapper(objectMapper);
+
+		redisTemplate.setConnectionFactory(factory);
+		redisTemplate.setKeySerializer(new StringRedisSerializer());
+		redisTemplate.setValueSerializer(serializer);
+		redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+		redisTemplate.setHashValueSerializer(serializer);
+		redisTemplate.afterPropertiesSet();
 	}
 
 	/**

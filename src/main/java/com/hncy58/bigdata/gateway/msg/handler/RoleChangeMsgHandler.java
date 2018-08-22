@@ -3,7 +3,6 @@ package com.hncy58.bigdata.gateway.msg.handler;
 import java.util.Arrays;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import com.hncy58.bigdata.gateway.service.UserService;
 import com.hncy58.bigdata.gateway.util.Utils;
 
 @Service("roleChangeMsgHandler")
-public class RoleChangeMsgHandler implements Handler {
+public class RoleChangeMsgHandler implements Handler<AuthChangeMsg> {
 
 	Logger log = LoggerFactory.getLogger(RoleChangeMsgHandler.class);
 
@@ -39,10 +38,10 @@ public class RoleChangeMsgHandler implements Handler {
 
 		switch (msg.getOperate()) {
 		case "delete":
-			doDeleteOpt((JSONArray) msg.getData());
+			doDeleteOpt((List<?>) msg.getData());
 			break;
 		case "linkRes":
-			doLinkResOpt((JSONArray) msg.getData());
+			doLinkResOpt((List<?>) msg.getData());
 			break;
 		default:
 			break;
@@ -51,8 +50,8 @@ public class RoleChangeMsgHandler implements Handler {
 		return null;
 	}
 
-	private void doLinkResOpt(JSONArray data) {
-		String roleIds = data.getString(0);
+	private void doLinkResOpt(List<?> data) {
+		String roleIds = data.get(0).toString();
 		List<User> users = userService.selectUserByRole(Arrays.asList(roleIds.split(",")));
 
 		if (users.isEmpty())
@@ -76,13 +75,13 @@ public class RoleChangeMsgHandler implements Handler {
 		});
 	}
 
-	private void doDeleteOpt(JSONArray data) {
+	private void doDeleteOpt(List<?> data) {
 
-		if (data == null || data.length() < 1)
+		if (data == null || data.isEmpty())
 			return;
 
-		for (int i = 0; i < data.length(); i++) {
-			int userId = data.getInt(i);
+		for (int i = 0; i < data.size(); i++) {
+			int userId = Integer.valueOf(data.get(i).toString());
 			String token = tokenService.getToken(userId);
 
 			if (StringUtil.isEmpty(token)) {

@@ -2,7 +2,6 @@ package com.hncy58.bigdata.gateway.msg.handler;
 
 import java.util.List;
 
-import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import com.hncy58.bigdata.gateway.service.TokenService;
 import com.hncy58.bigdata.gateway.util.Utils;
 
 @Service("authChangeMsgHandler")
-public class AuthChangeMsgHandler implements Handler {
+public class AuthChangeMsgHandler implements Handler<AuthChangeMsg> {
 
 	Logger log = LoggerFactory.getLogger(AuthChangeMsgHandler.class);
 
@@ -33,12 +32,12 @@ public class AuthChangeMsgHandler implements Handler {
 		if (msg.getData() == null)
 			return null;
 
-		JSONArray arr = (JSONArray) msg.getData();
-		if (arr.length() < 1)
+		List<?> arr = (List<?>) msg.getData();
+		if (arr.isEmpty())
 			return null;
 
-		for (int i = 0; i < arr.length(); i++) {
-			int userId = arr.getInt(i);
+		for (int i = 0; i < arr.size(); i++) {
+			int userId = Integer.valueOf(arr.get(i).toString());
 			String token = tokenService.getToken(userId);
 			if (StringUtil.isEmpty(token)) {
 				log.info("user not login(token is null), no need to update auth cache, userId:{}", userId);

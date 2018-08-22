@@ -2,7 +2,6 @@ package com.hncy58.bigdata.gateway.msg.handler;
 
 import java.util.List;
 
-import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import com.hncy58.bigdata.gateway.service.TokenService;
 import com.hncy58.bigdata.gateway.util.Utils;
 
 @Service("userRoleChangeMsgHandler")
-public class UserRoleChangeMsgHandler implements Handler {
+public class UserRoleChangeMsgHandler implements Handler<AuthChangeMsg> {
 
 	Logger log = LoggerFactory.getLogger(UserRoleChangeMsgHandler.class);
 
@@ -31,11 +30,11 @@ public class UserRoleChangeMsgHandler implements Handler {
 		log.info("user role msg handler start to handle msg:{}", msg.getData());
 		if (msg.getData() == null)
 			return null;
-		JSONArray arr = (JSONArray) msg.getData();
-		if (arr.length() < 0)
+		List<?> arr = (List<?>) msg.getData();
+		if (arr.isEmpty())
 			return null;
 
-		Integer userId = Integer.valueOf(arr.getString(0));
+		Integer userId = Integer.valueOf(arr.get(0).toString());
 		String token = tokenService.getToken(userId);
 
 		if (StringUtil.isEmpty(token)) {

@@ -5,12 +5,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Service;
 
 import com.hncy58.bigdata.gateway.domain.AuthChangeMsg;
 import com.hncy58.bigdata.gateway.msg.handler.Handler;
-import com.hncy58.bigdata.gateway.service.RedisService;
+import com.hncy58.bigdata.gateway.util.Utils;
 
 /**
  * Redis消息接收器
@@ -20,41 +20,49 @@ import com.hncy58.bigdata.gateway.service.RedisService;
  * @website http://www.hncy58.com
  * @date 2018年8月7日 上午9:32:49
  */
-@Service
-public class AuthChageRedisMsgReceiver<T> extends RedisService<T> {
+@Service("authChageRedisMsgReceiver")
+public class AuthChageRedisMsgReceiver implements MsgReceiver<String> {
 
 	Logger log = LoggerFactory.getLogger(AuthChageRedisMsgReceiver.class);
 
-	@Value("${redis.pubsub.patterntopic:pubsub}")
-	private String patternTopic;
-
 	@Autowired
 	@Qualifier("userRoleChangeMsgHandler")
-	private Handler userMsgHandler;
+	private Handler<AuthChangeMsg> userMsgHandler;
 
 	@Autowired
 	@Qualifier("roleChangeMsgHandler")
-	private Handler roleMsgHandler;
+	private Handler<AuthChangeMsg> roleMsgHandler;
 
 	@Autowired
 	@Qualifier("authChangeMsgHandler")
-	private Handler authMsgHandler;
+	private Handler<AuthChangeMsg> authMsgHandler;
 
 	/**
 	 * 接收到redis消息处理
 	 * 
 	 * @param msg
 	 */
+	@Override
 	public void receiveMessage(String srcMsg) {
-		// 解决string序列化之后不是字符串问题
-		if (!srcMsg.contains("{") || !srcMsg.endsWith("}")) {
-			log.info("received redis msg is not json string, msg:{}", srcMsg);
-		}
-		log.debug("received redis msg:{}", srcMsg);
-		AuthChangeMsg msg = new AuthChangeMsg(srcMsg.substring(srcMsg.indexOf("{")));
-		log.info("received redis msg, type:{}, operate:{}, data:{}", msg.getType(), msg.getOperate(), msg.getData());
 
-		if (StringUtils.isEmpty(msg.getType()) || StringUtils.isEmpty(msg.getOperate()) || msg.getData() == null)
+		// 解决string序列化之后不是字符串问题
+		// if (!srcMsg.contains("{") || !srcMsg.endsWith("}")) {
+		// log.info("received redis msg is not json string, msg:{}", srcMsg);
+		// }
+		// log.debug("received redis msg:{}", srcMsg);
+		// AuthChangeMsg msg = new
+		// AuthChangeMsg(srcMsg.substring(srcMsg.indexOf("{")));
+		// log.info("received redis msg, type:{}, operate:{}, data:{}",
+		// msg.getType(), msg.getOperate(), msg.getData());
+
+		Jackson2JsonRedisSerializer<? extends Object> serializer = Utils.getJsonSerializer();
+		Object ret = serializer.deserialize(srcMsg.getBytes());
+		AuthChangeMsg msg = null;
+		if (ret instanceof AuthChangeMsg)
+			msg = (AuthChangeMsg) ret;
+
+		if (msg == null || StringUtils.isEmpty(msg.getType()) || StringUtils.isEmpty(msg.getOperate())
+				|| msg.getData() == null)
 			return;
 
 		try {
