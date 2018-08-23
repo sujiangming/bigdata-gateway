@@ -71,7 +71,10 @@ zuul:
     connect-timeout-millis: 120000
     #读写超时
     socket-timeout-millis: 120000
-  sensitiveHeaders:
+  # 解决重复跨域问题
+  sensitive-headers: Access-Control-Allow-Origin
+  # 忽略头消息
+  ignored-headers: Access-Control-Allow-Origin
   # 路由配置
   routes:
     api-local:
