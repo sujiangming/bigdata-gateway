@@ -8,6 +8,7 @@ import org.springframework.web.filter.CorsFilter;
 
 /**
  * 跨域配置
+ * 
  * @author tdz
  * @company hncy58 长银五八
  * @website http://www.hncy58.com
@@ -16,19 +17,16 @@ import org.springframework.web.filter.CorsFilter;
  */
 @Configuration
 public class CorsConfig {
-	
-	private CorsConfiguration buildConfig() {
-		CorsConfiguration corsConfiguration = new CorsConfiguration();
-		corsConfiguration.addAllowedOrigin("*"); // 允许所有源服务器
-		corsConfiguration.addAllowedHeader("*"); // 允许所有头消息
-		corsConfiguration.addAllowedMethod("*"); // 允许所有请求方式
-		return corsConfiguration;
-	}
 
 	@Bean
 	public CorsFilter corsFilter() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", buildConfig()); // 所有请求服务都可以跨域访问
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		final CorsConfiguration corsConfiguration = new CorsConfiguration();
+		// corsConfiguration.setAllowCredentials(true);
+		corsConfiguration.addAllowedHeader("*");
+		corsConfiguration.addAllowedOrigin("*");
+		corsConfiguration.addAllowedMethod("*");
+		source.registerCorsConfiguration("/**", corsConfiguration);
 		return new CorsFilter(source);
 	}
 }
