@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -84,7 +85,7 @@ public class ResourceController {
 
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public Map<String, Object> deleteByPrimaryKey(String ids) {
 		Map<String, Object> ret = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
@@ -103,7 +104,7 @@ public class ResourceController {
 			authInfoCacheService.sendMsg(msg);
 			log.info("role delete:{}, send auth info change msg", ids);
 		} else {
-			ret.put("code", "3004");
+			ret.put("code", "4004");
 			ret.put("msg", "删除资源失败，系统删除没有删除任何资源");
 		}
 
@@ -116,12 +117,22 @@ public class ResourceController {
 		res.setUpdateTime(new Date());
 		res.setCreateTime(new Date());
 		Map<String, Object> ret = new HashMap<>();
-		int num = resourceService.insert(res);
-		if (num > 0) {
-			ret.put("code", Constant.REQ_SUCCESS_CODE);
-		} else {
-			ret.put("code", "3001");
-			ret.put("msg", "添加资源失败");
+		try {
+			int num = resourceService.insert(res);
+			if (num > 0) {
+				ret.put("code", Constant.REQ_SUCCESS_CODE);
+			} else {
+				ret.put("code", "4001");
+				ret.put("msg", "添加资源失败");
+			}
+		} catch (Exception e) {
+			if (e instanceof DuplicateKeyException) {
+				ret.put("code", "4003");
+				ret.put("msg", "数据库唯一键冲突，可能是资源编码重复导致");
+			} else {
+				ret.put("code", "4001");
+				ret.put("msg", "添加资源失败," + e.getMessage());
+			}
 		}
 		ret.put("data", res);
 		return ret;
@@ -138,7 +149,7 @@ public class ResourceController {
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
 			data.put("num", num);
 		} else {
-			ret.put("code", "3002");
+			ret.put("code", "4002");
 			ret.put("msg", "更新资源失败");
 		}
 

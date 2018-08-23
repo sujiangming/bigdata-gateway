@@ -20,8 +20,8 @@ public class UserDomain implements Serializable {
 	private String mobilePhone;
 	private String deptCode;
 	private String position;
-	private int loginStatus;
-	private int actStatus;
+	private int loginStatus = -1;
+	private int actStatus = -1;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

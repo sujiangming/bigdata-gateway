@@ -2,7 +2,10 @@ package com.hncy58.bigdata.gateway.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.hncy58.bigdata.gateway.model.Resource;
 
@@ -18,6 +21,12 @@ public class MenuInfo implements Serializable {
 	private int rank;
 	private String mark;
 	private String resIcon;
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date createTime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date updateTime;
+
 	private List<MenuInfo> subMenus;
 
 	public MenuInfo() {
@@ -25,7 +34,7 @@ public class MenuInfo implements Serializable {
 	}
 
 	public MenuInfo(int id, String resCode, String resName, String pResCode, String resUri, int rank, String mark,
-			String resIcon, List<MenuInfo> subMenus) {
+			String resIcon, Date createTime, Date updateTime, List<MenuInfo> subMenus) {
 		super();
 		this.id = id;
 		this.resCode = resCode;
@@ -35,7 +44,25 @@ public class MenuInfo implements Serializable {
 		this.rank = rank;
 		this.mark = mark;
 		this.resIcon = resIcon;
+		this.updateTime = updateTime;
+		this.createTime = createTime;
 		this.subMenus = subMenus;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 
 	public String getResIcon() {
@@ -112,7 +139,7 @@ public class MenuInfo implements Serializable {
 
 	public static MenuInfo resourceToMenu(Resource res) {
 		return new MenuInfo(res.getId(), res.getResCode(), res.getResName(), res.getpResCode(), res.getResUri(),
-				res.getRank(), res.getMark(), res.getResIcon(), new ArrayList<>());
+				res.getRank(), res.getMark(), res.getResIcon(), res.getCreateTime(), res.getUpdateTime(), new ArrayList<>());
 	}
 
 	@Override

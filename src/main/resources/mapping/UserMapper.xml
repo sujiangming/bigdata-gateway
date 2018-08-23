@@ -64,10 +64,10 @@
 			<if test="position != null  and position != ''">
 				and position like '%${position}%'
 			</if>
-			<if test="loginStatus != null">
+			<if test="loginStatus != null and loginStatus >= 0">
 				and login_status = #{loginStatus}
 			</if>
-			<if test="actStatus != null">
+			<if test="actStatus != null and actStatus >= 0">
 				and act_status = #{actStatus}
 			</if>
 			<if test="createTime != null  and createTime != ''">

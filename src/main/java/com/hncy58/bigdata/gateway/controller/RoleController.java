@@ -91,7 +91,7 @@ public class RoleController {
 
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public Map<String, Object> delete(HttpServletRequest req, String ids) {
 		Map<String, Object> ret = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();

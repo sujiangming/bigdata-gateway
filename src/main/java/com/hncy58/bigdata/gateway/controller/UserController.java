@@ -168,7 +168,7 @@ public class UserController {
 		return ret;
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public Map<String, Object> delete(String ids) {
 
 		Map<String, Object> ret = new HashMap<>();

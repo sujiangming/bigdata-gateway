@@ -19,6 +19,7 @@ public class AuditInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
+	private int userId = -1;
 	private String token;
 	private String reqUrl;
 	private String queryStr;
@@ -29,6 +30,9 @@ public class AuditInfo implements Serializable {
 	private Date oprTime;
 	private String mark;
 
+	private String userCode;
+	private String userName;
+
 	public AuditInfo() {
 		super();
 	}
@@ -38,6 +42,11 @@ public class AuditInfo implements Serializable {
 		super();
 		this.id = id;
 		this.token = token;
+		if (this.token != null) {
+			String[] arr = this.token.trim().replaceAll(" ", "").split("#");
+			if (arr.length > 1)
+				this.userId = Integer.valueOf(arr[1]);
+		}
 		this.reqUrl = reqUrl;
 		this.queryStr = queryStr;
 		this.rmtIpAddr = rmtIpAddr;
@@ -45,6 +54,30 @@ public class AuditInfo implements Serializable {
 		this.reqMethod = reqMethod;
 		this.oprTime = oprTime;
 		this.mark = mark;
+	}
+
+	public String getUserCode() {
+		return userCode;
+	}
+
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getQueryStr() {
