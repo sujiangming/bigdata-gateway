@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import com.hncy58.bigdata.gateway.service.RedisService;
-
 /**
  * 审计消息发送器
  * @author tdz
@@ -22,8 +20,8 @@ public class AuditMsgSender<T> {
 	
 	Logger log = LoggerFactory.getLogger(AuditMsgSender.class);
 	
-	@Value("${redis.pubsub.audit:audit_topic}")
-	private String patternTopic;
+	@Value("${redis.pubsub.audit_topic.name:audit_topic}")
+	private String auditTopic;
 
 	@Autowired
 	@Qualifier("plainRedisTemplate")
@@ -32,7 +30,7 @@ public class AuditMsgSender<T> {
 	public void sendMessage(T msg) {
 		log.info("start send redis msg:{}", msg);
 		try {
-			plainRedisTemplate.convertAndSend(patternTopic, msg);
+			plainRedisTemplate.convertAndSend(auditTopic, msg);
 			log.info("end send redis msg:{}", msg);
 		} catch (Exception e) {
 			log.error("send redis");

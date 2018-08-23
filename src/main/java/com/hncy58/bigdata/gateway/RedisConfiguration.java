@@ -3,6 +3,7 @@ package com.hncy58.bigdata.gateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -38,13 +39,19 @@ import com.hncy58.bigdata.gateway.msg.receiver.AuthChageRedisMsgReceiver;
 // @EnableRedisHttpSession(maxInactiveIntervalInSeconds = 3600)
 public class RedisConfiguration {
 
+	public static final String AUTH_TOPIC_PREFIX = "redis.pubsub.auth_topic";
+	public static final String AUDIT_TOPIC_PREFIX = "redis.pubsub.audit_topic";
+
 	/**
-	 * Redis消息监听主题
+	 * Redis审计消息监听主题
 	 */
-	@Value("${redis.pubsub.audit:audit_topic}")
+	@Value("${redis.pubsub.audit_topic:audit_topic}")
 	private String auditTopic;
 
-	@Value("${redis.pubsub.patterntopic:pubsub}")
+	/**
+	 * Redis权限消息监听主题
+	 */
+	@Value("${redis.pubsub.auth_topic:auth_topic}")
 	private String authChangeTopic;
 
 	/**
@@ -58,13 +65,13 @@ public class RedisConfiguration {
 	}
 
 	/**
-	 * 注入 RedisConnectionFactory
+	 * 注入 Redis连接工厂
 	 */
 	@Autowired
 	RedisConnectionFactory redisConnectionFactory;
 
 	/**
-	 * 利用反射来创建监听到权限变更消息之后的执行方法
+	 * 实例化权限变更消息监听器
 	 * 
 	 * @param redisReceiver
 	 * @return
@@ -87,27 +94,46 @@ public class RedisConfiguration {
 	}
 
 	/**
-	 * 实例化Redis消息监听容器
+	 * 实例化权限更改消息监听容器 <br>
+	 * 带条件启动，当redis.pubsub.auth_topic.enabled为true时才启动消息监听
 	 * 
 	 * @param connectionFactory
 	 * @param listenerAdapter
 	 * @return
 	 */
-	@Bean
-	RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory,
-			@Qualifier("authChangeMsgListener") MessageListenerAdapter authListenerAdapter,
-			@Qualifier("auditMsgListener") MessageListenerAdapter auditListenerAdapter) {
+	@Bean("authRedisContainer")
+	@ConditionalOnProperty(prefix = AUTH_TOPIC_PREFIX, name = "enabled", havingValue = "true")
+	RedisMessageListenerContainer authContainer(RedisConnectionFactory connectionFactory,
+			@Qualifier("authChangeMsgListener") MessageListenerAdapter authListenerAdapter) {
 
 		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
 		container.addMessageListener(authListenerAdapter, new PatternTopic(authChangeTopic));
+		return container;
+	}
+
+	/**
+	 * 实例化审计消息监听容器 <br>
+	 * 带条件启动，当redis.pubsub.audit_topic.enabled为true时才启动消息监听
+	 * 
+	 * @param connectionFactory
+	 * @param listenerAdapter
+	 * @return
+	 */
+	@Bean("auditRedisContainer")
+	@ConditionalOnProperty(prefix = AUDIT_TOPIC_PREFIX, name = "enabled", havingValue = "true")
+	RedisMessageListenerContainer auditContainer(RedisConnectionFactory connectionFactory,
+			@Qualifier("auditMsgListener") MessageListenerAdapter auditListenerAdapter) {
+
+		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+		container.setConnectionFactory(connectionFactory);
 		container.addMessageListener(auditListenerAdapter, new PatternTopic(auditTopic));
 		return container;
 	}
 
 	/**
 	 * 实例化 RedisTemplate 对象（这个redis模板是用来存储对象使用）
-	 *
+	 * 
 	 * @return
 	 */
 	@Bean(name = "redisTemplate")
@@ -118,8 +144,8 @@ public class RedisConfiguration {
 	}
 
 	/**
-	 * 实例化 RedisTemplate 对象（这个redis模板是用来存储普通文本使用，例如发送pub/sub消息）
-	 *
+	 * 实例化 RedisTemplate 对象（这个redis模板是用来存储JSON对象使用，例如发送pub/sub消息）
+	 * 
 	 * @return
 	 */
 	@Bean(name = "plainRedisTemplate")
@@ -131,7 +157,7 @@ public class RedisConfiguration {
 
 	/**
 	 * 设置对象数据存入 redis 的序列化方式
-	 *
+	 * 
 	 * @param redisTemplate
 	 * @param factory
 	 */
@@ -145,7 +171,7 @@ public class RedisConfiguration {
 
 	/**
 	 * 设置普通文本数据存入 redis 的序列化方式
-	 *
+	 * 
 	 * @param redisTemplate
 	 * @param factory
 	 */
@@ -174,7 +200,7 @@ public class RedisConfiguration {
 
 	/**
 	 * 实例化 HashOperations 对象,可以使用 Hash 类型操作
-	 *
+	 * 
 	 * @param redisTemplate
 	 * @return
 	 */
@@ -185,7 +211,7 @@ public class RedisConfiguration {
 
 	/**
 	 * 实例化 ValueOperations 对象,可以使用 String 操作
-	 *
+	 * 
 	 * @param redisTemplate
 	 * @return
 	 */

@@ -35,4 +35,8 @@ public interface UserMapper {
 
 	List<User> selectUserByRes(@Param("resIds") List<String> resIds);
 
+	int updateByToken(User user);
+
+	int logout(int userId);
+
 }

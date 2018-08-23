@@ -3,7 +3,16 @@ server:
 
 redis:
   pubsub:
-    patterntopic: pubsub_abc
+    auth_topic: 
+      name: auth_topic
+      # 是否启用监听
+      enabled: false
+    audit_topic:
+      name: audit_topic
+      # 是否启用监听
+      enabled: false
+      # 是否启用审计消息发送
+      send-enabled: true
 
 logging:
   level:

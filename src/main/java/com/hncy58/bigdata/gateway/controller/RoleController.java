@@ -147,6 +147,10 @@ public class RoleController {
 
 		if (num > 0) {
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
+			// 发送权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
+			AuthChangeMsg msg = new AuthChangeMsg("role", "linkRes", Arrays.asList(roleDomain.getId(), roleDomain.getResIds()));
+			authInfoCacheService.sendMsg(msg);
+			log.info("role:{} link res:{}, send auth info change msg", roleDomain.getId(), roleDomain.getResIds());
 		} else {
 			ret.put("code", "2002");
 			ret.put("msg", "更新角色失败");

@@ -11,7 +11,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -225,13 +224,41 @@ public class UserController {
 		int num = userService.updateByPrimaryKeySelective(userDomain.toUser(), roleList);
 
 		if (num > 0) {
+
+			updateLoginUserState(userDomain);
+
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
+			// 发送用户权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
+			AuthChangeMsg msg = new AuthChangeMsg("user", "linkRole",
+					Arrays.asList(userDomain.getId(), userDomain.getRoleIds()));
+			authInfoCacheService.sendMsg(msg);
 		} else {
 			ret.put("code", "2002");
 			ret.put("msg", "更新用户失败");
 		}
 		ret.put("data", Collections.emptyMap());
 		return ret;
+	}
+
+	/**
+	 * 更新登录用户状态
+	 * 
+	 * @param userDomain
+	 */
+	private void updateLoginUserState(UserDomain userDomain) {
+		String token = null;
+		// 锁定账户或强制登出
+		if (userDomain.getActStatus() != 1 || userDomain.getLoginStatus() == 0) {
+			token = tokenService.getToken(userDomain.getId());
+		}
+
+		// 如果token存在则移除
+		if (token != null) {
+			int num = userService.logout(userDomain.getId());
+			if (num > 0) {
+				tokenService.removeToken(token);
+			}
+		}
 	}
 
 	@RequestMapping(value = "/updateByToken", method = RequestMethod.PUT)
@@ -244,7 +271,7 @@ public class UserController {
 			user.setId(id);
 		}
 
-		int num = userService.updateByPrimaryKeySelective(user, null);
+		int num = userService.updateByToken(user);
 		if (num > 0) {
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
 		} else {

@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.github.pagehelper.util.StringUtil;
@@ -33,6 +34,11 @@ import com.netflix.zuul.exception.ZuulException;
 @Component
 public class AuthorityFilter extends ZuulFilter {
 
+	private static Logger log = LoggerFactory.getLogger(AuthorityFilter.class);
+
+	@Value("${redis.pubsub.audit_topic.send-enabled:false}")
+	private boolean auditEnabled;
+
 	@Autowired
 	private TokenService tokenService;
 
@@ -41,8 +47,6 @@ public class AuthorityFilter extends ZuulFilter {
 
 	@Autowired
 	private AuditMsgSender<AuditInfo> auditMsgSender;
-
-	private static Logger log = LoggerFactory.getLogger(AuthorityFilter.class);
 
 	@Override
 	public Object run() throws ZuulException {
@@ -57,12 +61,9 @@ public class AuthorityFilter extends ZuulFilter {
 		log.info("session:{}, token:{} ,send {} request to {}", session.getId(), token, req.getMethod(),
 				req.getRequestURL().toString());
 
-		AuditInfo auditInfo = new AuditInfo(0, token, req.getRequestURI(), req.getQueryString(),
-				Utils.getIPAddress(req), req.getLocalAddr(), req.getMethod(), new Date(), "");
-		try {
-			auditMsgSender.sendMessage(auditInfo);
-		} catch (Exception e) {
-			log.error("send audit msg fail:" + e.getMessage(), e);
+		// 如果启用审计则发送审计消息
+		if (auditEnabled) {
+			sendAuditMsg(req);
 		}
 
 		// 登录、登出不做验证
@@ -120,6 +121,17 @@ public class AuthorityFilter extends ZuulFilter {
 		return generateResponseBody(ctx, "1002", "权限验证失败，你没有访问" + uri + "的权限");
 	}
 
+	private void sendAuditMsg(HttpServletRequest req) {
+
+		AuditInfo auditInfo = new AuditInfo(0, req.getHeader(Constant.REQ_TOKEN_HEADER_KEY), req.getRequestURI(),
+				req.getQueryString(), Utils.getIPAddress(req), req.getLocalAddr(), req.getMethod(), new Date(), "");
+		try {
+			auditMsgSender.sendMessage(auditInfo);
+		} catch (Exception e) {
+			log.error("send audit msg fail:" + e.getMessage(), e);
+		}
+	}
+
 	private Object generateResponseBody(RequestContext ctx, String code, String msg) {
 		Map<String, Object> ret = new HashMap<>();
 		ret.put("code", code);
@@ -145,6 +157,11 @@ public class AuthorityFilter extends ZuulFilter {
 
 	@Override
 	public boolean shouldFilter() {
+		RequestContext ctx = RequestContext.getCurrentContext();
+		HttpServletRequest request = ctx.getRequest();
+		if (request.getMethod().equals("OPTIONS")) {
+			return false;
+		}
 		return true;
 	}
 

@@ -64,42 +64,60 @@ public class LoginController {
 
 		log.info("session:{}", session.getId());
 
-		if (user != null && user.getPassword().equals(password)) {
-			String token = null;
-			// 用户已经登录
-			if(tokenService.exists(user.getId())) {
-				token = tokenService.getToken(user.getId());
-			} else {
-				token = tokenService.generateToken(user.getId());
-			}
-			
-			ret.put("code", Constant.REQ_SUCCESS_CODE);
-			data.put("token", token);
-			// 屏蔽密码信息
-			user.setPassword("******");
-			data.put("user", user);
-			List<AuthInfo> authInfos = authorityService.selectByUserId(user.getId());
-			if (!authInfos.isEmpty()) {
-				AuthInfo authInfo = authInfos.get(0);
-
-				// 生成菜单栏
-				// 判断是否具有超管角色
-				if (Utils.hasSuperRole(authInfo)) {
-					data.put("menu", Utils.generateMenu(resourceService.selectAll()));
-					// 缓存设置用户具有超级管理员角色
-					tokenService.putCacheByToken(token, "superrole", "1");
-				} else {
-					data.put("menu", Utils.generateMenu(authInfo));
-				}
-
-				// 放置所有权限
-				data.put("authInfo", authInfo);
-				// 缓存登录用户权限信息
-				tokenService.putCacheByToken(token, "authinfo", authInfo);
-			}
-		} else {
+		if(user == null || !user.getPassword().equals(password)) {
 			ret.put("code", "1001");
 			ret.put("msg", "用户不存在或者密码错误");
+			return ResponseEntity.ok(ret);
+		}
+		// 用户状态不正常，锁定状态
+		if(user.getActStatus() != 1) {
+			ret.put("code", "1003");
+			ret.put("msg", "用户状态不正常（锁定）");
+			return ResponseEntity.ok(ret);
+		}
+		
+		String token = null;
+		// 用户已经登录
+		if(tokenService.exists(user.getId())) {
+			token = tokenService.getToken(user.getId());
+		} else {
+			User updateUser = new User();
+			updateUser.setId(user.getId());
+			updateUser.setActStatus(user.getActStatus());
+			updateUser.setLoginStatus(1); // 设置为登录状态
+			// 更新用户状态信息
+			int num = userService.updateByPrimaryKeySelective(updateUser, null);
+			if(num < 1) {
+				ret.put("code", "1006");
+				ret.put("msg", "登录失败，用户登录状态未更改");
+				return ResponseEntity.ok(ret);
+			}
+			token = tokenService.generateToken(user.getId());
+		}
+		
+		ret.put("code", Constant.REQ_SUCCESS_CODE);
+		data.put("token", token);
+		// 屏蔽密码信息
+		user.setPassword("******");
+		data.put("user", user);
+		List<AuthInfo> authInfos = authorityService.selectByUserId(user.getId());
+		if (!authInfos.isEmpty()) {
+			AuthInfo authInfo = authInfos.get(0);
+			
+			// 生成菜单栏
+			// 判断是否具有超管角色
+			if (Utils.hasSuperRole(authInfo)) {
+				data.put("menu", Utils.generateMenu(resourceService.selectAll()));
+				// 缓存设置用户具有超级管理员角色
+				tokenService.putCacheByToken(token, "superrole", "1");
+			} else {
+				data.put("menu", Utils.generateMenu(authInfo));
+			}
+			
+			// 放置所有权限
+			data.put("authInfo", authInfo);
+			// 缓存登录用户权限信息
+			tokenService.putCacheByToken(token, "authinfo", authInfo);
 		}
 
 		ret.put("data", data);
@@ -116,8 +134,15 @@ public class LoginController {
 
 		// 如果token存在则移除
 		if (tokenService.validateToken(token)) {
-			tokenService.removeToken(token);
-			ret.put("code", Constant.REQ_SUCCESS_CODE);
+			int userId = Integer.valueOf(token.trim().split("#")[1]);
+			int num = userService.logout(userId);
+			if(num > 0) {
+				ret.put("code", Constant.REQ_SUCCESS_CODE);
+				tokenService.removeToken(token);
+			} else {
+				ret.put("code", "1005");
+				ret.put("msg", "登出失败，用户状态未更改");
+			}
 		} else {
 			ret.put("code", "1002");
 			ret.put("msg", "请求token不存在，token：" + token);

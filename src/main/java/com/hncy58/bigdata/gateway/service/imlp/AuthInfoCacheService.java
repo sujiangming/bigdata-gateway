@@ -14,8 +14,8 @@ public class AuthInfoCacheService extends AbstractCacheService<Object> {
 	@Value("${cache.user.key:-1}")
 	protected long cacheExpire;
 
-	@Value("${redis.pubsub.patterntopic:pubsub}")
-	private String patternTopic;
+	@Value("${redis.pubsub.auth_topic.name:auth_topic}")
+	private String topic;
 	
 	@Override
 	protected String getCacheKey() {
@@ -28,6 +28,6 @@ public class AuthInfoCacheService extends AbstractCacheService<Object> {
 	}
 	
 	public void sendMsg(Object msg) {
-		sendChannelMess(patternTopic, msg);
+		sendChannelMess(topic, msg);
 	}
 }

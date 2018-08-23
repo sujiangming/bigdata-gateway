@@ -1,4 +1,4 @@
-package com.hncy58.bigdata.gateway.model;
+package com.hncy58.bigdata.gateway.domain;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,7 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @version 1.0
  * @date 2018年8月22日 下午4:34:32
  */
-public class AuditInfo implements Serializable {
+public class AuditDomain implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,11 +29,16 @@ public class AuditInfo implements Serializable {
 	private Date oprTime;
 	private String mark;
 
-	public AuditInfo() {
+	/** 排序字段 **/
+	private String sortField;
+	/** 排序类型(asc/desc) **/
+	private String sortType;
+
+	public AuditDomain() {
 		super();
 	}
 
-	public AuditInfo(int id, String token, String reqUrl, String queryStr, String rmtIpAddr, String localIpAddr,
+	public AuditDomain(int id, String token, String reqUrl, String queryStr, String rmtIpAddr, String localIpAddr,
 			String reqMethod, Date oprTime, String mark) {
 		super();
 		this.id = id;
@@ -45,6 +50,22 @@ public class AuditInfo implements Serializable {
 		this.reqMethod = reqMethod;
 		this.oprTime = oprTime;
 		this.mark = mark;
+	}
+
+	public String getSortField() {
+		return sortField;
+	}
+
+	public void setSortField(String sortField) {
+		this.sortField = sortField;
+	}
+
+	public String getSortType() {
+		return sortType;
+	}
+
+	public void setSortType(String sortType) {
+		this.sortType = sortType;
 	}
 
 	public String getQueryStr() {

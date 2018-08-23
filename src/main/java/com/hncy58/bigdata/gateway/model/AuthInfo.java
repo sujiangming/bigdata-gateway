@@ -16,7 +16,7 @@ public class AuthInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int userId;
-	private int userCode;
+	private String userCode;
 	private List<RoleInfo> roles;
 
 	public int getUserId() {
@@ -27,11 +27,11 @@ public class AuthInfo implements Serializable {
 		this.userId = userId;
 	}
 
-	public int getUserCode() {
+	public String getUserCode() {
 		return userCode;
 	}
 
-	public void setUserCode(int userCode) {
+	public void setUserCode(String userCode) {
 		this.userCode = userCode;
 	}
 

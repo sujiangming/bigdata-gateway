@@ -22,6 +22,8 @@ public interface UserService {
 	int insert(User user);
 
 	int updateByPrimaryKeySelective(User user, List<String> allRoleIds);
+	
+	int updateByToken(User user);
 
 	User selectByUserCode(String userCode);
 
@@ -30,5 +32,7 @@ public interface UserService {
 	int unLinkRole(String userId, List<String> roleIds) throws RestfulJsonException;
 
 	List<User> selectUserByRes(List<String> resIds);
+
+	int logout(int userId);
 	
 }

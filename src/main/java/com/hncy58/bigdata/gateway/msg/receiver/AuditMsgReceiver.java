@@ -25,8 +25,8 @@ public class AuditMsgReceiver implements MsgReceiver<String> {
 
 	Logger log = LoggerFactory.getLogger(AuditMsgReceiver.class);
 
-	@Value("${redis.pubsub.audit:audit_topic}")
-	private String patternTopic;
+	@Value("${redis.pubsub.audit_topic.name:audit_topic}")
+	private String auditTopic;
 
 	@Autowired
 	@Qualifier("auditMsgHandler")

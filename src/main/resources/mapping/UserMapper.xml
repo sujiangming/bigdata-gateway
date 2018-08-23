@@ -34,7 +34,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from sys_user
-		where user_code = #{userCode}
+		where user_code = #{userCode, jdbcType=VARCHAR}
 	</select>
 	<select id="selectAll" resultMap="BaseResultMap">
 		select
@@ -142,6 +142,35 @@
 				update_time = now()
 		</set>
 		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByToken" parameterType="com.hncy58.bigdata.gateway.model.User">
+		update sys_user
+		<set>
+			<if test="userName != null">
+				user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="mark != null">
+				mark = #{mark,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="mobilePhone != null">
+				mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+			</if>
+			<if test="position != null">
+				position = #{position,jdbcType=VARCHAR},
+			</if>
+				update_time = now()
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="logout">
+		update sys_user set login_status = 0, update_time = now()
+		where id = #{userId,jdbcType=INTEGER}
 	</update>
 	
 	<insert id="linkRoles">

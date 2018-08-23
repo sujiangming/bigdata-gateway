@@ -169,4 +169,14 @@ public class UserServiceImpl implements UserService {
 		return userMapper.selectUserByRes(resIds);
 	}
 
+	@Override
+	public int updateByToken(User user) {
+		return userMapper.updateByToken(user);
+	}
+
+	@Override
+	public int logout(int userId) {
+		return userMapper.logout(userId);
+	}
+
 }
