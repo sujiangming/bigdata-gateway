@@ -14,19 +14,17 @@ public class MenuInfoComparator implements Comparator<MenuInfo> {
 		if (m1 == null || m2 == null)
 			return ret;
 
-		ret = m1.getpResCode().compareTo(m2.getpResCode());
 		// same parent res
-		if (ret == 0) {
+		if (m1.getPid() == m2.getPid()) {
 			// 相同parent则按照排名排序
 			ret = m1.getRank() - m2.getRank();
 			// 如果排名相同则按照资源编码排序
 			if (ret == 0) {
-				ret = m1.getResCode().compareTo(m2.getResCode());
+				ret = m1.getResName().compareTo(m2.getResName());
 			}
 		} else {
 			// 如果不是同一个父资源，则按照编码进行排序
-			// ret = res1.getResCode().length() - res2.getResCode().length();
-			ret = m1.getResCode().compareTo(m2.getResCode());
+			ret = m1.getPid() - m2.getPid();
 		}
 
 		return ret;

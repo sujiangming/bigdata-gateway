@@ -79,7 +79,10 @@ public class LoginController {
 		String token = null;
 		// 用户已经登录
 		if(tokenService.exists(user.getId())) {
-			token = tokenService.getToken(user.getId());
+			ret.put("code", "1007");
+			ret.put("msg", "用户已经登录，请先登出再尝试登录");
+			return ResponseEntity.ok(ret);
+//			token = tokenService.getToken(user.getId());
 		} else {
 			User updateUser = new User();
 			updateUser.setId(user.getId());

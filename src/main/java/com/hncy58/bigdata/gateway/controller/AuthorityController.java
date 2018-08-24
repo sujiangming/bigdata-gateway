@@ -1,5 +1,6 @@
 package com.hncy58.bigdata.gateway.controller;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -173,9 +174,14 @@ public class AuthorityController {
 	 * @return
 	 */
 	@RequestMapping(value = "/menu/getAll", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> getAllMenu(HttpServletRequest req) {
+	public ResponseEntity<Map<String, Object>> getAllMenu(HttpServletRequest req, String resTypes) {
 		Map<String, Object> ret = new HashMap<>();
-		ret.put("data", Utils.generateMenu(resourceService.selectAll()));
+		if (StringUtils.isEmpty(resTypes)) {
+			ret.put("data", Utils.generateMenu(resourceService.selectAll()));
+		} else {
+			ret.put("data",
+					Utils.generateMenu(resourceService.selectAllByType(Arrays.asList(resTypes.trim().split(",")))));
+		}
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
 		return ResponseEntity.ok(ret);
 	}

@@ -22,10 +22,9 @@ public interface ResourceMapper {
 	@Select("select * from sys_res where id=#{id}")
 	@Results(id="all_cols", value={
 		@Result(column="id", property="id")
+		,@Result(column="pid", property="pid")
 		,@Result(column="res_type", property="resType")
 		,@Result(column="res_name", property="resName")
-		,@Result(column="res_code", property="resCode")
-		,@Result(column="p_res_code", property="pResCode")
 		,@Result(column="res_uri", property="resUri")
 		,@Result(column="rank", property="rank")
 		,@Result(column="mark", property="mark")
@@ -39,15 +38,24 @@ public interface ResourceMapper {
 	@ResultMap("all_cols")
 	List<Resource> selectAll();
 	
+	@Select("<script>"
+			+ "select * from sys_res where res_type in "
+			+ " <foreach collection='resTypes' item='resType' index='index' open='(' close=')' separator=','> "
+			+ "  #{resType, jdbcType=INTEGER} "
+			+ " </foreach>"
+			+ "</script>")
+	@ResultMap("all_cols")
+	List<Resource> selectAllByType(@Param("resTypes") List<String> resTypes);
+	
 	@Delete("delete from sys_res where id = #{id}")
 	int deleteByPrimaryKey(int id);
 	
-	@Insert("insert into sys_res (id, res_code, p_res_code, res_type, res_name, res_uri, rank, mark, res_icon, create_time, update_time) "
-			+ " values (#{id}, #{resCode}, #{pResCode}, #{resType}, #{resName}, #{resUri}, #{rank}, #{mark}, #{resIcon}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})")
+	@Insert("insert into sys_res (id, pid, res_type, res_name, res_uri, rank, mark, res_icon, create_time, update_time) "
+			+ " values (#{id}, #{pid}, #{resType}, #{resName}, #{resUri}, #{rank}, #{mark}, #{resIcon}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	int insert(Resource res);
 	
-	@Update("UPDATE bigdata.sys_res SET p_res_code = #{pResCode}, res_type = #{resType}, res_name = #{resName}, res_uri = #{resUri}"
+	@Update("UPDATE sys_res SET pid = #{pid}, res_type = #{resType}, res_name = #{resName}, res_uri = #{resUri}"
 			+ ", rank = #{rank}, update_time = now(), mark = #{mark}, res_icon = #{resIcon} WHERE id = #{id}")
 	int updateByPrimaryKey(Resource res);
 
@@ -81,11 +89,8 @@ public interface ResourceMapper {
 			+ "	<if test=\"resName != null and resName != ''\"> "
 			+ "		res_name like '%${resName}%' "
 			+ "	</if> "
-			+ "	<if test=\"pResCode != null and pResCode != ''\"> "
-			+ "		and p_res_code = #{pResCode} "
-			+ "	</if> "
-			+ "	<if test=\"resCode != null and resCode != ''\"> "
-			+ "		and res_code = #{resCode} "
+			+ "	<if test=\"pid != null and pid > -1\"> "
+			+ "		and pid = #{pid} "
 			+ "	</if> "
 			+ "	<if test=\"mark != null and mark != ''\"> "
 			+ "		and mark like '%${mark}%' "

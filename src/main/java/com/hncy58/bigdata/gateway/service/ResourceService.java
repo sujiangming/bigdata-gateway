@@ -10,6 +10,8 @@ public interface ResourceService {
 
 	Resource selectByPrimaryKey(int id);
 
+	List<Resource> selectAllByType(List<String> resTypes);
+	
 	List<Resource> selectAll();
 
 	List<Resource> selectAll(int pageNo, int pageSize);

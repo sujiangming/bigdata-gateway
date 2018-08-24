@@ -10,10 +10,9 @@ public class ResourceDomain implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
+	private int pid;
 	private String resType;
 	private String resName;
-	private String pResCode;
-	private String resCode;
 	private String resUri;
 	private int rank;
 	private String mark;
@@ -31,17 +30,25 @@ public class ResourceDomain implements Serializable {
 	public ResourceDomain() {
 	}
 
-	public ResourceDomain(int id, String resType, String resName, String pResCode, String resCode, String resUri,
-			int rank, String resIcon) {
+	public ResourceDomain(int id, int pid, String resType, String resName, String resUri, int rank, String resIcon,
+			String mark) {
 		super();
 		this.id = id;
+		this.pid = pid;
 		this.resType = resType;
 		this.resName = resName;
-		this.pResCode = pResCode;
-		this.resCode = resCode;
 		this.resUri = resUri;
 		this.rank = rank;
 		this.resIcon = resIcon;
+		this.mark = mark;
+	}
+
+	public int getPid() {
+		return pid;
+	}
+
+	public void setPid(int pid) {
+		this.pid = pid;
 	}
 
 	public String getSortField() {
@@ -92,14 +99,6 @@ public class ResourceDomain implements Serializable {
 		this.resName = resName;
 	}
 
-	public String getResCode() {
-		return resCode;
-	}
-
-	public void setResCode(String resCode) {
-		this.resCode = resCode;
-	}
-
 	public String getMark() {
 		return mark;
 	}
@@ -124,14 +123,6 @@ public class ResourceDomain implements Serializable {
 		this.updateTime = updateTime;
 	}
 
-	public String getpResCode() {
-		return pResCode;
-	}
-
-	public void setpResCode(String pResCode) {
-		this.pResCode = pResCode;
-	}
-
 	public String getResUri() {
 		return resUri;
 	}
@@ -150,8 +141,8 @@ public class ResourceDomain implements Serializable {
 
 	@Override
 	public String toString() {
-		return this.getId() + ":" + this.getResName() + ":" + this.getResType() + ":" + this.getResCode() + ":"
-				+ this.getpResCode() + ":" + this.getRank() + ":" + this.getResUri();
+		return this.getId() + ":" + this.getPid() + ":" + this.getResName() + ":" + this.getResType() + ":"
+				+ this.getRank() + ":" + this.getResUri() + ":" + this.getMark();
 	}
 
 }

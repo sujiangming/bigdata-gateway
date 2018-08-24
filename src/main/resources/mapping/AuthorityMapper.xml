@@ -11,10 +11,9 @@
 			<collection property="resources"
 				ofType="com.hncy58.bigdata.gateway.model.Resource">
 				<id property="id" column="resId" />
+				<id property="pid" column="resPid" />
 				<result property="resType" column="resType" />
 				<result property="resName" column="resName" />
-				<result property="pResCode" column="pResCode" />
-				<result property="resCode" column="resCode" />
 				<result property="resUri" column="resUri" />
 				<result property="rank" column="rank" />
 				<result property="mark" column="mark" />
@@ -29,8 +28,8 @@
 		select u.id userId, u.user_code userCode
 			,ur.role_id roleId
 			,rr.res_id resId
-			,r.res_type resType ,r.res_name resName,r.res_uri resUri,r.p_res_code pResCode, r.rank
-			,r.res_code resCode ,r.mark ,r.create_time createTime ,r.update_time updateTime
+			,r.res_type resType ,r.res_name resName,r.res_uri resUri,r.pid resPid, r.rank
+			,r.mark ,r.create_time createTime ,r.update_time updateTime
 		from
 			sys_user u
 			left join sys_user_role ur on u.id = ur.user_id
@@ -44,8 +43,8 @@
 		select u.id userId, u.user_code userCode
 			,ur.role_id roleId
 			,rr.res_id resId
-			,r.res_type resType ,r.res_name resName,r.res_uri resUri,r.p_res_code pResCode, r.rank
-			,r.res_code resCode ,r.mark ,r.create_time createTime ,r.update_time updateTime
+			,r.res_type resType ,r.res_name resName,r.res_uri resUri,r.pid resPid, r.rank
+			,r.mark ,r.create_time createTime ,r.update_time updateTime
 		from
 			sys_user u
 			left join sys_user_role ur on u.id = ur.user_id

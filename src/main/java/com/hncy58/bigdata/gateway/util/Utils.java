@@ -8,7 +8,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -39,13 +38,13 @@ public class Utils {
 		return auth.getRoles().stream().filter(role -> role.getRoleId() == Constant.ADMIN_ROLE_ID).count() > 0;
 	}
 
-	private static List<MenuInfo> treeMenuList(List<MenuInfo> menuList, String parentCode) {
+	private static List<MenuInfo> treeMenuList(List<MenuInfo> menuList, int parentCode) {
 		List<MenuInfo> menus = new ArrayList<>();
 		for (MenuInfo menu : menuList) {
-			String code = menu.getResCode();
-			String pCode = menu.getpResCode();
-			if (parentCode.equals(pCode)) {
-				List<MenuInfo> childMenus = treeMenuList(menuList, code);
+			int id = menu.getId();
+			int pid = menu.getPid();
+			if (parentCode == pid) {
+				List<MenuInfo> childMenus = treeMenuList(menuList, id);
 				menu.setSubMenus(childMenus);
 				menus.add(menu);
 			}
@@ -81,29 +80,23 @@ public class Utils {
 		MenuInfo root = null;
 		boolean findRoot = false;
 		List<MenuInfo> menus = new ArrayList<>();
-		List<Resource> rootReses = new ArrayList<>();
+		List<MenuInfo> rootMenus = new ArrayList<>();
 
-		for (Resource res : reses) {
-			menus.add(MenuInfo.resourceToMenu(res));
-			if (StringUtils.isEmpty(res.getResCode()))
+		reses.forEach(res -> menus.add(MenuInfo.resourceToMenu(res)));
+		sortMenus(menus);
+
+		for (MenuInfo menu : menus) {
+			if (menu.getId() < 1)
 				continue;
-			if (res.getResCode().equals(Constant.RES_ROOT_CODE)) {
-				root = MenuInfo.resourceToMenu(res);
+			if (menu.getId() == Constant.RES_ROOT_ID) {
+				root = menu;
 				findRoot = true;
 			} else if (root == null) {
-				root = MenuInfo.resourceToMenu(res);
-				rootReses.add(res);
+				root = menu;
+				rootMenus.add(menu);
 			} else if (!findRoot) {
-				int rootCodeLen = root.getResCode().length();
-				int resCodeLen = res.getResCode().length();
-				if (rootCodeLen > resCodeLen) {
-					root = MenuInfo.resourceToMenu(res);
-					// 替换root节点之后，root节点集合需要重新初始化
-					rootReses = new ArrayList<>();
-					rootReses.add(res);
-				} else if (rootCodeLen == resCodeLen) {
-					// 如果相等曾增加一个root节点
-					rootReses.add(res);
+				if (root.getPid() == menu.getPid()) {
+					rootMenus.add(menu);
 				}
 			}
 		}
@@ -112,12 +105,11 @@ public class Utils {
 			return Collections.emptyList();
 
 		if (findRoot)
-			return treeMenuList(menus, root.getResCode());
+			return treeMenuList(menus, root.getId());
 
 		List<MenuInfo> retMenues = new ArrayList<>();
-		rootReses.forEach(res -> {
-			MenuInfo menu = MenuInfo.resourceToMenu(res);
-			menu.setSubMenus(treeMenuList(menus, menu.getResCode()));
+		rootMenus.forEach(menu -> {
+			menu.setSubMenus(treeMenuList(menus, menu.getId()));
 			retMenues.add(menu);
 		});
 

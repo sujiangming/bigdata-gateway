@@ -29,8 +29,8 @@ public class ResourceServiceImpl implements ResourceService {
 	}
 
 	@Override
-	public List<Resource> selectAll() {
-		return resourceMapper.selectAll();
+	public List<Resource> selectAllByType(List<String> resTypes) {
+		return resourceMapper.selectAllByType(resTypes);
 	}
 
 	@Override
@@ -88,6 +88,11 @@ public class ResourceServiceImpl implements ResourceService {
 			resourceMapper.unlinkRole(ids);
 		}
 		return num;
+	}
+
+	@Override
+	public List<Resource> selectAll() {
+		return resourceMapper.selectAll();
 	}
 
 }

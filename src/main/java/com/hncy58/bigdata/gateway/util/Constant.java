@@ -20,9 +20,9 @@ public class Constant {
 	 */
 	public static final String MENU_RES_TYPE = "1";
 	/**
-	 * 资源根节点编码
+	 * 资源根节点ID
 	 */
-	public static final String RES_ROOT_CODE = "01";
+	public static final int RES_ROOT_ID = 1;
 	
 	/**
 	 * 请求成功响应码

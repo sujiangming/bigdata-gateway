@@ -14,10 +14,10 @@ public class MenuInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
-	private String resCode;
+	private int pid;
 	private String resName;
-	private String pResCode;
 	private String resUri;
+	private int resType;
 	private int rank;
 	private String mark;
 	private String resIcon;
@@ -33,13 +33,13 @@ public class MenuInfo implements Serializable {
 		super();
 	}
 
-	public MenuInfo(int id, String resCode, String resName, String pResCode, String resUri, int rank, String mark,
-			String resIcon, Date createTime, Date updateTime, List<MenuInfo> subMenus) {
+	public MenuInfo(int id, int pid, String resName, int resType, String resUri, int rank, String mark, String resIcon,
+			Date createTime, Date updateTime, List<MenuInfo> subMenus) {
 		super();
 		this.id = id;
-		this.resCode = resCode;
+		this.pid = pid;
 		this.resName = resName;
-		this.pResCode = pResCode;
+		this.resType = resType;
 		this.resUri = resUri;
 		this.rank = rank;
 		this.mark = mark;
@@ -47,6 +47,22 @@ public class MenuInfo implements Serializable {
 		this.updateTime = updateTime;
 		this.createTime = createTime;
 		this.subMenus = subMenus;
+	}
+
+	public int getResType() {
+		return resType;
+	}
+
+	public void setResType(int resType) {
+		this.resType = resType;
+	}
+
+	public int getPid() {
+		return pid;
+	}
+
+	public void setPid(int pid) {
+		this.pid = pid;
 	}
 
 	public Date getCreateTime() {
@@ -81,28 +97,12 @@ public class MenuInfo implements Serializable {
 		this.id = id;
 	}
 
-	public String getResCode() {
-		return resCode;
-	}
-
-	public void setResCode(String resCode) {
-		this.resCode = resCode;
-	}
-
 	public String getResName() {
 		return resName;
 	}
 
 	public void setResName(String resName) {
 		this.resName = resName;
-	}
-
-	public String getpResCode() {
-		return pResCode;
-	}
-
-	public void setpResCode(String pResCode) {
-		this.pResCode = pResCode;
 	}
 
 	public String getResUri() {
@@ -138,14 +138,8 @@ public class MenuInfo implements Serializable {
 	}
 
 	public static MenuInfo resourceToMenu(Resource res) {
-		return new MenuInfo(res.getId(), res.getResCode(), res.getResName(), res.getpResCode(), res.getResUri(),
-				res.getRank(), res.getMark(), res.getResIcon(), res.getCreateTime(), res.getUpdateTime(), new ArrayList<>());
+		return new MenuInfo(res.getId(), res.getPid(), res.getResName(), res.getResType(), res.getResUri(),
+				res.getRank(), res.getMark(), res.getResIcon(), res.getCreateTime(), res.getUpdateTime(),
+				new ArrayList<>());
 	}
-
-	@Override
-	public String toString() {
-		return "{code:" + this.getResCode() + ", pCode:" + this.getpResCode() + ", rank:" + this.getRank()
-				+ ", subMenus:" + this.getSubMenus() + "}";
-	}
-
 }

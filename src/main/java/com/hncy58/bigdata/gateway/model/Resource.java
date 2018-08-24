@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 资源信息
+ * 
  * @author tdz
  * @company hncy58 长银五八
  * @website http://www.hncy58.com
@@ -18,10 +19,9 @@ public class Resource implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
+	private int pid;
 	private int resType = 1;
 	private String resName;
-	private String pResCode;
-	private String resCode;
 	private String resUri;
 	private int rank;
 	private String mark;
@@ -34,17 +34,25 @@ public class Resource implements Serializable {
 	public Resource() {
 	}
 
-	public Resource(int id, int resType, String resName, String pResCode, String resCode, String resUri, int rank,
-			String resIcon) {
+	public Resource(int id, int pid, int resType, String resName, String resUri, int rank, String resIcon,
+			String mark) {
 		super();
 		this.id = id;
+		this.pid = pid;
 		this.resType = resType;
 		this.resName = resName;
-		this.pResCode = pResCode;
-		this.resCode = resCode;
 		this.resUri = resUri;
 		this.rank = rank;
 		this.resIcon = resIcon;
+		this.mark = mark;
+	}
+
+	public int getPid() {
+		return pid;
+	}
+
+	public void setPid(int pid) {
+		this.pid = pid;
 	}
 
 	public String getResIcon() {
@@ -79,14 +87,6 @@ public class Resource implements Serializable {
 		this.resName = resName;
 	}
 
-	public String getResCode() {
-		return resCode;
-	}
-
-	public void setResCode(String resCode) {
-		this.resCode = resCode;
-	}
-
 	public String getMark() {
 		return mark;
 	}
@@ -111,14 +111,6 @@ public class Resource implements Serializable {
 		this.updateTime = updateTime;
 	}
 
-	public String getpResCode() {
-		return pResCode;
-	}
-
-	public void setpResCode(String pResCode) {
-		this.pResCode = pResCode;
-	}
-
 	public String getResUri() {
 		return resUri;
 	}
@@ -137,8 +129,8 @@ public class Resource implements Serializable {
 
 	@Override
 	public String toString() {
-		return this.getId() + ":" + this.getResName() + ":" + this.getResType() + ":" + this.getResCode() + ":"
-				+ this.getpResCode() + ":" + this.getRank() + ":" + this.getResUri();
+		return this.getId() + ":" + this.getPid() + ":" + this.getResName() + ":" + this.getResType() + ":"
+				+ this.getRank() + ":" + this.getResUri() + ":" + this.getMark();
 	}
 
 }
