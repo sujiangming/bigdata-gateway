@@ -77,12 +77,10 @@ public class LoginController {
 		}
 		
 		String token = null;
-		// 用户已经登录
+		// 用户已经登录，则强制清除缓存，然后再重新生成token和缓存数据
 		if(tokenService.exists(user.getId())) {
-			ret.put("code", "1007");
-			ret.put("msg", "用户已经登录，请先登出再尝试登录");
-			return ResponseEntity.ok(ret);
-//			token = tokenService.getToken(user.getId());
+			token = tokenService.getToken(user.getId());
+			tokenService.removeToken(token);
 		} else {
 			User updateUser = new User();
 			updateUser.setId(user.getId());
@@ -95,8 +93,9 @@ public class LoginController {
 				ret.put("msg", "登录失败，用户登录状态未更改");
 				return ResponseEntity.ok(ret);
 			}
-			token = tokenService.generateToken(user.getId());
 		}
+
+		token = tokenService.generateToken(user.getId());
 		
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
 		data.put("token", token);
