@@ -81,7 +81,7 @@ public interface RoleMapper {
 			+ " from sys_role r left join sys_user_role ur on r.id=ur.role_id where ur.user_id = #{userId}")
 	List<Role> getRoleByUserId(String userId);
 
-	@Select("SELECT res.id,res.res_code resCode,res.p_res_code pResCode,res.res_type resType,res.res_name resName"
+	@Select("SELECT res.id,res.pid,res.res_type resType,res.res_name resName"
 			+ ",res.res_uri resUri,res.rank,res.mark,res.create_time createTime,res.update_time updateTime "
 			+ " FROM sys_role_res rr "
 			+ " LEFT JOIN sys_role role ON rr.role_id = role.id "
