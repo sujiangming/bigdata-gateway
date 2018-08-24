@@ -10,7 +10,7 @@ public class ResourceDomain implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
-	private int pid;
+	private int pid = -1;
 	private String resType;
 	private String resName;
 	private String resUri;

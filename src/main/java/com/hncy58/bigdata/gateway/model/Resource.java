@@ -19,7 +19,7 @@ public class Resource implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
-	private int pid;
+	private int pid = -1;
 	private int resType = 1;
 	private String resName;
 	private String resUri;
