@@ -98,7 +98,7 @@ public interface ResourceMapper {
 			+ "	<if test=\"resName != null and resName != ''\"> "
 			+ "		res_name like '%${resName}%' "
 			+ "	</if> "
-			+ "	<if test=\"pid != null and pid > -1\"> "
+			+ "	<if test=\"pid != null and pid > -2\"> "
 			+ "		and pid = #{pid} "
 			+ "	</if> "
 			+ "	<if test=\"mark != null and mark != ''\"> "
