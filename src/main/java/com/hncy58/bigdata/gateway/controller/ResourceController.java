@@ -1,5 +1,6 @@
 package com.hncy58.bigdata.gateway.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.util.StringUtil;
 import com.hncy58.bigdata.gateway.domain.AuthChangeMsg;
 import com.hncy58.bigdata.gateway.domain.ResourceDomain;
 import com.hncy58.bigdata.gateway.model.Resource;
@@ -121,6 +123,14 @@ public class ResourceController {
 			int num = resourceService.insert(res);
 			if (num > 0) {
 				ret.put("code", Constant.REQ_SUCCESS_CODE);
+				// 如果父资源不为空，则需要更新带有次父资源角色的用户的权限缓存，通过发送异步消息来实现缓存更新
+				if (res.getPid() > -1) {
+					// 发送权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
+					AuthChangeMsg msg = new AuthChangeMsg("res", "add",
+							Arrays.asList(res.getPid() + "", res.getId() + ""));
+					authInfoCacheService.sendMsg(msg);
+					log.info("pRes:{} link res:{}, send res add msg", res.getPid(), res.getId());
+				}
 			} else {
 				ret.put("code", "4001");
 				ret.put("msg", "添加资源失败");
@@ -137,6 +147,56 @@ public class ResourceController {
 		ret.put("data", res);
 		return ret;
 
+	}
+
+	@RequestMapping(value = "/unlinkParentRes", method = RequestMethod.PUT)
+	public Map<String, Object> unlinkParentRes(String pResId, String resIds) {
+		Map<String, Object> ret = new HashMap<>();
+		Map<String, Object> data = new HashMap<>();
+		List<String> resList = new ArrayList<>();
+
+		if (!StringUtil.isEmpty(resIds.trim())) {
+			resList = Arrays.asList(resIds.trim().split(","));
+		}
+
+		int num = resourceService.unlinkParentRes(pResId, resList);
+
+		if (num > 0) {
+			// 发送权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
+			AuthChangeMsg msg = new AuthChangeMsg("res", "unlinkPRes", Arrays.asList(pResId, resIds));
+			authInfoCacheService.sendMsg(msg);
+			log.info("pRes:{} link reses:{}, send res link info change msg", pResId, resIds);
+		}
+
+		data.put("num", num);
+		ret.put("code", Constant.REQ_SUCCESS_CODE);
+		ret.put("data", data);
+		return ret;
+	}
+
+	@RequestMapping(value = "/linkParentRes", method = RequestMethod.PUT)
+	public Map<String, Object> linkParentRes(String pResId, String resIds) {
+		Map<String, Object> ret = new HashMap<>();
+		Map<String, Object> data = new HashMap<>();
+		List<String> resList = new ArrayList<>();
+
+		if (!StringUtil.isEmpty(resIds.trim())) {
+			resList = Arrays.asList(resIds.trim().split(","));
+		}
+
+		int num = resourceService.linkParentRes(pResId, resList);
+
+		if (num > 0) {
+			// 发送权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
+			AuthChangeMsg msg = new AuthChangeMsg("res", "linkPRes", Arrays.asList(pResId, resIds));
+			authInfoCacheService.sendMsg(msg);
+			log.info("pRes:{} link reses:{}, send res link info change msg", pResId, resIds);
+		}
+
+		data.put("num", num);
+		ret.put("code", Constant.REQ_SUCCESS_CODE);
+		ret.put("data", data);
+		return ret;
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)

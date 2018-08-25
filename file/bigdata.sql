@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2018-08-24 18:05:06
+Date: 2018-08-25 12:09:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -49,7 +49,7 @@ DROP TABLE IF EXISTS `sys_res`;
 CREATE TABLE `sys_res` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) DEFAULT NULL,
-  `res_type` int(11) NOT NULL DEFAULT '1' COMMENT '资源类型：0：根节点，1：菜单，2：URI接口，3：按钮',
+  `res_type` int(11) NOT NULL DEFAULT '1' COMMENT '资源类型：0：根节点，1：菜单，2: 虚拟菜单，3：接口',
   `res_name` varchar(255) NOT NULL,
   `res_uri` varchar(255) DEFAULT NULL,
   `rank` int(11) NOT NULL DEFAULT '1' COMMENT '资源排序优先级，越低优先级越高',
@@ -58,7 +58,7 @@ CREATE TABLE `sys_res` (
   `mark` varchar(255) DEFAULT NULL,
   `res_icon` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_res
@@ -91,11 +91,14 @@ INSERT INTO `sys_res` VALUES ('25', '14', '1', 'HR报表', 'table', '1', '2018-0
 INSERT INTO `sys_res` VALUES ('26', '5', '1', '用户管理', 'user', '1', '2018-08-23 18:25:35', '2018-08-24 09:37:38', '用户资源管理 ', 'peoples');
 INSERT INTO `sys_res` VALUES ('27', '5', '1', '角色管理', 'role', '2', '2018-08-23 15:29:25', '2018-08-24 09:37:38', '角色管理', 'people');
 INSERT INTO `sys_res` VALUES ('28', '5', '1', '菜单管理', 'menu', '3', '2018-08-23 15:28:53', '2018-08-24 09:37:38', '菜单资源权限管理', 'list');
-INSERT INTO `sys_res` VALUES ('44', '5', '2', '接口管理', 'interface', '4', '2018-08-23 19:24:16', '2018-08-24 10:37:19', '接口资源管理', 'icon');
+INSERT INTO `sys_res` VALUES ('44', '5', '1', '接口管理', 'interface', '4', '2018-08-23 19:24:16', '2018-08-25 10:03:48', '接口资源管理', 'icon');
 INSERT INTO `sys_res` VALUES ('45', '5', '1', '审计管理', 'audit', '5', '2018-08-23 19:24:59', '2018-08-24 16:27:59', '审计查看 ', 'edit');
 INSERT INTO `sys_res` VALUES ('49', '-1', '3', '风控系统接口1', 'www.baidu.com', '0', '2018-08-24 11:43:35', '2018-08-24 12:42:29', '风控接口菜单1', null);
-INSERT INTO `sys_res` VALUES ('51', '-1', '3', '风控接口2', 'www.sohu.com', '0', '2018-08-24 12:42:54', '2018-08-24 16:25:28', '测试', null);
-INSERT INTO `sys_res` VALUES ('52', '-1', '3', 'test', 'test', '0', '2018-08-24 15:55:39', '2018-08-24 15:55:39', '1212', null);
+INSERT INTO `sys_res` VALUES ('51', '-1', '3', '风控接口2', 'www.sohu.com', '0', '2018-08-24 12:42:54', '2018-08-25 11:50:47', '测试', null);
+INSERT INTO `sys_res` VALUES ('52', '-1', '3', 'test', 'test', '0', '2018-08-24 15:55:39', '2018-08-25 11:50:47', '1212', null);
+INSERT INTO `sys_res` VALUES ('55', '-1', '3', '测试', '测试', '0', '2018-08-25 11:15:57', '2018-08-25 12:09:44', '测', null);
+INSERT INTO `sys_res` VALUES ('56', '-1', '3', 'tdz_test', '/local/api/role/linkRes', '1', null, '2018-08-25 12:09:44', null, null);
+INSERT INTO `sys_res` VALUES ('57', '1', '1', '测试', '测试', '100', '2018-08-25 12:02:01', '2018-08-25 12:02:01', '测试', '');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -135,21 +138,11 @@ CREATE TABLE `sys_role_res` (
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_uni_role_res` (`role_id`,`res_id`) USING BTREE COMMENT '用户角色关联关系唯一索引'
-) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_role_res
 -- ----------------------------
-INSERT INTO `sys_role_res` VALUES ('93', '2', '2', null, null, null);
-INSERT INTO `sys_role_res` VALUES ('95', '2', '4', null, null, null);
-INSERT INTO `sys_role_res` VALUES ('105', '2', '6', null, null, null);
-INSERT INTO `sys_role_res` VALUES ('106', '2', '8', null, null, null);
-INSERT INTO `sys_role_res` VALUES ('107', '2', '11', null, null, null);
-INSERT INTO `sys_role_res` VALUES ('108', '2', '15', null, null, null);
-INSERT INTO `sys_role_res` VALUES ('110', '2', '16', null, null, null);
-INSERT INTO `sys_role_res` VALUES ('111', '2', '17', null, null, null);
-INSERT INTO `sys_role_res` VALUES ('112', '2', '18', null, null, null);
-INSERT INTO `sys_role_res` VALUES ('113', '2', '12', null, null, null);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -219,19 +212,29 @@ CREATE TABLE `sys_user_opr_log` (
   `opr_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `mark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9105 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9696 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_user_opr_log
 -- ----------------------------
-INSERT INTO `sys_user_opr_log` VALUES ('9097', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-24 18:04:50', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9098', 'token#1#5937033252864', '1', '/local/api/role/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc&sort=%2Bid', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-24 18:04:50', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9099', 'token#1#5937033252864', '1', '/local/api/role/getResourceByRoleId', 'roleId=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-24 18:04:50', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9100', 'token#1#5937033252864', '1', '/local/api/res/select', 'pageNo=1&pageSize=1&resType=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-24 18:04:51', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9101', 'token#1#5937033252864', '1', '/local/api/res/select', 'pageNo=2&pageSize=1&resType=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-24 18:04:57', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9102', 'token#1#5937033252864', '1', '/local/api/res/select', 'pageNo=3&pageSize=1&resType=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-24 18:04:59', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9103', 'token#27#6468669673472', '27', '/local/api/user/getByToken', null, '162.16.109.110', '162.16.109.102', 'GET', '2018-08-24 18:05:03', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9104', 'token#27#6468669673472', '27', '/backbond/api/v1/common/dict/getDict', null, '162.16.109.110', '162.16.109.102', 'POST', '2018-08-24 18:05:03', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9678', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:07:26', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9679', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:07:26', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9680', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:07:28', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9681', 'token#1#5937033252864', '1', '/local/api/role/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc&sort=%2Bid', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:07:28', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9682', 'token#1#5937033252864', '1', '/local/api/user/getByToken', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:07:43', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9683', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:07:44', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9684', 'token#1#5937033252864', '1', '/local/api/role/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc&sort=%2Bid', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:07:44', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9685', 'token#1#5937033252864', '1', '/local/api/user/getByToken', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:08:11', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9686', 'token#1#5937033252864', '1', '/local/api/role/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc&sort=%2Bid', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:08:12', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9687', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:08:12', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9688', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', 'resTypes=1,2', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:08:14', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9689', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', 'resTypes=1,2', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:08:28', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9690', 'token#1#5937033252864', '1', '/local/api/res/select', 'pid=-1&pageNo=1&pageSize=20&resType=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:08:30', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9691', 'token#1#5937033252864', '1', '/local/api/res/select', 'pageNo=1&pageSize=20000&pid=6&resType=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:08:30', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9692', 'token#1#5937033252864', '1', '/local/api/res/unlinkParentRes', 'pResId=-1&resIds=55,56', '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 12:08:33', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9693', 'token#1#5937033252864', '1', '/local/api/res/linkParentRes', 'pResId=6&resIds=undefined,52', '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 12:08:33', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9694', 'token#1#5937033252864', '1', '/local/api/res/unlinkParentRes', 'pResId=-1&resIds=55,56', '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 12:08:51', '');
+INSERT INTO `sys_user_opr_log` VALUES ('9695', 'token#1#5937033252864', '1', '/local/api/res/linkParentRes', 'pResId=6&resIds=undefined,52', '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 12:08:51', '');
 
 -- ----------------------------
 -- Table structure for sys_user_role

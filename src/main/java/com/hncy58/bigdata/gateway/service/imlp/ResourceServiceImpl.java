@@ -95,4 +95,19 @@ public class ResourceServiceImpl implements ResourceService {
 		return resourceMapper.selectAll();
 	}
 
+	@Override
+	public int linkParentRes(String pResId, List<String> resIds) {
+		return resourceMapper.updateResesPid(pResId, resIds);
+	}
+
+	@Override
+	public int unlinkParentRes(String pResId, List<String> resIds) {
+		return resourceMapper.updateResesPid(pResId, resIds);
+	}
+	
+	@Override
+	public List<Resource> getResourceByPids(List<String> resPids, int resType) {
+		return resourceMapper.getResourceByPids(resPids, resType);
+	}
+
 }

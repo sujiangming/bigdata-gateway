@@ -18,7 +18,11 @@ public class Constant {
 	/**
 	 * 菜单资源类型
 	 */
-	public static final String MENU_RES_TYPE = "1";
+	public static final int MENU_RES_TYPE = 1;
+	/**
+	 * 接口资源类型
+	 */
+	public static final int API_RES_TYPE = 3;
 	/**
 	 * 资源根节点ID
 	 */

@@ -27,4 +27,10 @@ public interface ResourceService {
 	int delete(List<String> ids);
 
 	Page<Resource> select(int pageNo, int pageSize, ResourceDomain queryRes);
+
+	int linkParentRes(String pResId, List<String> resList);
+
+	int unlinkParentRes(String pResId, List<String> resList);
+
+	List<Resource> getResourceByPids(List<String> resPids, int resType);
 }

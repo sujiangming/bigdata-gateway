@@ -66,6 +66,15 @@ public interface ResourceMapper {
 			+ "where u.id = #{userId}")
 	@ResultMap("all_cols")
 	List<Resource> getResourceByUser(int userId);
+	
+	@Select("<script>"
+			+ "select r.* from sys_res r where r.res_type = #{resType} and r.pid in "
+			+ " <foreach collection='resPids' item='resPid' index='index' open='(' close=')' separator=','> "
+			+ "  #{resPid, jdbcType=INTEGER} "
+			+ " </foreach>"
+			+ "</script>")
+	@ResultMap("all_cols")
+	List<Resource> getResourceByPids(@Param("resPids") List<String> resPids, @Param("resType") int resType);
 
 	@Delete("<script>"
 			+ "delete from sys_res where id in"
@@ -113,4 +122,11 @@ public interface ResourceMapper {
 	@ResultMap("all_cols")
 	Page<Resource> select(ResourceDomain queryRes);
 	
+	@Update("<script>"
+			+ "UPDATE sys_res SET pid = #{pResId}, update_time = now() WHERE id in "
+			+ " <foreach collection='resIds' item='resId' index='index' open='(' close=')' separator=','> "
+			+ "  #{resId, jdbcType=INTEGER} "
+			+ " </foreach>"
+			+ "</script>")
+	int updateResesPid(@Param("pResId") String pResId, @Param("resIds") List<String> resIds);
 }
