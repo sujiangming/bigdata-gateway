@@ -91,7 +91,7 @@ zuul:
     behind-proxy: true
     policies:
       api-local:
-        limit: 2 #optional - request number limit per refresh interval window
+        limit: 3 #optional - request number limit per refresh interval window
         #quota: 1200 #optional - request time limit per refresh interval window (in seconds)
         refresh-interval: 1 #default value (in seconds)
         type:
