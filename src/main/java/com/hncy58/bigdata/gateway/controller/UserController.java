@@ -158,7 +158,7 @@ public class UserController {
 		Map<String, Object> ret = new HashMap<String, Object>();
 		if (!StringUtils.isEmpty(queryUser.getSortField()))
 			queryUser.setSortFiled();
-		
+
 		Page<User> pageRet = userService.selectAll(pageNo, pageSize, queryUser);
 
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
@@ -201,12 +201,25 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public Map<String, Object> insert(User user) {
-		user.setCreateTime(new Date());
-		user.setUpdateTime(new Date());
+	public Map<String, Object> insert(UserDomain userDomain) {
+		userDomain.setCreateTime(new Date());
+		userDomain.setUpdateTime(new Date());
+		User user = userDomain.toUser();
 		int num = userService.insert(user);
 		Map<String, Object> ret = new HashMap<>();
 		if (num > 0) {
+			if (null != userDomain.getRoleIds() && !StringUtil.isEmpty(userDomain.getRoleIds().trim())) {
+				int roleNum = userService.linkRole(user.getId() + "",
+						Arrays.asList(userDomain.getRoleIds().trim().split(".")));
+				log.info("user:{}, linked roles:{}, ret:{}", userDomain.getId(), userDomain.getRoleIds(), roleNum);
+				// 正常不用发送权限更新消息，因为新增的用户一定是没有登录的
+				// if (roleNum > 0) {
+				// // 发送用户权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
+				// AuthChangeMsg msg = new AuthChangeMsg("user", "linkRole",
+				// Arrays.asList(userDomain.getId(), userDomain.getRoleIds()));
+				// authInfoCacheService.sendMsg(msg);
+				// }
+			}
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
 		} else {
 			ret.put("code", "2001");
@@ -221,20 +234,21 @@ public class UserController {
 
 		Map<String, Object> ret = new HashMap<>();
 		List<String> roleList = new ArrayList<>();
+
+		// if (null != userDomain.getRoleIds() &&
+		// !StringUtil.isEmpty(userDomain.getRoleIds().trim()))
 		if (!StringUtil.isEmpty(userDomain.getRoleIds().trim()))
 			roleList = Arrays.asList(userDomain.getRoleIds().trim().split(","));
 
 		int num = userService.updateByPrimaryKeySelective(userDomain.toUser(), roleList);
 
 		if (num > 0) {
-
 			updateLoginUserState(userDomain);
-
-			ret.put("code", Constant.REQ_SUCCESS_CODE);
 			// 发送用户权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
 			AuthChangeMsg msg = new AuthChangeMsg("user", "linkRole",
 					Arrays.asList(userDomain.getId(), userDomain.getRoleIds()));
 			authInfoCacheService.sendMsg(msg);
+			ret.put("code", Constant.REQ_SUCCESS_CODE);
 		} else {
 			ret.put("code", "2002");
 			ret.put("msg", "更新用户失败");
