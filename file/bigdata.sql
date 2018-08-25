@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2018-08-25 12:09:36
+Date: 2018-08-25 17:45:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -93,11 +93,11 @@ INSERT INTO `sys_res` VALUES ('27', '5', '1', '角色管理', 'role', '2', '2018
 INSERT INTO `sys_res` VALUES ('28', '5', '1', '菜单管理', 'menu', '3', '2018-08-23 15:28:53', '2018-08-24 09:37:38', '菜单资源权限管理', 'list');
 INSERT INTO `sys_res` VALUES ('44', '5', '1', '接口管理', 'interface', '4', '2018-08-23 19:24:16', '2018-08-25 10:03:48', '接口资源管理', 'icon');
 INSERT INTO `sys_res` VALUES ('45', '5', '1', '审计管理', 'audit', '5', '2018-08-23 19:24:59', '2018-08-24 16:27:59', '审计查看 ', 'edit');
-INSERT INTO `sys_res` VALUES ('49', '-1', '3', '风控系统接口1', 'www.baidu.com', '0', '2018-08-24 11:43:35', '2018-08-24 12:42:29', '风控接口菜单1', null);
-INSERT INTO `sys_res` VALUES ('51', '-1', '3', '风控接口2', 'www.sohu.com', '0', '2018-08-24 12:42:54', '2018-08-25 11:50:47', '测试', null);
-INSERT INTO `sys_res` VALUES ('52', '-1', '3', 'test', 'test', '0', '2018-08-24 15:55:39', '2018-08-25 11:50:47', '1212', null);
-INSERT INTO `sys_res` VALUES ('55', '-1', '3', '测试', '测试', '0', '2018-08-25 11:15:57', '2018-08-25 12:09:44', '测', null);
-INSERT INTO `sys_res` VALUES ('56', '-1', '3', 'tdz_test', '/local/api/role/linkRes', '1', null, '2018-08-25 12:09:44', null, null);
+INSERT INTO `sys_res` VALUES ('49', '6', '3', '风控系统接口1', 'www.baidu.com', '0', '2018-08-24 11:43:35', '2018-08-25 14:00:57', '风控接口菜单1', null);
+INSERT INTO `sys_res` VALUES ('51', '-1', '3', '风控接口2', 'www.sohu.com', '0', '2018-08-24 12:42:54', '2018-08-25 14:00:57', '测试', null);
+INSERT INTO `sys_res` VALUES ('52', '-2', '3', 'test', 'test', '0', '2018-08-24 15:55:39', '2018-08-25 17:39:46', '1212 ', null);
+INSERT INTO `sys_res` VALUES ('55', '-2', '3', '测试', '测试', '0', '2018-08-25 11:15:57', '2018-08-25 17:39:49', '测 ', null);
+INSERT INTO `sys_res` VALUES ('56', '-1', '3', 'tdz_test', '/local/api/role/linkRes', '1', null, '2018-08-25 14:00:57', null, null);
 INSERT INTO `sys_res` VALUES ('57', '1', '1', '测试', '测试', '100', '2018-08-25 12:02:01', '2018-08-25 12:02:01', '测试', '');
 
 -- ----------------------------
@@ -138,11 +138,26 @@ CREATE TABLE `sys_role_res` (
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_uni_role_res` (`role_id`,`res_id`) USING BTREE COMMENT '用户角色关联关系唯一索引'
-) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_role_res
 -- ----------------------------
+INSERT INTO `sys_role_res` VALUES ('115', '2', '2', null, null, null);
+INSERT INTO `sys_role_res` VALUES ('116', '2', '6', null, null, null);
+INSERT INTO `sys_role_res` VALUES ('117', '2', '52', null, null, null);
+INSERT INTO `sys_role_res` VALUES ('118', '2', '49', null, null, null);
+INSERT INTO `sys_role_res` VALUES ('119', '2', '7', null, null, null);
+INSERT INTO `sys_role_res` VALUES ('120', '2', '3', null, null, null);
+INSERT INTO `sys_role_res` VALUES ('121', '2', '9', null, null, null);
+INSERT INTO `sys_role_res` VALUES ('122', '2', '8', null, null, null);
+INSERT INTO `sys_role_res` VALUES ('123', '2', '10', null, null, null);
+INSERT INTO `sys_role_res` VALUES ('124', '2', '5', null, null, null);
+INSERT INTO `sys_role_res` VALUES ('125', '2', '26', null, null, null);
+INSERT INTO `sys_role_res` VALUES ('126', '2', '27', null, null, null);
+INSERT INTO `sys_role_res` VALUES ('127', '2', '28', null, null, null);
+INSERT INTO `sys_role_res` VALUES ('128', '2', '44', null, null, null);
+INSERT INTO `sys_role_res` VALUES ('129', '2', '45', null, null, null);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -164,7 +179,7 @@ CREATE TABLE `sys_user` (
   `update_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_unique_sys_user_code` (`user_code`) COMMENT '系统用户表用户编码唯一索引'
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_user
@@ -177,6 +192,7 @@ INSERT INTO `sys_user` VALUES ('5', 'tokings', '123456', '唐顶志', 'test', '1
 INSERT INTO `sys_user` VALUES ('25', '1111', '123456', 'test', 'test', '1002@hncy58.com', '18888886666', '0101', '主任', '1', '1', '2018-08-21 16:45:02', '2018-08-23 15:00:06');
 INSERT INTO `sys_user` VALUES ('27', 'xyr', '123456', '向艳蓉', '向艳蓉', '1002@hncy58.com', '18888886666', '0101', '主任', '1', '1', '2018-08-23 10:10:04', '2018-08-24 15:44:21');
 INSERT INTO `sys_user` VALUES ('28', 'wrx', '123456', '王仁兴', '王仁兴', 'wrx@hncy58.com', '18888886666', '0101', null, '1', '1', '2018-08-24 10:57:11', '2018-08-24 10:57:54');
+INSERT INTO `sys_user` VALUES ('29', 'xuehaiwei', '88888888', 'xuehaiwei', '', null, '18888888888', '信息科技部', '', '0', '1', '2018-08-25 16:42:16', '2018-08-25 16:42:16');
 
 -- ----------------------------
 -- Table structure for sys_user_login_log
@@ -205,36 +221,248 @@ CREATE TABLE `sys_user_opr_log` (
   `token` varchar(255) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `req_url` varchar(255) DEFAULT NULL,
-  `query_str` varchar(255) DEFAULT NULL,
+  `query_str` varchar(2048) DEFAULT NULL,
   `rmt_ip_addr` varchar(255) DEFAULT NULL,
   `local_ip_addr` varchar(255) DEFAULT NULL,
   `req_method` varchar(255) DEFAULT NULL,
   `opr_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `access_ret` char(1) DEFAULT NULL,
   `mark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9696 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10495 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_user_opr_log
 -- ----------------------------
-INSERT INTO `sys_user_opr_log` VALUES ('9678', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:07:26', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9679', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:07:26', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9680', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:07:28', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9681', 'token#1#5937033252864', '1', '/local/api/role/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc&sort=%2Bid', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:07:28', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9682', 'token#1#5937033252864', '1', '/local/api/user/getByToken', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:07:43', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9683', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:07:44', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9684', 'token#1#5937033252864', '1', '/local/api/role/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc&sort=%2Bid', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:07:44', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9685', 'token#1#5937033252864', '1', '/local/api/user/getByToken', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:08:11', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9686', 'token#1#5937033252864', '1', '/local/api/role/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc&sort=%2Bid', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:08:12', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9687', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:08:12', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9688', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', 'resTypes=1,2', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:08:14', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9689', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', 'resTypes=1,2', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:08:28', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9690', 'token#1#5937033252864', '1', '/local/api/res/select', 'pid=-1&pageNo=1&pageSize=20&resType=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:08:30', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9691', 'token#1#5937033252864', '1', '/local/api/res/select', 'pageNo=1&pageSize=20000&pid=6&resType=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 12:08:30', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9692', 'token#1#5937033252864', '1', '/local/api/res/unlinkParentRes', 'pResId=-1&resIds=55,56', '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 12:08:33', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9693', 'token#1#5937033252864', '1', '/local/api/res/linkParentRes', 'pResId=6&resIds=undefined,52', '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 12:08:33', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9694', 'token#1#5937033252864', '1', '/local/api/res/unlinkParentRes', 'pResId=-1&resIds=55,56', '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 12:08:51', '');
-INSERT INTO `sys_user_opr_log` VALUES ('9695', 'token#1#5937033252864', '1', '/local/api/res/linkParentRes', 'pResId=6&resIds=undefined,52', '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 12:08:51', '');
+INSERT INTO `sys_user_opr_log` VALUES ('10266', 'token#1#5937033252864', '1', '/local/api/res/select', 'pageNo=1&pageSize=20&resType=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:24:30', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10267', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&userCode=&sortField=id&sortType=asc&startTime=2018-08-25%2016:07:26&endTime=2018-08-25%2016:11:20', '162.16.109.102', '162.16.109.102', 'GET', '2018-08-25 16:24:31', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10268', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:24:32', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10269', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&userCode=&sortField=id&sortType=asc&startTime=2018-08-25%2016:07:26&endTime=2018-08-25%2016:11:20', '162.16.109.102', '162.16.109.102', 'GET', '2018-08-25 16:24:34', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10270', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&userCode=&sortField=id&sortType=asc&startTime=2018-08-25%2016:07:26', '162.16.109.102', '162.16.109.102', 'GET', '2018-08-25 16:24:37', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10271', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:24:38', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10272', 'token#1#5937033252864', '1', '/local/api/user/getByToken', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:24:44', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10273', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:24:44', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10274', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&userCode=&sortField=id&sortType=asc&startTime=2018-08-25%2016:07:26&sortField=accessRet', '162.16.109.102', '162.16.109.102', 'GET', '2018-08-25 16:25:03', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10275', 'token#1#5937033252864', '1', '/local/api/user/getByToken', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:25:17', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10276', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:25:18', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10277', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&startTime=2018-08-25+15:27:30&endTime=2018-08-25+16:27:30&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:25:23', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10278', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&startTime=2018-07-26+16:27:33&endTime=2018-08-25+16:27:33&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:25:29', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10279', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&userCode=&sortField=id&sortType=asc&startTime=2018-08-25%2016:07:26&sortField=accessRet', '162.16.109.102', '162.16.109.102', 'GET', '2018-08-25 16:25:29', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10280', 'token#1#5937033252864', '1', '/local/api/res/select', 'pageNo=1&pageSize=20&resType=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:25:32', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10281', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:25:33', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10282', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:25:38', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10283', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', 'resTypes=1,2', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:25:39', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10284', 'token#1#5937033252864', '1', '/local/api/role/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc&sort=%2Bid', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:26:19', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10285', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', 'resTypes=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:26:19', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10286', 'token#1#5937033252864', '1', '/local/api/res/select', 'pageNo=1&pageSize=20&resType=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:26:22', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10287', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:26:24', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10288', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:26:24', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10289', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&userName=admin&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:26:30', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10290', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&userName=&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:26:32', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10291', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&userCode=admin&userName=&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:26:41', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10292', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&userCode=&userName=&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:26:43', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10293', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&userCode=&userName=&deptCode=1111&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:26:55', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10294', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&userCode=&userName=&deptCode=0101&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:26:57', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10295', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&userCode=&userName=&deptCode=&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:26:59', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10296', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&userCode=&userName=&deptCode=&loginStatus=&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:27:00', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10297', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&userCode=&userName=&deptCode=&loginStatus=&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:27:10', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10298', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&userCode=&userName=&deptCode=&loginStatus=1&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:27:19', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10299', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&userCode=&userName=&deptCode=&loginStatus=&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:27:24', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10300', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&userCode=&sortField=id&sortType=asc&startTime=2018-08-25%2016:07:26&sortField=accessRet', '162.16.109.102', '162.16.109.102', 'GET', '2018-08-25 16:27:36', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10301', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&userCode=&sortField=id&sortType=asc&startTime=2018-08-25%2016:07:26&sortField=accessRet', '162.16.109.102', '162.16.109.102', 'GET', '2018-08-25 16:28:00', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10302', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&userCode=&sortField=id&sortType=asc&startTime=2018-08-25%2016:07:26&sortField=accessRet', '162.16.109.102', '162.16.109.102', 'GET', '2018-08-25 16:28:18', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10303', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&userCode=&sortField=id&sortType=asc&startTime=2018-08-25%2016:07:26&sortField=accessRet', '162.16.109.102', '162.16.109.102', 'GET', '2018-08-25 16:28:40', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10304', 'token#1#5937033252864', '1', '/local/api/role/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc&sort=%2Bid', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:28:56', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10305', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', 'resTypes=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:28:56', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10306', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:28:57', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10307', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:28:57', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10308', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&loginStatus=&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:29:01', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10309', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:29:09', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10310', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:29:09', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10311', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&actStatus=0&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:29:13', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10312', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&actStatus=1&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:29:14', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10313', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&actStatus=&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:29:15', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10314', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:29:26', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10315', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:29:26', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10316', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&loginStatus=1&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:29:27', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10317', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&loginStatus=&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:29:28', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10318', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&userCode=&sortType=asc&startTime=2018-08-25%2016:07:26&endTime=2018-08-25%2016:11:20&sortField=accessRet', '162.16.109.102', '162.16.109.102', 'GET', '2018-08-25 16:29:42', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10319', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&userCode=&sortField=accessRet&sortType=asc&startTime=2018-08-25%2016:07:26', '162.16.109.102', '162.16.109.102', 'GET', '2018-08-25 16:29:52', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10320', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:30:07', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10321', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:30:07', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10322', 'token#1#5937033252864', '1', '/local/api/user/getByToken', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:30:09', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10323', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:30:09', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10324', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:30:09', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10325', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&loginStatus=1&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:30:15', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10326', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&loginStatus=&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:30:20', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10327', 'token#1#5937033252864', '1', '/local/api/user/getByToken', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:30:46', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10328', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:30:47', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10329', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:30:47', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10330', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&loginStatus=1&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:30:51', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10331', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&loginStatus=&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:30:52', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10332', '', '-1', '/local/api/audit/select', 'pageNo=1&pageSize=20&userCode=&sortField=accessRet&sortType=asc&startTime=2018-08-25%2016:07:26', '162.16.109.102', '162.16.109.102', 'GET', '2018-08-25 16:30:58', '0', '用户token为空');
+INSERT INTO `sys_user_opr_log` VALUES ('10333', 'token#1', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&userCode=&sortField=accessRet&sortType=asc&startTime=2018-08-25%2016:07:26', '162.16.109.102', '162.16.109.102', 'GET', '2018-08-25 16:31:07', '0', '用户token令牌无效');
+INSERT INTO `sys_user_opr_log` VALUES ('10334', 'token#1#5937033252864', '1', '/local/api/audit/select', 'pageNo=1&pageSize=20&userCode=&sortField=accessRet&sortType=asc&startTime=2018-08-25%2016:07:26', '162.16.109.102', '162.16.109.102', 'GET', '2018-08-25 16:31:13', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10335', null, '-1', '/local/api/user/select', 'pageNo=1&pageSize=20&loginStatus=&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:31:18', '0', '用户token为空');
+INSERT INTO `sys_user_opr_log` VALUES ('10336', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&loginStatus=&actStatus=0&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:31:35', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10337', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', 'resTypes=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:32:26', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10338', 'token#1#5937033252864', '1', '/local/api/role/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc&sort=%2Bid', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:32:26', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10339', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:32:27', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10340', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:32:27', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10341', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:36:22', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10342', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:36:22', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10343', 'token#1#5937033252864', '1', '/local/api/user/getByToken', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:36:28', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10344', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:36:28', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10345', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:36:28', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10346', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&loginStatus=1&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:36:30', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10347', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:36:31', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10348', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&actStatus=0&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:36:32', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10349', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:36:34', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10350', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&actStatus=1&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:36:35', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10351', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:36:36', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10352', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:37:21', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10353', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:37:21', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10354', 'token#1#5937033252864', '1', '/local/api/user/add', null, '162.16.109.149', '162.16.109.102', 'POST', '2018-08-25 16:38:02', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10355', 'token#1#5937033252864', '1', '/local/api/user/add', null, '162.16.109.149', '162.16.109.102', 'POST', '2018-08-25 16:38:10', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10356', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:41:36', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10357', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:41:36', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10358', 'token#1#5937033252864', '1', '/local/api/user/add', null, '162.16.109.149', '162.16.109.102', 'POST', '2018-08-25 16:42:16', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10359', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=29', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:42:19', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10360', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=29', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:42:22', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10361', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:42:23', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10362', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=29', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:42:27', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10363', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=2', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:42:29', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10364', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=29', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:42:32', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10365', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=29', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:43:42', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10366', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:43:50', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10367', 'token#1#5937033252864', '1', '/local/api/user/getByToken', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:44:18', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10368', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:44:18', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10369', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:44:18', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10370', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=29', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:44:22', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10371', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=29', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:44:27', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10372', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=29', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:45:09', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10373', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=29', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:45:41', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10374', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=29', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:45:49', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10375', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:46:01', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10376', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=28', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:46:06', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10377', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:47:05', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10378', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:47:05', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10379', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:47:15', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10380', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:48:39', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10381', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:48:39', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10382', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:48:58', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10383', 'token#1#5937033252864', '1', '/local/api/user/getByToken', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:49:46', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10384', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:49:47', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10385', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:49:47', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10386', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=2', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:49:48', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10387', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:49:54', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10388', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:52:43', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10389', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=2', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:53:26', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10390', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:53:39', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10391', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', 'resTypes=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:53:46', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10392', 'token#1#5937033252864', '1', '/local/api/role/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc&sort=%2Bid', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:53:46', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10393', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:53:47', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10394', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:53:47', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10395', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:53:48', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10396', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:54:30', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10397', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:54:30', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10398', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:54:32', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10399', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:54:52', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10400', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:54:52', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10401', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:55:24', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10402', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:55:38', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10403', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:56:58', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10404', 'token#1#5937033252864', '1', '/local/api/user/getByToken', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:57:15', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10405', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:57:16', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10406', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:57:16', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10407', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=2', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:57:47', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10408', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 16:58:29', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10409', 'token#1#5937033252864', '1', '/local/api/user/getByToken', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:01:04', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10410', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:01:04', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10411', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:01:04', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10412', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:01:06', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10413', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:02:14', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10414', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:02:14', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10415', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:02:16', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10416', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:02:38', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10417', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:03:14', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10418', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:03:38', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10419', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:03:40', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10420', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:03:40', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10421', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:03:53', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10422', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:07:21', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10423', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:07:21', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10424', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:07:23', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10425', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:07:36', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10426', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=29', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:07:43', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10427', 'token#1#5937033252864', '1', '/local/api/user/update', null, '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 17:07:49', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10428', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=29', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:08:54', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10429', 'token#1#5937033252864', '1', '/local/api/user/update', null, '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 17:09:06', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10430', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=29', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:09:15', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10431', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:10:00', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10432', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:10:15', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10433', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=27', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:11:01', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10434', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=27', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:11:17', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10435', 'token#1#5937033252864', '1', '/local/api/user/getByToken', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:11:34', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10436', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:11:35', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10437', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:11:35', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10438', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=27', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:11:48', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10439', 'token#5#2248906248192', '5', '/local/api/user/getRoleByUserId', 'id=27', '162.16.109.102', '162.16.109.102', 'PUT', '2018-08-25 17:14:18', '0', '权限验证失败');
+INSERT INTO `sys_user_opr_log` VALUES ('10440', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=27', '162.16.109.102', '162.16.109.102', 'PUT', '2018-08-25 17:14:26', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10441', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=27', '162.16.109.102', '162.16.109.102', 'GET', '2018-08-25 17:14:32', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10442', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:14:59', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10443', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:14:59', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10444', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'userId=27', '162.16.109.102', '162.16.109.102', 'GET', '2018-08-25 17:15:05', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10445', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=29', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:15:24', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10446', 'token#1#5937033252864', '1', '/local/api/user/update', null, '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 17:15:29', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10447', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:22:59', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10448', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:22:59', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10449', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=%7B%22userId%22:4%7D', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:23:04', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10450', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=%7B%22userId%22:27%7D', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:23:14', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10451', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:24:58', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10452', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:24:58', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10453', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=%7B%22userId%22:2%7D', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:25:01', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10454', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'id=%7B%22userId%22:27%7D', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:25:14', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10455', 'token#1#5937033252864', '1', '/local/api/user/getByToken', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:28:21', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10456', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:28:22', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10457', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:28:22', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10458', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'userId=27', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:28:26', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10459', 'token#1#5937033252864', '1', '/local/api/user/update', null, '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 17:29:26', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10460', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:30:45', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10461', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:30:45', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10462', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'userId=27', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:30:52', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10463', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:34:03', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10464', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:34:03', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10465', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'userId=27', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:34:06', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10466', 'token#1#5937033252864', '1', '/local/api/user/update', null, '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 17:34:55', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10467', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:35:16', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10468', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:35:16', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10469', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:35:37', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10470', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:35:37', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10471', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'userId=27', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:36:15', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10472', 'token#1#5937033252864', '1', '/local/api/res/select', 'pageNo=1&pageSize=20&resType=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:38:40', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10473', 'token#1#5937033252864', '1', '/local/api/res/update', null, '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 17:38:44', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10474', 'token#1#5937033252864', '1', '/local/api/res/select', 'pageNo=1&pageSize=20&resType=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:38:44', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10475', 'token#1#5937033252864', '1', '/local/api/res/update', null, '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 17:38:47', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10476', 'token#1#5937033252864', '1', '/local/api/res/select', 'pageNo=1&pageSize=20&resType=3', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:38:47', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10477', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', 'resTypes=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:40:08', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10478', 'token#1#5937033252864', '1', '/local/api/role/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc&sort=%2Bid', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:40:08', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10479', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:40:20', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10480', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:40:20', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10481', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'userId=27', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:40:25', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10482', 'token#1#5937033252864', '1', '/local/api/user/update', null, '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 17:40:44', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10483', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:41:35', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10484', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:41:35', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10485', 'token#1#5937033252864', '1', '/local/api/auth/menu/getAll', 'resTypes=1', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:41:45', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10486', 'token#1#5937033252864', '1', '/local/api/role/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc&sort=%2Bid', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:41:45', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10487', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:41:47', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10488', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:41:47', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10489', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'userId=27', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:41:50', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10490', 'token#1#5937033252864', '1', '/local/api/user/select', 'pageNo=1&pageSize=20&sortField=id&sortType=asc', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:42:23', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10491', 'token#1#5937033252864', '1', '/local/api/role/all', null, '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:42:23', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10492', 'token#1#5937033252864', '1', '/local/api/user/getRoleByUserId', 'userId=27', '162.16.109.149', '162.16.109.102', 'GET', '2018-08-25 17:43:14', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10493', 'token#1#5937033252864', '1', '/local/api/user/update', null, '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 17:43:18', '1', '超管访问');
+INSERT INTO `sys_user_opr_log` VALUES ('10494', 'token#1#5937033252864', '1', '/local/api/user/update', null, '162.16.109.149', '162.16.109.102', 'PUT', '2018-08-25 17:44:08', '1', '超管访问');
 
 -- ----------------------------
 -- Table structure for sys_user_role
