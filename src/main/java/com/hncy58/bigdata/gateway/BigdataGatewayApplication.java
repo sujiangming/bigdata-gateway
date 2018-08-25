@@ -10,6 +10,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.hncy58.bigdata.gateway.util.SnowflakeIdWorker;
 
+/**
+ * 网关启动类
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月25日 下午5:01:40
+ */
 @EnableZuulProxy
 @SpringBootApplication(scanBasePackages = "com.hncy58.bigdata.gateway")
 @MapperScan(basePackages = { "com.hncy58.bigdata.gateway.mapper" })

@@ -13,7 +13,7 @@ import com.hncy58.bigdata.gateway.msg.handler.Handler;
 import com.hncy58.bigdata.gateway.util.Utils;
 
 /**
- * 审计消息
+ * 审计消息接收器
  * 
  * @author tdz
  * @company hncy58 湖南长银五八

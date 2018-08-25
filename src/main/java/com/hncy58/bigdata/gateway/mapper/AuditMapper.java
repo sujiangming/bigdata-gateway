@@ -11,13 +11,31 @@ import com.github.pagehelper.Page;
 import com.hncy58.bigdata.gateway.domain.AuditDomain;
 import com.hncy58.bigdata.gateway.model.AuditInfo;
 
+/**
+ * 审计数据映射
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月25日 下午4:42:07
+ */
 public interface AuditMapper {
 
+	/**
+	 * 添加审计信息
+	 * @param audit
+	 * @return
+	 */
 	@Insert("INSERT INTO sys_user_opr_log (id, user_id, token, req_url, query_str, rmt_ip_addr, local_ip_addr, req_method, opr_time, access_ret, mark) "
 			+ " VALUES (#{id}, #{userId}, #{token}, #{reqUrl}, #{queryStr}, #{rmtIpAddr}, #{localIpAddr}, #{reqMethod}, #{oprTime,jdbcType=TIMESTAMP}, #{accessRet}, #{mark})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	int save(AuditInfo audit);
 	
+	/**
+	 * 根据过滤条件查询审计信息
+	 * @param queryAudit
+	 * @return
+	 */
 	@Select("<script>"
 			+ "select r.*, u.user_code, u.user_name from sys_user_opr_log r left join sys_user u on r.user_id = u.id "
 			+ "<where>  "

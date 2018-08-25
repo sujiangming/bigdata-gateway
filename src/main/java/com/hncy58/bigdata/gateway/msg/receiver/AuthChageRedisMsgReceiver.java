@@ -13,7 +13,7 @@ import com.hncy58.bigdata.gateway.msg.handler.Handler;
 import com.hncy58.bigdata.gateway.util.Utils;
 
 /**
- * Redis消息接收器
+ * 资源权限更改消息接收器
  * 
  * @author tdz
  * @company hncy58 湖南长银五八

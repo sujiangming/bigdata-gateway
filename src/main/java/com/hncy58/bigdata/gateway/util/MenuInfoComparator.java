@@ -4,6 +4,14 @@ import java.util.Comparator;
 
 import com.hncy58.bigdata.gateway.domain.MenuInfo;
 
+/**
+ * 菜单排序比较器
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月25日 下午5:01:12
+ */
 public class MenuInfoComparator implements Comparator<MenuInfo> {
 
 	@Override

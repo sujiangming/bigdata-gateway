@@ -7,6 +7,14 @@ import com.hncy58.bigdata.gateway.domain.UserDomain;
 import com.hncy58.bigdata.gateway.exception.RestfulJsonException;
 import com.hncy58.bigdata.gateway.model.User;
 
+/**
+ * 用户服务
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月25日 下午5:12:24
+ */
 public interface UserService {
 
 	User selectByPrimaryKey(int id);

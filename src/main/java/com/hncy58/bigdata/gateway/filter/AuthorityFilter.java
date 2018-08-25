@@ -31,6 +31,14 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 
+/**
+ * 权限、审计过滤器
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月25日 下午4:53:53
+ */
 @Component
 public class AuthorityFilter extends ZuulFilter {
 
@@ -123,6 +131,12 @@ public class AuthorityFilter extends ZuulFilter {
 		return generateResponseBody(ctx, "1002", "权限验证失败，你没有访问" + uri + "的权限");
 	}
 
+	/**
+	 * 发送访问审计信息
+	 * @param req
+	 * @param accessRet
+	 * @param mark
+	 */
 	private void sendAuditMsg(HttpServletRequest req, String accessRet, String mark) {
 
 		if (!auditEnabled)
@@ -138,6 +152,13 @@ public class AuthorityFilter extends ZuulFilter {
 		}
 	}
 
+	/**
+	 * 生成响应信息
+	 * @param ctx
+	 * @param code
+	 * @param msg
+	 * @return
+	 */
 	private Object generateResponseBody(RequestContext ctx, String code, String msg) {
 		Map<String, Object> ret = new HashMap<>();
 		ret.put("code", code);

@@ -17,6 +17,14 @@ import com.hncy58.bigdata.gateway.service.TokenService;
 import com.hncy58.bigdata.gateway.service.UserService;
 import com.hncy58.bigdata.gateway.util.Utils;
 
+/**
+ * 角色更改消息处理器
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月25日 下午5:04:56
+ */
 @Service("roleChangeMsgHandler")
 public class RoleChangeMsgHandler implements Handler<AuthChangeMsg> {
 

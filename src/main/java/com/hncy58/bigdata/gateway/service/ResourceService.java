@@ -6,6 +6,14 @@ import com.github.pagehelper.Page;
 import com.hncy58.bigdata.gateway.domain.ResourceDomain;
 import com.hncy58.bigdata.gateway.model.Resource;
 
+/**
+ * 资源服务
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月25日 下午5:12:12
+ */
 public interface ResourceService {
 
 	Resource selectByPrimaryKey(int id);

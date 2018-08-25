@@ -15,6 +15,14 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 
+/**
+ * 系统异常过滤器
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月25日 下午4:58:52
+ */
 @Component
 public class ErrorFilter extends ZuulFilter {
 
@@ -44,7 +52,7 @@ public class ErrorFilter extends ZuulFilter {
 		log.error("ErrorFilter : {}", throwable.getCause());
 		// ctx.set("error.status_code",
 		// HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-
+		// 通过下面两行配置禁用系统默认的错误处理过滤器
 		ctx.set("throwable", null);
 		ctx.set("sendErrorFilter.ran", true);
 		Object statusCode = "";
@@ -62,6 +70,14 @@ public class ErrorFilter extends ZuulFilter {
 		return generateResponseBody(ctx, "9995", statusCode, msg);
 	}
 
+	/**
+	 * 生成响应信息
+	 * @param ctx
+	 * @param code
+	 * @param statusCode
+	 * @param msg
+	 * @return
+	 */
 	private Object generateResponseBody(RequestContext ctx, String code, Object statusCode, String msg) {
 		Map<String, Object> ret = new HashMap<>();
 		ret.put("code", code);

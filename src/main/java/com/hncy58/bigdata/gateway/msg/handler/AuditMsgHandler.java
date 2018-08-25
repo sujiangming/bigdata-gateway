@@ -8,6 +8,14 @@ import org.springframework.stereotype.Service;
 import com.hncy58.bigdata.gateway.model.AuditInfo;
 import com.hncy58.bigdata.gateway.service.AuditService;
 
+/**
+ * 审计消息处理器
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月25日 下午5:04:21
+ */
 @Service("auditMsgHandler")
 public class AuditMsgHandler implements Handler<AuditInfo> {
 

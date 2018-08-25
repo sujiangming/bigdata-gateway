@@ -3,10 +3,27 @@ package com.hncy58.bigdata.gateway.service;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 缓存抽象类
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月25日 下午5:08:33
+ * @param <T>
+ */
 public abstract class AbstractCacheService<T> extends RedisService<T> implements CacheService<T> {
 
+	/**
+	 * 获取缓存KEY
+	 * @return
+	 */
 	protected abstract String getCacheKey();
 
+	/**
+	 * 获取缓存过期时间
+	 * @return
+	 */
 	protected abstract long getCacheExpire();
 
 	/**

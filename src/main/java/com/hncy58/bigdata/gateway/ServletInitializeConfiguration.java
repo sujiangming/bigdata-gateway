@@ -11,6 +11,15 @@ import org.springframework.context.annotation.Configuration;
 
 import com.hncy58.bigdata.gateway.filter.LocalRequestFilter;
 
+/**
+ * 添加容器过滤器（暂未使用）
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月25日 下午5:02:32
+ */
+@Deprecated
 @Configuration
 @ServletComponentScan
 public class ServletInitializeConfiguration extends SpringBootServletInitializer {

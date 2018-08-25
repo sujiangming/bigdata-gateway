@@ -21,6 +21,14 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+/**
+ * HTTP调用工具类
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月25日 下午5:00:59
+ */
 public class HttpUtils {
 
 	private static CloseableHttpClient defaultHttpClient = null;

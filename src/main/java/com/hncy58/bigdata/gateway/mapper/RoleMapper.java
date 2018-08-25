@@ -18,8 +18,21 @@ import com.hncy58.bigdata.gateway.domain.RoleDomain;
 import com.hncy58.bigdata.gateway.model.Resource;
 import com.hncy58.bigdata.gateway.model.Role;
 
+/**
+ * 角色数据映射
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月25日 下午4:42:47
+ */
 public interface RoleMapper {
 
+	/**
+	 * 根据角色主键查询角色信息
+	 * @param id
+	 * @return
+	 */
 	@Select("select * from sys_role where id=#{id}")
 	@Results(id = "cols", value = { @Result(column = "id", property = "id"),
 			@Result(column = "role_code", property = "roleCode"), 
@@ -30,10 +43,19 @@ public interface RoleMapper {
 			@Result(column = "update_time", property = "updateTime", jdbcType = JdbcType.TIMESTAMP, javaType = Timestamp.class) })
 	Role selectByPrimaryKey(int id);
 
+	/**
+	 * 查询所有角色
+	 * @return
+	 */
 	@ResultMap(value = "cols")
 	@Select("select r.* from sys_role r")
 	List<Role> selectAll();
 	
+	/**
+	 * 根据过滤条件查询用户信息
+	 * @param roleDomain
+	 * @return
+	 */
 	@ResultMap(value = "cols")
 	@Select("<script>"
 			+ "select r.* from sys_role r "
@@ -64,23 +86,53 @@ public interface RoleMapper {
 			)
 	List<Role> select(RoleDomain roleDomain);
 
+	/**
+	 * 删除用户信息
+	 * @param id
+	 * @return
+	 */
 	@Delete("delete from sys_role where id = #{id}")
 	int deleteByPrimaryKey(int id);
 
+	/**
+	 * 添加角色
+	 * @param role
+	 * @return
+	 */
 	@Insert("insert into sys_role values(#{id}, #{roleCode}, #{roleType}, #{roleName}, #{mark},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	int insert(Role role);
 
+	/**
+	 * 更新角色
+	 * @param role
+	 * @return
+	 */
 	@Update("update sys_role set role_code=#{roleCode}, mark=#{mark}, role_type=#{roleType}, role_name=#{roleName}, update_time = now() where id=#{id}")
 	int updateByPrimaryKeySelective(Role role);
 
+	/**
+	 * 更新角色
+	 * @param role
+	 * @return
+	 */
 	@Update("update sys_role set role_code=#{roleCode}, mark=#{mark}, role_type=#{roleType}, role_name=#{roleName}, update_time = now() where id=#{id}")
 	int updateByPrimaryKey(Role role);
 
+	/**
+	 * 根据用户ID查询其角色列表
+	 * @param userId
+	 * @return
+	 */
 	@Select("select r.id,r.create_time createTime,r.mark,r.role_code roleCode,r.role_name roleName,r.role_type roleType,r.update_time updateTime"
 			+ " from sys_role r left join sys_user_role ur on r.id=ur.role_id where ur.user_id = #{userId}")
 	List<Role> getRoleByUserId(String userId);
 
+	/**
+	 * 根据角色ID获取资源列表
+	 * @param roleId
+	 * @return
+	 */
 	@Select("SELECT res.id,res.pid,res.res_type resType,res.res_name resName"
 			+ ",res.res_uri resUri,res.rank,res.mark,res.create_time createTime,res.update_time updateTime "
 			+ " FROM sys_role_res rr "
@@ -88,6 +140,12 @@ public interface RoleMapper {
 			+ " LEFT JOIN sys_res res ON rr.res_id = res.id WHERE role.id = #{roleId}")
 	List<Resource> getResourceByRole(int roleId);
 
+	/**
+	 * 解除资源与角色关联关系
+	 * @param roleId
+	 * @param unlinkResIds
+	 * @return
+	 */
 	@Delete("<script>"
 			+ "delete from sys_role_res where role_id = #{roleId} and res_id in "
 			+ " <foreach collection='unlinkResIds' item='unlinkResId' index='index' open='(' close=')' separator=','> "
@@ -96,6 +154,12 @@ public interface RoleMapper {
 			+ "</script>")
 	int unlinkReses(@Param("roleId") String roleId, @Param("unlinkResIds") List<String> unlinkResIds);
 
+	/**
+	 * 关联资源
+	 * @param roleId
+	 * @param addResIds
+	 * @return
+	 */
 	@Insert("<script>"
 			+ "insert into sys_role_res(role_id, res_id) values "
 			+ " <foreach collection='addResIds' item='addResId' index='index' open='' close='' separator=','>"
@@ -104,6 +168,11 @@ public interface RoleMapper {
 			+ "</script>")
 	int linkReses(@Param("roleId") String roleId, @Param("addResIds") List<String> addResIds);
 
+	/**
+	 * 根据角色ID列表删除角色
+	 * @param ids
+	 * @return
+	 */
 	@Delete("<script>"
 			+ "delete from sys_role where id in"
 			+ " <foreach collection='ids' item='id' index='index' open='(' close=')' separator=','> "
@@ -112,6 +181,11 @@ public interface RoleMapper {
 			+ "</script>")
 	int delete(@Param("ids") List<String> ids);
 	
+	/**
+	 * 根据角色ID解除其所有关联的资源
+	 * @param ids
+	 * @return
+	 */
 	@Delete("<script>"
 			+ "delete from sys_role_res where role_id in "
 			+ " <foreach collection='roleIds' item='roleId' index='index' open='(' close=')' separator=','> "
@@ -120,6 +194,11 @@ public interface RoleMapper {
 			+ "</script>")
 	int unlinkRoleReses(@Param("roleIds") List<String> ids);
 	
+	/**
+	 * 根据角色ID解除所有其关联的用户
+	 * @param ids
+	 * @return
+	 */
 	@Delete("<script>"
 			+ "delete from sys_user_role where role_id in "
 			+ " <foreach collection='roleIds' item='roleId' index='index' open='(' close=')' separator=','> "

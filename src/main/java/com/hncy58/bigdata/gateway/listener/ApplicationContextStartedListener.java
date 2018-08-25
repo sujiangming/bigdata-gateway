@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
  * @date 2018年8月6日 下午6:52:23
  */
 @Component
+@Deprecated
 public class ApplicationContextStartedListener {
 
 	Logger log = LoggerFactory.getLogger(ApplicationContextStartedListener.class);

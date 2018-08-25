@@ -29,6 +29,14 @@ import com.hncy58.bigdata.gateway.service.UserService;
 import com.hncy58.bigdata.gateway.service.imlp.AuthInfoCacheService;
 import com.hncy58.bigdata.gateway.util.Constant;
 
+/**
+ * 资源控制器
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月25日 下午5:12:48
+ */
 @RestController
 @RequestMapping("/api/res")
 public class ResourceController {

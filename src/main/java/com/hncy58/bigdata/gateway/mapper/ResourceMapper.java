@@ -17,8 +17,21 @@ import com.github.pagehelper.Page;
 import com.hncy58.bigdata.gateway.domain.ResourceDomain;
 import com.hncy58.bigdata.gateway.model.Resource;
 
+/**
+ * 资源数据映射
+ * @author tdz
+ * @company hncy58 长银五八
+ * @website http://www.hncy58.com
+ * @version 1.0
+ * @date 2018年8月25日 下午4:42:39
+ */
 public interface ResourceMapper {
 
+	/**
+	 * 根据主键过去资源信息
+	 * @param id
+	 * @return
+	 */
 	@Select("select * from sys_res where id=#{id}")
 	@Results(id="all_cols", value={
 		@Result(column="id", property="id")
@@ -34,10 +47,19 @@ public interface ResourceMapper {
 	})
 	Resource selectByPrimaryKey(int id);
 	
+	/**
+	 * 获取所有资源列表
+	 * @return
+	 */
 	@Select("select * from sys_res")
 	@ResultMap("all_cols")
 	List<Resource> selectAll();
 	
+	/**
+	 * 根据资源类型查询资源列表
+	 * @param resTypes
+	 * @return
+	 */
 	@Select("<script>"
 			+ "select * from sys_res where res_type in "
 			+ " <foreach collection='resTypes' item='resType' index='index' open='(' close=')' separator=','> "
@@ -47,18 +69,38 @@ public interface ResourceMapper {
 	@ResultMap("all_cols")
 	List<Resource> selectAllByType(@Param("resTypes") List<String> resTypes);
 	
+	/**
+	 * 根据主键删除资源
+	 * @param id
+	 * @return
+	 */
 	@Delete("delete from sys_res where id = #{id}")
 	int deleteByPrimaryKey(int id);
 	
+	/**
+	 * 添加资源
+	 * @param res
+	 * @return
+	 */
 	@Insert("insert into sys_res (id, pid, res_type, res_name, res_uri, rank, mark, res_icon, create_time, update_time) "
 			+ " values (#{id}, #{pid}, #{resType}, #{resName}, #{resUri}, #{rank}, #{mark}, #{resIcon}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	int insert(Resource res);
 	
+	/**
+	 * 更新资源
+	 * @param res
+	 * @return
+	 */
 	@Update("UPDATE sys_res SET pid = #{pid}, res_type = #{resType}, res_name = #{resName}, res_uri = #{resUri}"
 			+ ", rank = #{rank}, update_time = now(), mark = #{mark}, res_icon = #{resIcon} WHERE id = #{id}")
 	int updateByPrimaryKey(Resource res);
 
+	/**
+	 * 根据用户ID获取资源列表
+	 * @param userId
+	 * @return
+	 */
 	@Select("select r.* from sys_user u "
 			+ "left join sys_user_role ur on u.id = ur.user_id "
 			+ "left join sys_role_res rr on ur.role_id = rr.role_id "
@@ -67,6 +109,12 @@ public interface ResourceMapper {
 	@ResultMap("all_cols")
 	List<Resource> getResourceByUser(int userId);
 	
+	/**
+	 * 根据父资源ID和资源类型获取资源
+	 * @param resPids
+	 * @param resType
+	 * @return
+	 */
 	@Select("<script>"
 			+ "select r.* from sys_res r where r.res_type = #{resType} and r.pid in "
 			+ " <foreach collection='resPids' item='resPid' index='index' open='(' close=')' separator=','> "
@@ -76,6 +124,11 @@ public interface ResourceMapper {
 	@ResultMap("all_cols")
 	List<Resource> getResourceByPids(@Param("resPids") List<String> resPids, @Param("resType") int resType);
 
+	/**
+	 * 批量删除资源
+	 * @param ids
+	 * @return
+	 */
 	@Delete("<script>"
 			+ "delete from sys_res where id in"
 			+ " <foreach collection='ids' item='id' index='index' open='(' close=')' separator=','> "
@@ -84,6 +137,11 @@ public interface ResourceMapper {
 			+ "</script>")
 	int delete(@Param("ids") List<String> ids);
 
+	/**
+	 * 解除角色与资源关联关系
+	 * @param resIds
+	 * @return
+	 */
 	@Delete("<script>"
 			+ "delete from sys_role_res where res_id in "
 			+ " <foreach collection='resIds' item='resId' index='index' open='(' close=')' separator=','> "
@@ -92,6 +150,11 @@ public interface ResourceMapper {
 			+ "</script>")
 	int unlinkRole(@Param("resIds") List<String> resIds);
 
+	/**
+	 * 根据过滤条件查询资源列表
+	 * @param queryRes
+	 * @return
+	 */
 	@Select("<script>"
 			+ "select r.* from sys_res r "
 			+ "<where>  "
@@ -125,6 +188,12 @@ public interface ResourceMapper {
 	@ResultMap("all_cols")
 	Page<Resource> select(ResourceDomain queryRes);
 	
+	/**
+	 * 更新用户资源的父资源ID
+	 * @param pResId
+	 * @param resIds
+	 * @return
+	 */
 	@Update("<script>"
 			+ "UPDATE sys_res SET pid = #{pResId}, update_time = now() WHERE id in "
 			+ " <foreach collection='resIds' item='resId' index='index' open='(' close=')' separator=','> "
