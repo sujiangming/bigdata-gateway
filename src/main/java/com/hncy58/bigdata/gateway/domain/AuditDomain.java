@@ -3,6 +3,7 @@ package com.hncy58.bigdata.gateway.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -167,5 +168,44 @@ public class AuditDomain implements Serializable {
 	public void setMark(String mark) {
 		this.mark = mark;
 	}
+	
+	public void setSortFiled() {
 
+		if(StringUtils.isEmpty(this.getSortType())) {
+			// 默认升序
+			this.setSortType("asc");
+		}
+		
+		switch (this.getSortField()) {
+		case "userId":
+			this.setSortField("user_id");
+			break;
+		case "reqUrl":
+			this.setSortField("req_url");
+			break;
+		case "queryStr":
+			this.setSortField("query_str");
+			break;
+		case "rmtIpAddr":
+			this.setSortField("rmt_ip_addr");
+			break;
+		case "localIpAddr":
+			this.setSortField("local_ip_addr");
+			break;
+		case "reqMethod":
+			this.setSortField("req_method");
+			break;
+		case "oprTime":
+			this.setSortField("opr_time");
+			break;
+		case "userCode":
+			this.setSortField("user_code");
+			break;
+		case "userName":
+			this.setSortField("user_name");
+			break;
+		default:
+			break;
+		}
+	}
 }

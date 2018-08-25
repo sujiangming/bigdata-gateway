@@ -156,6 +156,9 @@ public class UserController {
 	public Map<String, Object> selectByPage(int pageNo, int pageSize, UserDomain queryUser) {
 
 		Map<String, Object> ret = new HashMap<String, Object>();
+		if (!StringUtils.isEmpty(queryUser.getSortField()))
+			queryUser.setSortFiled();
+		
 		Page<User> pageRet = userService.selectAll(pageNo, pageSize, queryUser);
 
 		ret.put("code", Constant.REQ_SUCCESS_CODE);

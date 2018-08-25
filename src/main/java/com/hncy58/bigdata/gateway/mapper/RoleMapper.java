@@ -47,7 +47,7 @@ public interface RoleMapper {
 			+ "	<if test=\"mark != null and mark != ''\"> "
 			+ "		and mark like '%${mark}%' "
 			+ "	</if> "
-			+ "	<if test='roleType != null'> "
+			+ "	<if test='roleType != null and roleType > -1 '> "
 			+ "		and role_type = #{roleType} "
 			+ "	</if> "
 			+ "	<if test='createTime != null'> "

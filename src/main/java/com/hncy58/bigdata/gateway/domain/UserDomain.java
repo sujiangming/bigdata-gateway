@@ -3,6 +3,7 @@ package com.hncy58.bigdata.gateway.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.hncy58.bigdata.gateway.model.User;
@@ -162,29 +163,47 @@ public class UserDomain implements Serializable {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
+	
+	public void setSortFiled() {
+
+		if(StringUtils.isEmpty(this.getSortType())) {
+			// 默认升序
+			this.setSortType("asc");
+		}
+		
+		switch (this.getSortField()) {
+		case "userCode":
+			this.setSortField("user_code");
+			break;
+		case "userName":
+			this.setSortField("user_name");
+			break;
+		case "mobilePhone":
+			this.setSortField("mobile_phone");
+			break;
+		case "deptCode":
+			this.setSortField("dept_code");
+			break;
+		case "loginStatus":
+			this.setSortField("login_status");
+			break;
+		case "actStatus":
+			this.setSortField("act_status");
+			break;
+		case "createTime":
+			this.setSortField("create_time");
+			break;
+		case "updateTime":
+			this.setSortField("update_time");
+			break;
+		default:
+			break;
+		}
+	}
 
 	public User toUser() {
-
 		return new User(id, userCode, password, userName, mark, email, mobilePhone, deptCode, position, loginStatus,
 				actStatus, createTime, updateTime);
-		/*
-		User user = new User();
-		user.setActStatus(this.actStatus);
-		user.setCreateTime(this.createTime);
-		user.setDeptCode(this.deptCode);
-		user.setDeptCode(this.deptCode);
-		user.setId(this.id);
-		user.setLoginStatus(this.loginStatus);
-		user.setMark(this.mark);
-		user.setMobilePhone(this.mobilePhone);
-		user.setPassword(this.getPassword());
-		user.setPosition(this.position);
-		user.setUpdateTime(this.updateTime);
-		user.setUserCode(this.userCode);
-		user.setUserName(this.userName);
-		user.setEmail(this.email);
-		return user;
-		*/
 	}
 
 }

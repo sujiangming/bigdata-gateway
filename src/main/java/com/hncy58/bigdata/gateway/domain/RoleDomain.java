@@ -3,6 +3,7 @@ package com.hncy58.bigdata.gateway.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.hncy58.bigdata.gateway.model.Role;
@@ -13,7 +14,7 @@ public class RoleDomain implements Serializable {
 
 	private int id;
 	private String roleCode;
-	private int roleType;
+	private int roleType = -1;
 	private String roleName;
 	private String mark;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -111,5 +112,33 @@ public class RoleDomain implements Serializable {
 
 	public Role toRole() {
 		return new Role(id, roleCode, roleType, roleName, mark, createTime, updateTime);
+	}
+	
+	public void setSortFiled() {
+
+		if(StringUtils.isEmpty(this.getSortType())) {
+			// 默认升序
+			this.setSortType("asc");
+		}
+
+		switch (this.getSortField()) {
+		case "roleCode":
+			this.setSortField("role_code");
+			break;
+		case "roleName":
+			this.setSortField("role_name");
+			break;
+		case "roleType":
+			this.setSortField("role_type");
+			break;
+		case "createTime":
+			this.setSortField("create_time");
+			break;
+		case "updateTime":
+			this.setSortField("update_time");
+			break;
+		default:
+			break;
+		}
 	}
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,13 +68,15 @@ public class ResourceController {
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
 		ret.put("data", roles);
 		return ret;
-
 	}
 
 	@RequestMapping(value = "/select", method = RequestMethod.GET)
 	public Map<String, Object> selectByPage(int pageNo, int pageSize, ResourceDomain queryRes) {
 
 		Map<String, Object> ret = new HashMap<>();
+		if (!StringUtils.isEmpty(queryRes.getSortField()))
+			queryRes.setSortFiled();
+
 		Page<Resource> pageRet = resourceService.select(pageNo, pageSize, queryRes);
 
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
@@ -84,7 +87,6 @@ public class ResourceController {
 		ret.put("data", pageRet.getResult());
 
 		return ret;
-
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)

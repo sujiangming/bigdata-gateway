@@ -78,6 +78,9 @@ public class RoleController {
 	public Map<String, Object> selectByPage(int pageNo, int pageSize, RoleDomain roleDomain) {
 
 		Map<String, Object> ret = new HashMap<>();
+		if (!StringUtils.isEmpty(roleDomain.getSortField()))
+			roleDomain.setSortFiled();
+		
 		Page<Role> pageRet = roleService.select(pageNo, pageSize, roleDomain);
 
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
