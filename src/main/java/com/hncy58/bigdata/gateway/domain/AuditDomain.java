@@ -27,12 +27,18 @@ public class AuditDomain implements Serializable {
 	private String rmtIpAddr;
 	private String localIpAddr;
 	private String reqMethod;
+	private String mark;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date oprTime;
-	private String mark;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date endTime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date startTime;
 
 	private String userCode;
 	private String userName;
+
+	private String accessRet;
 
 	/** 排序字段 **/
 	private String sortField;
@@ -43,18 +49,28 @@ public class AuditDomain implements Serializable {
 		super();
 	}
 
-	public AuditDomain(int id, String token, String reqUrl, String queryStr, String rmtIpAddr, String localIpAddr,
-			String reqMethod, Date oprTime, String mark) {
-		super();
-		this.id = id;
-		this.token = token;
-		this.reqUrl = reqUrl;
-		this.queryStr = queryStr;
-		this.rmtIpAddr = rmtIpAddr;
-		this.localIpAddr = localIpAddr;
-		this.reqMethod = reqMethod;
-		this.oprTime = oprTime;
-		this.mark = mark;
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getAccessRet() {
+		return accessRet;
+	}
+
+	public void setAccessRet(String accessRet) {
+		this.accessRet = accessRet;
 	}
 
 	public int getUserId() {
@@ -168,14 +184,14 @@ public class AuditDomain implements Serializable {
 	public void setMark(String mark) {
 		this.mark = mark;
 	}
-	
+
 	public void setSortFiled() {
 
-		if(StringUtils.isEmpty(this.getSortType())) {
+		if (StringUtils.isEmpty(this.getSortType())) {
 			// 默认升序
 			this.setSortType("asc");
 		}
-		
+
 		switch (this.getSortField()) {
 		case "userId":
 			this.setSortField("user_id");
@@ -203,6 +219,8 @@ public class AuditDomain implements Serializable {
 			break;
 		case "userName":
 			this.setSortField("user_name");
+		case "accessRet":
+			this.setSortField("access_ret");
 			break;
 		default:
 			break;

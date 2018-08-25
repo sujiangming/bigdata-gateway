@@ -13,22 +13,25 @@ import com.hncy58.bigdata.gateway.model.AuditInfo;
 
 public interface AuditMapper {
 
-	@Insert("INSERT INTO sys_user_opr_log (id, user_id, token, req_url, query_str, rmt_ip_addr, local_ip_addr, req_method, opr_time, mark) "
-			+ " VALUES (#{id}, #{userId}, #{token}, #{reqUrl}, #{queryStr}, #{rmtIpAddr}, #{localIpAddr}, #{reqMethod}, #{oprTime,jdbcType=TIMESTAMP}, #{mark})")
+	@Insert("INSERT INTO sys_user_opr_log (id, user_id, token, req_url, query_str, rmt_ip_addr, local_ip_addr, req_method, opr_time, access_ret, mark) "
+			+ " VALUES (#{id}, #{userId}, #{token}, #{reqUrl}, #{queryStr}, #{rmtIpAddr}, #{localIpAddr}, #{reqMethod}, #{oprTime,jdbcType=TIMESTAMP}, #{accessRet}, #{mark})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	int save(AuditInfo audit);
 	
 	@Select("<script>"
 			+ "select r.*, u.user_code, u.user_name from sys_user_opr_log r left join sys_user u on r.user_id = u.id "
 			+ "<where>  "
-			+ "	<if test='userName != null'> "
+			+ "	<if test=\"userName != null and userName != ''\"> "
 			+ "		and u.user_Name = #{userName} "
 			+ "	</if> "
-			+ "	<if test='userCode != null'> "
+			+ "	<if test=\"userCode != null and userCode != ''\"> "
 			+ "		and user_code = #{userCode} "
 			+ "	</if> "
 			+ "	<if test='reqMethod != null'> "
 			+ "		and req_method = #{reqMethod} "
+			+ "	</if> "
+			+ "	<if test=\"accessRet != null and accessRet != ''\"> "
+			+ "		and access_ret = #{accessRet} "
 			+ "	</if> "
 			+ "	<if test=\"rmtIpAddr != null and rmtIpAddr != ''\"> "
 			+ "		and rmt_ip_addr like '%${rmtIpAddr}%' "
@@ -36,9 +39,17 @@ public interface AuditMapper {
 			+ "	<if test=\"localIpAddr != null and localIpAddr != ''\"> "
 			+ "		and local_ip_addr like '%${localIpAddr}%' "
 			+ "	</if> "
-			+ "	<if test=\"oprTime != null\"> "
-			+ "		and opr_time  &gt;= #{oprTime} "
-			+ "	</if> "
+			+ "<choose>"
+			+ "	<when test=\"startTime != null and endTime != null\"> "
+			+ "		and opr_time  between #{startTime} and #{endTime} "
+			+ "	</when> "
+			+ "	<when test=\"startTime != null\"> "
+			+ "		and opr_time  &gt;= #{startTime} "
+			+ "	</when> "
+			+ "	<when test=\"endTime != null\"> "
+			+ "		and opr_time  &lt;= #{endTime} "
+			+ "	</when> "
+			+ "</choose>"
 			+ "	<if test=\"token != null and token != ''\"> "
 			+ "		and token like '%${token}%' "
 			+ "	</if> "
@@ -68,6 +79,7 @@ public interface AuditMapper {
 			,@Result(column="rmt_ip_addr", property="rmtIpAddr")
 			,@Result(column="local_ip_addr", property="localIpAddr")
 			,@Result(column="req_method", property="reqMethod")
+			,@Result(column="access_ret", property="accessRet")
 			,@Result(column="mark", property="mark")
 			,@Result(column="opr_time", property="oprTime", jdbcType=JdbcType.TIMESTAMP)
 		})

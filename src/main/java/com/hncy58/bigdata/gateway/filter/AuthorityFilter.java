@@ -61,24 +61,22 @@ public class AuthorityFilter extends ZuulFilter {
 		log.info("session:{}, token:{} ,send {} request to {}", session.getId(), token, req.getMethod(),
 				req.getRequestURL().toString());
 
-		// 如果启用审计则发送审计消息
-		if (auditEnabled) {
-			sendAuditMsg(req);
-		}
-
 		// 登录、登出不做验证
 		if (uri.contains("login") || uri.contains("logout") || uri.contains("baidu")) {
+			sendAuditMsg(req, "1", "");
 			return null;
 		}
 
 		// 如果请求未携带token直接拒绝请求
 		if (StringUtils.isEmpty(token)) {
 			log.warn("session:{},user token is empty", session.getId());
+			sendAuditMsg(req, "0", "用户token为空");
 			return generateResponseBody(ctx, "1003", "用户token为空");
 		}
 		// 验证token有效性
 		if (token.trim().split("#").length != 3 || !tokenService.validateToken(token)) {
 			log.warn("session:{},user token token is invalidated, token:{}", session.getId(), token);
+			sendAuditMsg(req, "0", "用户token令牌无效");
 			return generateResponseBody(ctx, "1004", "用户token令牌无效");
 		}
 
@@ -95,12 +93,14 @@ public class AuthorityFilter extends ZuulFilter {
 		// 如果权限还是为空则返回错误
 		if (authInfo == null) {
 			log.warn("token:{},用户授信信息为空", token);
-			return generateResponseBody(ctx, "1001", "用户授信信息为空");
+			sendAuditMsg(req, "0", "用户授权信息为空");
+			return generateResponseBody(ctx, "1001", "用户授权信息为空");
 		}
 		// 判断是否具有超级管理员角色
 		for (RoleInfo role : authInfo.getRoles()) {
 			if (role.getRoleId() == 1) {
 				log.info("session:{}, admin role access uri:{}", session.getId(), uri);
+				sendAuditMsg(req, "1", "超管访问");
 				return null;
 			}
 		}
@@ -112,19 +112,25 @@ public class AuthorityFilter extends ZuulFilter {
 				// 判断其他权限
 				if (uri.equalsIgnoreCase(res.getResUri()) || uri.startsWith(res.getResUri())) {
 					log.info("session:{}, can access uri:{}", session.getId(), uri);
+					sendAuditMsg(req, "1", "普权访问");
 					return null;
 				}
 			}
 		}
 
 		log.warn("token:{},权限验证失败,uri:{}", token, uri);
+		sendAuditMsg(req, "0", "权限验证失败");
 		return generateResponseBody(ctx, "1002", "权限验证失败，你没有访问" + uri + "的权限");
 	}
 
-	private void sendAuditMsg(HttpServletRequest req) {
+	private void sendAuditMsg(HttpServletRequest req, String accessRet, String mark) {
 
+		if (!auditEnabled)
+			return;
+		// 如果启用审计则发送审计消息
 		AuditInfo auditInfo = new AuditInfo(0, req.getHeader(Constant.REQ_TOKEN_HEADER_KEY), req.getRequestURI(),
-				req.getQueryString(), Utils.getIPAddress(req), req.getLocalAddr(), req.getMethod(), new Date(), "");
+				req.getQueryString(), Utils.getIPAddress(req), req.getLocalAddr(), req.getMethod(), new Date(),
+				accessRet, mark);
 		try {
 			auditMsgSender.sendMessage(auditInfo);
 		} catch (Exception e) {

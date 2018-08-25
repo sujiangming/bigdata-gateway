@@ -33,12 +33,14 @@ public class AuditInfo implements Serializable {
 	private String userCode;
 	private String userName;
 
+	private String accessRet;
+
 	public AuditInfo() {
 		super();
 	}
 
 	public AuditInfo(int id, String token, String reqUrl, String queryStr, String rmtIpAddr, String localIpAddr,
-			String reqMethod, Date oprTime, String mark) {
+			String reqMethod, Date oprTime, String accessRet, String mark) {
 		super();
 		this.id = id;
 		this.token = token;
@@ -54,6 +56,15 @@ public class AuditInfo implements Serializable {
 		this.reqMethod = reqMethod;
 		this.oprTime = oprTime;
 		this.mark = mark;
+		this.accessRet = accessRet;
+	}
+
+	public String getAccessRet() {
+		return accessRet;
+	}
+
+	public void setAccessRet(String accessRet) {
+		this.accessRet = accessRet;
 	}
 
 	public String getUserCode() {
