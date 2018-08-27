@@ -80,7 +80,7 @@ public class RoleController {
 		Map<String, Object> ret = new HashMap<>();
 		if (!StringUtils.isEmpty(roleDomain.getSortField()))
 			roleDomain.setSortFiled();
-		
+
 		Page<Role> pageRet = roleService.select(pageNo, pageSize, roleDomain);
 
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
@@ -141,19 +141,21 @@ public class RoleController {
 	public Map<String, Object> updateByPrimaryKeySelective(RoleDomain roleDomain) {
 
 		Map<String, Object> ret = new HashMap<>();
-		List<String> resIds = Collections.emptyList();
+		List<String> resIds = null;
 
-		if (!StringUtils.isEmpty(roleDomain.getResIds().trim()))
+		if (roleDomain.getResIds() != null && !StringUtils.isEmpty(roleDomain.getResIds().trim()))
 			resIds = Arrays.asList(roleDomain.getResIds().trim().split(","));
 
 		int num = roleService.updateByPrimaryKeySelective(roleDomain.toRole(), resIds);
 
 		if (num > 0) {
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
+			// 暂时又改回为：更新角色不同时更新关联的资源信息，所以不用发送权限更新消息
 			// 发送权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
-			AuthChangeMsg msg = new AuthChangeMsg("role", "linkRes", Arrays.asList(roleDomain.getId(), roleDomain.getResIds()));
-			authInfoCacheService.sendMsg(msg);
-			log.info("role:{} link res:{}, send auth info change msg", roleDomain.getId(), roleDomain.getResIds());
+//			AuthChangeMsg msg = new AuthChangeMsg("role", "linkRes",
+//					Arrays.asList(roleDomain.getId(), roleDomain.getResIds()));
+//			authInfoCacheService.sendMsg(msg);
+//			log.info("role:{} link res:{}, send auth info change msg", roleDomain.getId(), roleDomain.getResIds());
 		} else {
 			ret.put("code", "2002");
 			ret.put("msg", "更新角色失败");

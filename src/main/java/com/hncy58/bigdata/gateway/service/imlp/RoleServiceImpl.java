@@ -59,7 +59,7 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public int updateByPrimaryKeySelective(Role role, List<String> resIds) {
 		int num = roleMapper.updateByPrimaryKeySelective(role);
-		if (num > 0) {
+		if (num > 0 && resIds != null) {
 			int resNum = linkRes(role.getId() + "", resIds);
 			log.info("update role:{}, update res num:{}", role.getId(), resNum);
 		}

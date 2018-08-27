@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -114,12 +116,13 @@ public class UserController {
 			// 生成菜单栏
 			// 判断是否具有超管角色
 			Object menu = Collections.EMPTY_LIST;
+			Set<Integer> resTypes = new HashSet<>(Arrays.asList(0,1));
 			if (Utils.hasSuperRole((AuthInfo) authInfo)) {
-				menu = Utils.generateMenu(resourceService.selectAll());
+				menu = Utils.generateMenu(resourceService.selectAll(), resTypes);
 				// 缓存设置用户具有超级管理员角色
 				tokenService.putCacheByToken(token, "superrole", "1");
 			} else {
-				menu = Utils.generateMenu((AuthInfo) authInfo);
+				menu = Utils.generateMenu((AuthInfo) authInfo, resTypes);
 			}
 			data.put("menu", menu);
 		}

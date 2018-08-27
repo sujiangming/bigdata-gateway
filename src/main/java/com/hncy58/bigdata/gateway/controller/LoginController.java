@@ -1,8 +1,11 @@
 package com.hncy58.bigdata.gateway.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -105,15 +108,16 @@ public class LoginController {
 		List<AuthInfo> authInfos = authorityService.selectByUserId(user.getId());
 		if (!authInfos.isEmpty()) {
 			AuthInfo authInfo = authInfos.get(0);
-			
 			// 生成菜单栏
+			// 只获取根节点和菜单类型资源
+			Set<Integer> resTypes = new HashSet<>(Arrays.asList(0,1));
 			// 判断是否具有超管角色
 			if (Utils.hasSuperRole(authInfo)) {
-				data.put("menu", Utils.generateMenu(resourceService.selectAll()));
+				data.put("menu", Utils.generateMenu(resourceService.selectAll(), resTypes));
 				// 缓存设置用户具有超级管理员角色
 				tokenService.putCacheByToken(token, "superrole", "1");
 			} else {
-				data.put("menu", Utils.generateMenu(authInfo));
+				data.put("menu", Utils.generateMenu(authInfo, resTypes));
 			}
 			
 			// 放置所有权限

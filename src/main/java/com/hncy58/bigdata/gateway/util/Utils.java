@@ -65,7 +65,13 @@ public class Utils {
 		menus.forEach(menu -> sortMenus(menu.getSubMenus()));
 	}
 
-	public static Object generateMenu(AuthInfo authInfo) {
+	/**
+	 * 根据资源列表和资源类型生成资源树
+	 * @param authInfo
+	 * @param resTypes
+	 * @return
+	 */
+	public static Object generateMenu(AuthInfo authInfo, Set<Integer> resTypes) {
 		Set<Resource> reses = new HashSet<>();
 		authInfo.getRoles().forEach(role -> {
 			role.getResources().forEach(res -> {
@@ -73,16 +79,28 @@ public class Utils {
 			});
 		});
 
-		return generateMenu(new ArrayList<>(reses));
+		return generateMenu(new ArrayList<>(reses), resTypes);
 	}
 
-	public static Object generateMenu(List<Resource> reses) {
+	/**
+	 * 
+	 * 根据资源列表和资源类型生成资源树
+	 * @param authInfo
+	 * @param resTypes
+	 * @return
+	 */
+	public static Object generateMenu(List<Resource> reses, Set<Integer> resTypes) {
 		MenuInfo root = null;
 		boolean findRoot = false;
 		List<MenuInfo> menus = new ArrayList<>();
 		List<MenuInfo> rootMenus = new ArrayList<>();
 
-		reses.forEach(res -> menus.add(MenuInfo.resourceToMenu(res)));
+		reses.forEach(res -> {
+			// 过滤不需要的资源类型
+			if(resTypes == null || resTypes.isEmpty() || resTypes.contains(res.getResType())) { 
+				menus.add(MenuInfo.resourceToMenu(res));
+			}
+		});
 		sortMenus(menus);
 
 		for (MenuInfo menu : menus) {

@@ -1,10 +1,14 @@
 package com.hncy58.bigdata.gateway.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -152,12 +156,13 @@ public class AuthorityController {
 		if (authInfo != null) {
 			// 生成菜单栏
 			// 判断是否具有超管角色
+			Set<Integer> resTypes = new HashSet<>(Arrays.asList(0, 1));
 			if (Utils.hasSuperRole((AuthInfo) authInfo)) {
-				data = Utils.generateMenu(resourceService.selectAll());
+				data = Utils.generateMenu(resourceService.selectAll(), resTypes);
 				// 缓存设置用户具有超级管理员角色
 				tokenService.putCacheByToken(token, "superrole", "1");
 			} else {
-				data = Utils.generateMenu((AuthInfo) authInfo);
+				data = Utils.generateMenu((AuthInfo) authInfo, resTypes);
 			}
 		}
 
@@ -176,11 +181,16 @@ public class AuthorityController {
 	@RequestMapping(value = "/menu/getAll", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getAllMenu(HttpServletRequest req, String resTypes) {
 		Map<String, Object> ret = new HashMap<>();
+		List<String> resTypeList = new ArrayList<>();
+		Set<Integer> resTypeSet = new HashSet<>();
+
 		if (StringUtils.isEmpty(resTypes)) {
-			ret.put("data", Utils.generateMenu(resourceService.selectAll()));
+			ret.put("data", Utils.generateMenu(resourceService.selectAll(), resTypeSet));
 		} else {
-			ret.put("data",
-					Utils.generateMenu(resourceService.selectAllByType(Arrays.asList(resTypes.trim().split(",")))));
+			resTypeList = Arrays.asList(resTypes.trim().split(",")).stream().distinct()
+					.filter(type -> !StringUtils.isEmpty(type)).map(type -> type.trim()).collect(Collectors.toList());
+			resTypeSet = resTypeList.stream().map(type -> Integer.valueOf(type)).collect(Collectors.toSet());
+			ret.put("data", Utils.generateMenu(resourceService.selectAllByType(resTypeList), resTypeSet));
 		}
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
 		return ResponseEntity.ok(ret);
