@@ -31,6 +31,7 @@ import com.hncy58.bigdata.gateway.util.Constant;
 
 /**
  * 资源控制器
+ * 
  * @author tdz
  * @company hncy58 长银五八
  * @website http://www.hncy58.com
@@ -97,24 +98,71 @@ public class ResourceController {
 		return ret;
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteInterface", method = RequestMethod.POST)
 	public Map<String, Object> deleteByPrimaryKey(String ids) {
 		Map<String, Object> ret = new HashMap<>();
 		Map<String, Object> data = new HashMap<>();
 		log.info("start delete res:{}", ids);
 		List<String> resIds = Arrays.asList(ids.trim().split(","));
+		// 如果接口下还有子资源则不允许删除
+		int hasSubResourceCnt = resourceService.hasSubResource(resIds, Arrays.asList("1", "2", "3"));
+		if (hasSubResourceCnt > 0) {
+			ret.put("code", "4006");
+			ret.put("msg", "删除的菜单资源中有子菜单，不允许删除");
+			return ret;
+		}
 		// 删除资源之前需要先查询已经关联此资源的用户，用于发送用户权限信息更改消息
 		List<User> users = userService.selectUserByRes(resIds);
-		int num = resourceService.delete(resIds);
+		int num = resourceService.deleteInterface(resIds);
 
 		if (num > 0) {
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
 			data.put("num", num);
-			// 发送权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
-			AuthChangeMsg msg = new AuthChangeMsg("res", "delete",
-					users.stream().map(user -> user.getId()).collect(Collectors.toList()));
-			authInfoCacheService.sendMsg(msg);
-			log.info("role delete:{}, send auth info change msg", ids);
+			if (users != null && !users.isEmpty()) {
+				// 发送权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
+				AuthChangeMsg msg = new AuthChangeMsg("res", "delete",
+						users.stream().map(user -> user.getId()).collect(Collectors.toList()));
+				authInfoCacheService.sendMsg(msg);
+				log.info("role delete:{}, send auth info change msg", ids);
+			}
+		} else {
+			ret.put("code", "4004");
+			ret.put("msg", "删除资源失败，系统删除没有删除任何资源");
+		}
+
+		ret.put("data", data);
+		return ret;
+	}
+
+	@RequestMapping(value = "/deleteMenu", method = RequestMethod.POST)
+	public Map<String, Object> deleteMenu(String ids) {
+		Map<String, Object> ret = new HashMap<>();
+		Map<String, Object> data = new HashMap<>();
+		log.info("start delete res:{}", ids);
+		List<String> resIds = Arrays.asList(ids.trim().split(","));
+
+		// 如果接口下还有子菜单则不允许删除
+		int hasSubResourceCnt = resourceService.hasSubResource(resIds, Arrays.asList("1", "2"));
+		if (hasSubResourceCnt > 0) {
+			ret.put("code", "4006");
+			ret.put("msg", "删除的菜单资源中有子菜单，不允许删除");
+			return ret;
+		}
+
+		// 删除资源之前需要先查询已经关联此资源的用户，用于发送用户权限信息更改消息
+		List<User> users = userService.selectUserByRes(resIds);
+		int num = resourceService.deleteMenu(resIds);
+
+		if (num > 0) {
+			ret.put("code", Constant.REQ_SUCCESS_CODE);
+			data.put("num", num);
+			if (users != null && !users.isEmpty()) {
+				// 发送权限信息更改消息(redis pub/sub)，告知后台需要更新用户权限信息。做成异步、解耦的方式
+				AuthChangeMsg msg = new AuthChangeMsg("res", "delete",
+						users.stream().map(user -> user.getId()).collect(Collectors.toList()));
+				authInfoCacheService.sendMsg(msg);
+				log.info("role delete:{}, send auth info change msg", ids);
+			}
 		} else {
 			ret.put("code", "4004");
 			ret.put("msg", "删除资源失败，系统删除没有删除任何资源");

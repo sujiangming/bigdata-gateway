@@ -32,7 +32,7 @@ public interface ResourceService {
 
 	List<Resource> getResourceByUser(int userId);
 
-	int delete(List<String> ids);
+	int deleteInterface(List<String> ids);
 
 	Page<Resource> select(int pageNo, int pageSize, ResourceDomain queryRes);
 
@@ -41,4 +41,8 @@ public interface ResourceService {
 	int unlinkParentRes(String pResId, List<String> resList);
 
 	List<Resource> getResourceByPids(List<String> resPids, int resType);
+
+	int deleteMenu(List<String> ids);
+
+	int hasSubResource(List<String> resIds, List<String> resTypes);
 }

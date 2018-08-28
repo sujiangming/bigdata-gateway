@@ -125,17 +125,30 @@ public interface ResourceMapper {
 	List<Resource> getResourceByPids(@Param("resPids") List<String> resPids, @Param("resType") int resType);
 
 	/**
-	 * 批量删除资源
+	 * 批量删除接口资源
 	 * @param ids
 	 * @return
 	 */
 	@Delete("<script>"
-			+ "delete from sys_res where id in"
+			+ "delete from sys_res where res_type = 3 and id in"
 			+ " <foreach collection='ids' item='id' index='index' open='(' close=')' separator=','> "
 			+ "  #{id, jdbcType=INTEGER} "
 			+ " </foreach>"
 			+ "</script>")
-	int delete(@Param("ids") List<String> ids);
+	int deleteInterface(@Param("ids") List<String> ids);
+	
+	/**
+	 * 批量删除菜单资源（虚拟菜单和菜单（res_type = 2,3））
+	 * @param ids
+	 * @return
+	 */
+	@Delete("<script>"
+			+ "delete from sys_res where res_type in (1,2) and id in "
+			+ " <foreach collection='ids' item='id' index='index' open='(' close=')' separator=','> "
+			+ "  #{id, jdbcType=INTEGER} "
+			+ " </foreach>"
+			+ "</script>")
+	int deleteMenu(@Param("ids") List<String> ids);
 
 	/**
 	 * 解除角色与资源关联关系
@@ -149,6 +162,20 @@ public interface ResourceMapper {
 			+ " </foreach>"
 			+ "</script>")
 	int unlinkRole(@Param("resIds") List<String> resIds);
+	
+	/**
+	 * 通过父资源ID解除角色与接口（resType=3）关联关系
+	 * @param resIds
+	 * @return
+	 */
+	@Delete("<script>"
+			+ "delete from sys_role_res where res_id in (select id from sys_res r where r.res_type = 3 and r.pid in "
+			+ " <foreach collection='resIds' item='resId' index='index' open='(' close=')' separator=','> "
+			+ "  #{resId, jdbcType=INTEGER} "
+			+ " </foreach>"
+			+ ")"
+			+ "</script>")
+	int unlinkRoleByPid(@Param("resIds") List<String> resIds);
 
 	/**
 	 * 根据过滤条件查询资源列表
@@ -201,4 +228,36 @@ public interface ResourceMapper {
 			+ " </foreach>"
 			+ "</script>")
 	int updateResesPid(@Param("pResId") String pResId, @Param("resIds") List<String> resIds);
+	
+	/**
+	 * 根据父资源ID重置子接口(res_type=3)ID的父资源ID
+	 * @param pResId 新父资源ID
+	 * @param resPids 待更改子资源的父资源列表
+	 * @return
+	 */
+	@Update("<script>"
+			+ "UPDATE sys_res SET pid = #{pResId, jdbcType=INTEGER}, update_time = now() WHERE res_type = 3 and pid in "
+			+ " <foreach collection='resPids' item='resPid' index='index' open='(' close=')' separator=','> "
+			+ "  #{resPid, jdbcType=INTEGER} "
+			+ " </foreach>"
+			+ "</script>")
+	int updateResesPidByPid(@Param("pResId") String pResId, @Param("resPids") List<String> resPids);
+
+	/**
+	 * 查询资源列表中有子菜单（包括虚拟菜单）的资源数目
+	 * @param resIds
+	 * @param resTypes
+	 * @return
+	 */
+	@Select("<script>"
+			+ "select count(1) from sys_res where res_type in "
+			+ " <foreach collection='resTypes' item='resType' index='index' open='(' close=')' separator=','> "
+			+ "  #{resType, jdbcType=INTEGER} "
+			+ " </foreach>"
+			+ " and pid in "
+			+ " <foreach collection='resIds' item='resId' index='index' open='(' close=')' separator=','> "
+			+ "  #{resId, jdbcType=INTEGER} "
+			+ " </foreach>"
+			+ "</script>")
+	int hasSubResource(@Param("resIds")List<String> resIds, @Param("resTypes") List<String> resTypes);
 }

@@ -82,10 +82,22 @@ public class ResourceServiceImpl implements ResourceService {
 
 	@Transactional(rollbackFor = { Exception.class })
 	@Override
-	public int delete(List<String> ids) {
-		int num = resourceMapper.delete(ids);
+	public int deleteInterface(List<String> ids) {
+		int num = resourceMapper.deleteInterface(ids);
 		if (num > 0) {
 			resourceMapper.unlinkRole(ids);
+		}
+		return num;
+	}
+	
+	@Transactional(rollbackFor = { Exception.class })
+	@Override
+	public int deleteMenu(List<String> ids) {
+		int num = resourceMapper.deleteMenu(ids);
+		if (num > 0) {
+			int rows = resourceMapper.unlinkRole(ids);
+			rows = resourceMapper.unlinkRoleByPid(ids);
+			rows = resourceMapper.updateResesPidByPid("-1", ids);
 		}
 		return num;
 	}
@@ -108,6 +120,11 @@ public class ResourceServiceImpl implements ResourceService {
 	@Override
 	public List<Resource> getResourceByPids(List<String> resPids, int resType) {
 		return resourceMapper.getResourceByPids(resPids, resType);
+	}
+
+	@Override
+	public int hasSubResource(List<String> resIds, List<String> resTypes) {
+		return resourceMapper.hasSubResource(resIds, resTypes);
 	}
 
 }
