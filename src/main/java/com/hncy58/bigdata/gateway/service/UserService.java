@@ -42,5 +42,7 @@ public interface UserService {
 	List<User> selectUserByRes(List<String> resIds);
 
 	int logout(int userId);
+
+	int updatePWDByToken(Integer id, String oldPassword, String newPassword);
 	
 }

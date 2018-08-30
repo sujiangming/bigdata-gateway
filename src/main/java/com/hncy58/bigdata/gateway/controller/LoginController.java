@@ -25,6 +25,7 @@ import com.hncy58.bigdata.gateway.service.ResourceService;
 import com.hncy58.bigdata.gateway.service.TokenService;
 import com.hncy58.bigdata.gateway.service.UserService;
 import com.hncy58.bigdata.gateway.util.Constant;
+import com.hncy58.bigdata.gateway.util.MD5;
 import com.hncy58.bigdata.gateway.util.Utils;
 
 /**
@@ -67,7 +68,7 @@ public class LoginController {
 
 		log.info("session:{}", session.getId());
 
-		if(user == null || !user.getPassword().equals(password)) {
+		if(user == null || !user.getPassword().equals(MD5.encode(password))) {
 			ret.put("code", "1001");
 			ret.put("msg", "用户不存在或者密码错误");
 			return ResponseEntity.ok(ret);

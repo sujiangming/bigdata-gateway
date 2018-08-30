@@ -123,4 +123,13 @@ public interface UserMapper {
 	 */
 	int logout(int userId);
 
+	/**
+	 * 修改用户密码
+	 * @param id 用户ID
+	 * @param oldPassword 旧密码
+	 * @param newPassword 新密码
+	 * @return
+	 */
+	int updatePWDByToken(@Param("id") Integer id, @Param("oldPassword") String oldPassword, @Param("newPassword") String newPassword);
+
 }

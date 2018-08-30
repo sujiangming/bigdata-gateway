@@ -36,6 +36,7 @@ import com.hncy58.bigdata.gateway.service.TokenService;
 import com.hncy58.bigdata.gateway.service.UserService;
 import com.hncy58.bigdata.gateway.service.imlp.AuthInfoCacheService;
 import com.hncy58.bigdata.gateway.util.Constant;
+import com.hncy58.bigdata.gateway.util.MD5;
 import com.hncy58.bigdata.gateway.util.Utils;
 
 /**
@@ -243,6 +244,8 @@ public class UserController {
 		if (!StringUtil.isEmpty(userDomain.getRoleIds().trim()))
 			roleList = Arrays.asList(userDomain.getRoleIds().trim().split(","));
 
+		// 对用户密码进行MD5加密
+		userDomain.setPassword(MD5.encode(userDomain.getPassword()));
 		int num = userService.updateByPrimaryKeySelective(userDomain.toUser(), roleList);
 
 		if (num > 0) {
@@ -290,7 +293,8 @@ public class UserController {
 			id = Integer.valueOf(token.split("#")[1]);
 			user.setId(id);
 		}
-
+		// 对用户密码进行MD5加密
+		user.setPassword(MD5.encode(user.getPassword()));
 		int num = userService.updateByToken(user);
 		if (num > 0) {
 			ret.put("code", Constant.REQ_SUCCESS_CODE);
@@ -298,7 +302,26 @@ public class UserController {
 			ret.put("code", "2002");
 			ret.put("msg", "更新用户失败");
 		}
-		ret.put("data", Collections.emptyMap());
+		return ret;
+	}
+	
+	@RequestMapping(value = "/updatePWDByToken", method = RequestMethod.PUT)
+	public Map<String, Object> updatePWDByToken(HttpServletRequest req, String oldPassword, String newPassword) {
+		Map<String, Object> ret = new HashMap<>();
+		String token = req.getHeader(Constant.REQ_TOKEN_HEADER_KEY);
+		Integer id = 0;
+		if (!StringUtils.isEmpty(token)) {
+			id = Integer.valueOf(token.split("#")[1]);
+		}
+		String oldMd5 = MD5.encode(oldPassword);
+		String newMd5 = MD5.encode(newPassword);
+		int num = userService.updatePWDByToken(id, oldMd5, newMd5);
+		if (num > 0) {
+			ret.put("code", Constant.REQ_SUCCESS_CODE);
+		} else {
+			ret.put("code", "2006");
+			ret.put("msg", "用户修改密码失败，用户不存在或原密码错误");
+		}
 		return ret;
 	}
 

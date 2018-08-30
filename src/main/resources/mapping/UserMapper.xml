@@ -168,6 +168,9 @@
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
+	<update id="updatePWDByToken">
+		update sys_user set password = #{newPassword ,jdbcType=VARCHAR} where id = #{id,jdbcType=INTEGER} and password = #{oldPassword ,jdbcType=VARCHAR}
+	</update>
 	<update id="logout">
 		update sys_user set login_status = 0, update_time = now()
 		where id = #{userId,jdbcType=INTEGER}

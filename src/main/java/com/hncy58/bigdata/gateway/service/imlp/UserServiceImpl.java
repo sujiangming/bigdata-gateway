@@ -179,4 +179,9 @@ public class UserServiceImpl implements UserService {
 		return userMapper.logout(userId);
 	}
 
+	@Override
+	public int updatePWDByToken(Integer id, String oldPassword, String newPassword) {
+		return userMapper.updatePWDByToken(id, oldPassword, newPassword);
+	}
+
 }

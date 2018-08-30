@@ -102,16 +102,19 @@ public class RoleServiceImpl implements RoleService {
 		// 所有待关联资源子资源列表
 		List<Resource> allChildReses = new ArrayList<>();
 		// 获取所有菜单资源的子资源
-		if (null != null && !resIds.isEmpty())
+		if (null != resIds && !resIds.isEmpty())
 			allChildReses = resourceMapper.getResourceByPids(resIds, Constant.API_RES_TYPE);
 		// 如果存在资资源关联则加入到关联列表中
+		List<String> newResIds = new ArrayList<>();
+		newResIds.addAll(resIds);
 		if (!allChildReses.isEmpty()) {
 			// 加入子节点资源并去重
-			resIds.addAll(allChildReses.stream().map(res -> res.getId() + "").distinct().collect(Collectors.toList()));
+			newResIds.addAll(allChildReses.stream().filter(res -> res != null && res.getId() > 0)
+					.map(res -> res.getId() + "").distinct().collect(Collectors.toList()));
 		}
 		// 对已经待关联和已关联的资源进行差集计算
 		if (!linkedReses.isEmpty()) {
-			fillUnlinkAndAddResIds(unlinkResIds, addResIds, resIds, linkedReses);
+			fillUnlinkAndAddResIds(unlinkResIds, addResIds, newResIds, linkedReses);
 		} else {
 			// 如果角色之前没有关联任何资源，则直接关联当前待关联的资源
 			addResIds = resIds;
