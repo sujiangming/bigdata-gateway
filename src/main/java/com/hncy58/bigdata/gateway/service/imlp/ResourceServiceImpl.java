@@ -1,6 +1,7 @@
 package com.hncy58.bigdata.gateway.service.imlp;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +13,11 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hncy58.bigdata.gateway.domain.ResourceDomain;
 import com.hncy58.bigdata.gateway.mapper.ResourceMapper;
+import com.hncy58.bigdata.gateway.mapper.RoleMapper;
 import com.hncy58.bigdata.gateway.model.Resource;
+import com.hncy58.bigdata.gateway.model.Role;
 import com.hncy58.bigdata.gateway.service.ResourceService;
+import com.hncy58.bigdata.gateway.util.Constant;
 
 @Service
 public class ResourceServiceImpl implements ResourceService {
@@ -22,6 +26,9 @@ public class ResourceServiceImpl implements ResourceService {
 
 	@Autowired
 	private ResourceMapper resourceMapper;
+	
+	@Autowired
+	private RoleMapper roleMapper;
 
 	@Override
 	public Resource selectByPrimaryKey(int id) {
@@ -107,14 +114,40 @@ public class ResourceServiceImpl implements ResourceService {
 		return resourceMapper.selectAll();
 	}
 
+	@Transactional(rollbackFor = { Exception.class })
 	@Override
 	public int linkParentRes(String pResId, List<String> resIds) {
-		return resourceMapper.updateResesPid(pResId, resIds);
+		int rows = resourceMapper.updateResesPid(pResId, resIds);
+		log.info("linkParentRes, pResId:{}, resIds:{}, rows:{}", pResId, resIds, rows);
+		// 更新父资源关联角色的资源
+		if(rows > 0) {
+			List<Role> roles = roleMapper.getRoleByResId(resIds);
+			List<String> roleIds = roles.stream().map(role -> role.getId() + "").distinct().collect(Collectors.toList());
+			roleIds.forEach(roleId -> {
+				int num = roleMapper.unlinkReses(roleId, resIds);
+				log.info("unlinkReses, pResId:{}, roleId:{}, unlinkNum:{}", pResId, roleId, num);
+				num = roleMapper.linkReses(roleId, resIds);
+				log.info("linkParentRes, pResId:{}, roleId:{}, linkNum:{}", pResId, roleId, num);
+			});
+		}
+		return rows;
 	}
 
+	@Transactional(rollbackFor = { Exception.class })
 	@Override
 	public int unlinkParentRes(String pResId, List<String> resIds) {
-		return resourceMapper.updateResesPid(pResId, resIds);
+		int rows = resourceMapper.updateResesPid(pResId, resIds);
+		log.info("unlinkParentRes, pResId:{}, resIds:{}, rows:{}", pResId, resIds, rows);
+		// 更新父资源关联角色的资源
+		if(rows > 0) {
+			List<Role> roles = roleMapper.getRoleByResId(resIds);
+			List<String> roleIds = roles.stream().map(role -> role.getId() + "").distinct().collect(Collectors.toList());
+			roleIds.forEach(roleId -> {
+				int unlinkNum = roleMapper.unlinkReses(roleId, resIds);
+				log.info("linkParentRes, pResId:{}, roleId:{}, unlinkNum:{}", pResId, roleId, unlinkNum);
+			});
+		}
+		return rows;
 	}
 	
 	@Override

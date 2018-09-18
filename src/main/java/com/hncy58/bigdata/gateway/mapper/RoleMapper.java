@@ -127,6 +127,20 @@ public interface RoleMapper {
 	@Select("select r.id,r.create_time createTime,r.mark,r.role_code roleCode,r.role_name roleName,r.role_type roleType,r.update_time updateTime"
 			+ " from sys_role r left join sys_user_role ur on r.id=ur.role_id where ur.user_id = #{userId}")
 	List<Role> getRoleByUserId(String userId);
+	
+	/**
+	 * 根据资源ID查询其角色列表
+	 * @param userId
+	 * @return
+	 */
+	@Select("<script>"
+			+ "select r.id,r.create_time createTime,r.mark,r.role_code roleCode,r.role_name roleName,r.role_type roleType,r.update_time updateTime"
+			+ " from sys_role r LEFT JOIN sys_role_res rr ON r.id = rr.role_id where rr.res_id in "
+			+ " <foreach collection='resIds' item='resId' index='index' open='(' close=')' separator=','> "
+			+ "  #{resId, jdbcType=INTEGER} "
+			+ " </foreach>"
+			+ "</script>")
+	List<Role> getRoleByResId(@Param("resIds") List<String> resIds);
 
 	/**
 	 * 根据角色ID获取资源列表
