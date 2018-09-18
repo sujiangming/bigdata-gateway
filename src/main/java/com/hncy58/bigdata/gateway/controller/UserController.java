@@ -209,12 +209,23 @@ public class UserController {
 		userDomain.setCreateTime(new Date());
 		userDomain.setUpdateTime(new Date());
 		User user = userDomain.toUser();
-		int num = userService.insert(user);
 		Map<String, Object> ret = new HashMap<>();
+		
+		user.setPassword(MD5.encode(user.getPassword()));
+		
+		boolean userExists = userService.userExists(user.getUserCode());
+		
+		if(userExists) {
+			ret.put("code", "2007");
+			ret.put("msg", "用户名已存在");
+			return ret;
+		}
+		
+		int num = userService.insert(user);
 		if (num > 0) {
 			if (null != userDomain.getRoleIds() && !StringUtil.isEmpty(userDomain.getRoleIds().trim())) {
 				int roleNum = userService.linkRole(user.getId() + "",
-						Arrays.asList(userDomain.getRoleIds().trim().split(".")));
+						Arrays.asList(userDomain.getRoleIds().trim().split(",")));
 				log.info("user:{}, linked roles:{}, ret:{}", userDomain.getId(), userDomain.getRoleIds(), roleNum);
 				// 正常不用发送权限更新消息，因为新增的用户一定是没有登录的
 				// if (roleNum > 0) {
@@ -245,7 +256,10 @@ public class UserController {
 			roleList = Arrays.asList(userDomain.getRoleIds().trim().split(","));
 
 		// 对用户密码进行MD5加密
-		userDomain.setPassword(MD5.encode(userDomain.getPassword()));
+		if(userDomain.getPassword() != null && !"".equals(userDomain.getPassword())) {
+			userDomain.setPassword(MD5.encode(userDomain.getPassword()));
+		}
+
 		int num = userService.updateByPrimaryKeySelective(userDomain.toUser(), roleList);
 
 		if (num > 0) {

@@ -44,5 +44,7 @@ public interface UserService {
 	int logout(int userId);
 
 	int updatePWDByToken(Integer id, String oldPassword, String newPassword);
+
+	boolean userExists(String userCode);
 	
 }

@@ -35,7 +35,8 @@ public class Utils {
 	private static Jackson2JsonRedisSerializer<? extends Object> serializer;
 
 	public static boolean hasSuperRole(AuthInfo auth) {
-		return auth.getRoles().stream().filter(role -> role.getRoleId() == Constant.ADMIN_ROLE_ID).count() > 0;
+//		return auth.getRoles().stream().filter(role -> role.getRoleId() == Constant.ADMIN_ROLE_ID).count() > 0;
+		return auth.getRoles().stream().filter(role -> role.getRoleType() == Constant.ADMIN_ROLE_TYPE).count() > 0;
 	}
 
 	private static List<MenuInfo> treeMenuList(List<MenuInfo> menuList, int parentCode) {

@@ -26,7 +26,7 @@ public class TokenServiceImpl extends AbstractCacheService<Object> implements To
 	@Value("${cache.token.key:token}")
 	protected String cacheKey;
 
-	@Value("${cache.token.key:-1}")
+	@Value("${cache.token.expire:-1}")
 	protected long cacheExpire;
 
 	@Autowired

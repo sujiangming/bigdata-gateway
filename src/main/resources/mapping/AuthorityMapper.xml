@@ -8,6 +8,7 @@
 		<collection property="roles"
 			ofType="com.hncy58.bigdata.gateway.model.RoleInfo">
 			<id property="roleId" column="roleId" />
+			<id property="roleType" column="roleType" />
 			<collection property="resources"
 				ofType="com.hncy58.bigdata.gateway.model.Resource">
 				<id property="id" column="resId" />
@@ -27,12 +28,14 @@
 		parameterType="java.lang.Integer">
 		select u.id userId, u.user_code userCode
 			,ur.role_id roleId
+			,sr.role_type roleType
 			,rr.res_id resId
 			,r.res_type resType ,r.res_name resName,r.res_uri resUri,r.pid resPid, r.rank
 			,r.mark ,r.create_time createTime ,r.update_time updateTime
 		from
 			sys_user u
 			left join sys_user_role ur on u.id = ur.user_id
+			left join sys_role sr on ur.role_id = sr.id
 			left join sys_role_res rr on ur.role_id = rr.role_id
 			left join sys_res r on rr.res_id = r.id
 		where u.id = #{userId,jdbcType=INTEGER}
@@ -42,12 +45,14 @@
 		parameterType="java.lang.String">
 		select u.id userId, u.user_code userCode
 			,ur.role_id roleId
+			,sr.role_type roleType
 			,rr.res_id resId
 			,r.res_type resType ,r.res_name resName,r.res_uri resUri,r.pid resPid, r.rank
 			,r.mark ,r.create_time createTime ,r.update_time updateTime
 		from
 			sys_user u
 			left join sys_user_role ur on u.id = ur.user_id
+			left join sys_role sr on ur.role_id = sr.id
 			left join sys_role_res rr on ur.role_id = rr.role_id
 			left join sys_res r on rr.res_id = r.id
 		where u.user_code = #{userCode,jdbcType=VARCHAR}

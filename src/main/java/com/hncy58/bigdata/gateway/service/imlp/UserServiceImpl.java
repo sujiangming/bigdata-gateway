@@ -184,4 +184,12 @@ public class UserServiceImpl implements UserService {
 		return userMapper.updatePWDByToken(id, oldPassword, newPassword);
 	}
 
+	@Override
+	public boolean userExists(String userCode) {
+		
+		User user = userMapper.selectByUserCode(userCode);
+		
+		return user.getId() > 0;
+	}
+
 }

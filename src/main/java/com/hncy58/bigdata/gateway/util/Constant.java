@@ -12,9 +12,9 @@ package com.hncy58.bigdata.gateway.util;
 public class Constant {
 
 	/**
-	 * 超管角色ID
+	 * 超管角色
 	 */
-	public static final int ADMIN_ROLE_ID = 1;
+	public static final int ADMIN_ROLE_TYPE = 0;
 	/**
 	 * 菜单资源类型
 	 */

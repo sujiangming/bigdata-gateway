@@ -70,7 +70,11 @@ public class AuthorityFilter extends ZuulFilter {
 				req.getRequestURL().toString());
 
 		// 登录、登出不做验证
-		if (uri.contains("login") || uri.contains("logout") || uri.contains("baidu")) {
+		if (uri.contains("login") || uri.contains("logout") 
+				|| uri.contains("/api/user/getByToken")
+				|| uri.contains("/api/user/updatePWDByToken")
+				|| uri.contains("/dict/getDict")
+				) {
 			sendAuditMsg(req, "1", "");
 			return null;
 		}
@@ -94,7 +98,7 @@ public class AuthorityFilter extends ZuulFilter {
 			authInfo = (AuthInfo) authObj;
 		// 没有获取到则直接从DB中获取
 		if (authInfo == null) {
-			List<AuthInfo> authInfos = authorityService.selectByUserId(Integer.valueOf(token.split(":")[1]));
+			List<AuthInfo> authInfos = authorityService.selectByUserId(Integer.valueOf(token.split("#")[1]));
 			if (!authInfos.isEmpty())
 				authInfo = authInfos.get(0);
 		}
@@ -104,14 +108,14 @@ public class AuthorityFilter extends ZuulFilter {
 			sendAuditMsg(req, "0", "用户授权信息为空");
 			return generateResponseBody(ctx, "1001", "用户授权信息为空");
 		}
+		
 		// 判断是否具有超级管理员角色
-		for (RoleInfo role : authInfo.getRoles()) {
-			if (role.getRoleId() == 1) {
-				log.info("session:{}, admin role access uri:{}", session.getId(), uri);
-				sendAuditMsg(req, "1", "超管访问");
-				return null;
-			}
+		if(Utils.hasSuperRole(authInfo)) {
+			log.info("session:{}, admin role access uri:{}", session.getId(), uri);
+			sendAuditMsg(req, "1", "超管访问");
+			return null;
 		}
+		
 		// 判断是否有访问权限
 		for (RoleInfo role : authInfo.getRoles()) {
 			for (Resource res : role.getResources()) {
