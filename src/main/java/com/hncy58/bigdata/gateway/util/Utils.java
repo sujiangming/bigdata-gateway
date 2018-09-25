@@ -160,7 +160,7 @@ public class Utils {
 			objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
 			objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
 			ret.setObjectMapper(objectMapper);
-
+			
 			serializer = ret;
 			return serializer;
 		}

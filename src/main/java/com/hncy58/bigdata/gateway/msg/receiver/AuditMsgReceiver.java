@@ -41,7 +41,7 @@ public class AuditMsgReceiver implements MsgReceiver<String> {
 	public void receiveMessage(String srcMsg) {
 
 		Jackson2JsonRedisSerializer<? extends Object> serializer = Utils.getJsonSerializer();
-		Object ret = serializer.deserialize(srcMsg.getBytes());
+		Object ret = serializer.deserialize(srcMsg.getBytes(Jackson2JsonRedisSerializer.DEFAULT_CHARSET));
 		AuditInfo msg = null;
 		if (ret instanceof AuditInfo)
 			msg = (AuditInfo) ret;

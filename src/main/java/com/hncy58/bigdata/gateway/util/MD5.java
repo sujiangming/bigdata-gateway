@@ -98,5 +98,10 @@ public class MD5 {
 //			MD5(prefix + i, "UTF-8", false);
 //		}
 //		System.out.println("MD5 used:" + (System.currentTimeMillis() - start) + "ms.");
+		
+		
+		System.out.println(MD5("12345678啊" + suffixKey, null, false));
+		System.out.println(MD5("12345678啊" + suffixKey, "utf-8", false));
+		System.out.println(MD5("12345678啊" + suffixKey, "gbk", false));
 	}
 }
