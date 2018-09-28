@@ -59,10 +59,10 @@ public class RedisConfiguration {
 	 * 
 	 * @return
 	 */
-	@Bean
-	public RedisConnectionFactory redisConnectionFactory() {
-		return new JedisConnectionFactory();
-	}
+//	@Bean
+//	public RedisConnectionFactory redisConnectionFactory() {
+//		return new JedisConnectionFactory();
+//	}
 
 	/**
 	 * 注入 Redis连接工厂
