@@ -49,7 +49,7 @@ public class MD5 {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(result);
+//		System.out.println(result);
 		return result;
 	}
 	

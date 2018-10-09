@@ -189,7 +189,7 @@ public class UserServiceImpl implements UserService {
 		
 		User user = userMapper.selectByUserCode(userCode);
 		
-		return user.getId() > 0;
+		return user != null && user.getId() > 0;
 	}
 
 }

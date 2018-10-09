@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration debug="true">
-	<contextName>logback</contextName>
+	<contextName>gateway</contextName>
 
-	<property name="log.path" value="log/test/logback.log" />
+	<property name="log.path" value="log/test/gateway.log" />
 
 	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">

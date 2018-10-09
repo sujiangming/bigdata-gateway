@@ -1,5 +1,5 @@
 server:
-  port: 9001
+  port: 9000
 
 cache:
   token:
@@ -83,10 +83,10 @@ zuul:
   routes:
     api-local:
       path: /local/**
-      url: http://127.0.0.1:9001
+      url: http://127.0.0.1:9000
     api-backbond:
       path: /backbond/**
-      url: http://162.16.109.119:8080/bigdata
+      url: http://162.16.9.238:9080/bigdata
   # 限流配置
   ratelimit:
     key-prefix: pig-ratelimite 
