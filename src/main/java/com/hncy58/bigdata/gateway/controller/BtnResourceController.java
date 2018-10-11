@@ -206,7 +206,7 @@ public class BtnResourceController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
-	public Map<String, Object> updateByPrimaryKeySelective(BtnResource res) {
+	public Map<String, Object> update(BtnResource res) {
 		res.setUpdateTime(new Date());
 		int num = btnResourceService.update(res);
 		Map<String, Object> ret = new HashMap<>();
