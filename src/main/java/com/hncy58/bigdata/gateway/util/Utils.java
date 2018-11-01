@@ -2,8 +2,10 @@ package com.hncy58.bigdata.gateway.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,9 +76,13 @@ public class Utils {
 	 */
 	public static Object generateMenu(AuthInfo authInfo, Set<Integer> resTypes) {
 		Set<Resource> reses = new HashSet<>();
+		Map<Integer, Resource> cache = new HashMap<>();
 		authInfo.getRoles().forEach(role -> {
 			role.getResources().forEach(res -> {
-				reses.add(res);
+				if(! cache.containsKey(res.getId())) {
+					reses.add(res);
+					cache.put(res.getId(), res);
+				}
 			});
 		});
 

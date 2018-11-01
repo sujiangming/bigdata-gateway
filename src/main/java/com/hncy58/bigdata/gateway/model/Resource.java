@@ -2,6 +2,8 @@ package com.hncy58.bigdata.gateway.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -126,11 +128,4 @@ public class Resource implements Serializable {
 	public void setRank(int rank) {
 		this.rank = rank;
 	}
-
-	@Override
-	public String toString() {
-		return this.getId() + ":" + this.getPid() + ":" + this.getResName() + ":" + this.getResType() + ":"
-				+ this.getRank() + ":" + this.getResUri() + ":" + this.getMark();
-	}
-
 }
