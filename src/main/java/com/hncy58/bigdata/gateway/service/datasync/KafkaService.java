@@ -11,4 +11,8 @@ public interface KafkaService {
 	Page<KafkaMonitorInfo> selectMonitor(int pageNo, int pageSize, KafkaMonitorDomain queryAudit);
 	
 	Page<KafkaConfInfo> selectConf(int pageNo, int pageSize, KafkaConfDomain queryAudit);
+
+	int addConf(KafkaConfInfo domain);
+
+	int modifyConf(KafkaConfInfo domain);
 }

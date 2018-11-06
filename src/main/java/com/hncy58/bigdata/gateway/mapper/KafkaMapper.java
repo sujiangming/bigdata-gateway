@@ -1,8 +1,11 @@
 package com.hncy58.bigdata.gateway.mapper;
 
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 
 import com.github.pagehelper.Page;
@@ -123,4 +126,11 @@ public interface KafkaMapper {
 	})
 	Page<KafkaConfInfo> selectConf(KafkaConfDomain queryDomain);
 
+	@Update("update kafka_topic_grp_cfg set topic_name=#{topic_name}, grp_name=#{grp_name}, status=#{status}, remark=#{remark}, update_time = #{update_time,jdbcType=TIMESTAMP} "
+			+ "where id=#{id}")
+	int modifyConf(KafkaConfInfo domain);
+
+	@Insert("insert into kafka_topic_grp_cfg values(#{id}, #{topic_name}, #{grp_name}, #{status},#{create_time,jdbcType=TIMESTAMP},#{update_time,jdbcType=TIMESTAMP}, #{remark})")
+	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
+	int addConf(KafkaConfInfo domain);
 }

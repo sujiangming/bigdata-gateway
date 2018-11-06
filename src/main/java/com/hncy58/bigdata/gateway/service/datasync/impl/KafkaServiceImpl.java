@@ -53,4 +53,14 @@ public class KafkaServiceImpl implements KafkaService {
 		return pageRet;
 	}
 
+	@Override
+	public int addConf(KafkaConfInfo domain) {
+		return kafkaMapper.addConf(domain);
+	}
+
+	@Override
+	public int modifyConf(KafkaConfInfo domain) {
+		return kafkaMapper.modifyConf(domain);
+	}
+
 }

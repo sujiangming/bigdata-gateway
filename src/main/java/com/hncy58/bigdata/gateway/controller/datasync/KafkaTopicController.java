@@ -1,5 +1,6 @@
 package com.hncy58.bigdata.gateway.controller.datasync;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,11 +22,12 @@ import com.hncy58.bigdata.gateway.util.Constant;
 
 /**
  * Kafka主题监控控制器
- * @author	tokings
- * @company	hncy58	湖南长银五八
- * @website	http://www.hncy58.com
+ * 
+ * @author tokings
+ * @company hncy58 湖南长银五八
+ * @website http://www.hncy58.com
  * @version 1.0
- * @date	2018年11月1日 下午4:33:10
+ * @date 2018年11月1日 下午4:33:10
  *
  */
 @RestController
@@ -44,7 +46,7 @@ public class KafkaTopicController {
 
 		if (!StringUtils.isEmpty(domain.getSortField()))
 			domain.setSortFiled();
-			
+
 		Page<KafkaMonitorInfo> pageRet = KafkaService.selectMonitor(pageNo, pageSize, domain);
 
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
@@ -56,23 +58,68 @@ public class KafkaTopicController {
 
 		return ret;
 	}
-	
+
 	@RequestMapping(value = "/conf/select", method = RequestMethod.GET)
 	public Map<String, Object> selectByPage(int pageNo, int pageSize, KafkaConfDomain domain) {
-		
+
 		Map<String, Object> ret = new HashMap<>();
-		
+
 		if (!StringUtils.isEmpty(domain.getSortField()))
 			domain.setSortFiled();
-		
+
 		Page<KafkaConfInfo> pageRet = KafkaService.selectConf(pageNo, pageSize, domain);
-		
+
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
 		ret.put("total", pageRet.getTotal());
 		ret.put("pages", pageRet.getPages());
 		ret.put("curPageNum", pageRet.getPageNum());
 		ret.put("pageSize", pageRet.getPageSize());
 		ret.put("data", pageRet.getResult());
+
+		return ret;
+	}
+
+	@RequestMapping(value = "/conf/add")
+	public Map<String, Object> addConf(KafkaConfInfo domain) {
+
+		Map<String, Object> ret = new HashMap<>();
+		domain.setUpdate_time(new Date());
+		domain.setCreate_time(new Date());
+
+		try {
+			int num = KafkaService.addConf(domain);
+			if (num > 0) {
+				ret.put("code", Constant.REQ_SUCCESS_CODE);
+			} else {
+				ret.put("code", "6001");
+				ret.put("msg", "添加kafka主题监控配置失败");
+			}
+		} catch (Exception e) {
+			ret.put("code", "6001");
+			ret.put("msg", "添加kafka主题监控配置失败，" + e.getMessage());
+		}
+
+		return ret;
+	}
+	
+	@RequestMapping(value = "/conf/modify")
+	public Map<String, Object> modifyConf(KafkaConfInfo domain) {
+		
+		Map<String, Object> ret = new HashMap<>();
+		domain.setUpdate_time(new Date());
+		
+		try {
+			int num = KafkaService.modifyConf(domain);
+			if (num > 0) {
+				ret.put("code", Constant.REQ_SUCCESS_CODE);
+			} else {
+				ret.put("code", "6002");
+				ret.put("msg", "修改kafka主题监控配置失败");
+			}
+		} catch (Exception e) {
+			ret.put("code", "6002");
+			ret.put("msg", "修改kafka主题监控配置失败," + e.getMessage());
+		}
 		
 		return ret;
 	}

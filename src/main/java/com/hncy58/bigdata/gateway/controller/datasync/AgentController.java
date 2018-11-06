@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.Page;
+import com.hncy58.bigdata.gateway.domain.datasync.AgentAlarmDomain;
 import com.hncy58.bigdata.gateway.domain.datasync.AgentDomain;
+import com.hncy58.bigdata.gateway.model.datasync.AgentAlarmInfo;
 import com.hncy58.bigdata.gateway.model.datasync.AgentInfo;
 import com.hncy58.bigdata.gateway.service.datasync.AgentService;
 import com.hncy58.bigdata.gateway.util.Constant;
@@ -52,6 +54,26 @@ public class AgentController {
 		ret.put("pageSize", pageRet.getPageSize());
 		ret.put("data", pageRet.getResult());
 
+		return ret;
+	}
+	
+	@RequestMapping(value = "/alarm/select", method = RequestMethod.GET)
+	public Map<String, Object> alarmSelectByPage(int pageNo, int pageSize, AgentAlarmDomain domain) {
+		
+		Map<String, Object> ret = new HashMap<>();
+		
+		if (!StringUtils.isEmpty(domain.getSortField()))
+			domain.setSortFiled();
+		
+		Page<AgentAlarmInfo> pageRet = agentService.selectAlarm(pageNo, pageSize, domain);
+		
+		ret.put("code", Constant.REQ_SUCCESS_CODE);
+		ret.put("total", pageRet.getTotal());
+		ret.put("pages", pageRet.getPages());
+		ret.put("curPageNum", pageRet.getPageNum());
+		ret.put("pageSize", pageRet.getPageSize());
+		ret.put("data", pageRet.getResult());
+		
 		return ret;
 	}
 }
