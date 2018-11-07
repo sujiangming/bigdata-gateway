@@ -1,4 +1,4 @@
-package com.hncy58.bigdata.gateway;
+package com.hncy58.bigdata.gateway.cfg;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.hncy58.bigdata.gateway;
+package com.hncy58.bigdata.gateway.cfg;
 
 import java.util.HashMap;
 import java.util.Map;
