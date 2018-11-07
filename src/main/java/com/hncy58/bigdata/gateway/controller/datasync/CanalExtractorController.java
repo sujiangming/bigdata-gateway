@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.Page;
-import com.hncy58.bigdata.gateway.domain.datasync.HBaseAuditDomain;
-import com.hncy58.bigdata.gateway.domain.datasync.HBaseConfDomain;
-import com.hncy58.bigdata.gateway.model.datasync.HBaseAuditInfo;
-import com.hncy58.bigdata.gateway.model.datasync.HBaseConfInfo;
-import com.hncy58.bigdata.gateway.service.datasync.HBaseService;
+import com.hncy58.bigdata.gateway.domain.datasync.CanalMonitorDomain;
+import com.hncy58.bigdata.gateway.domain.datasync.CanalConfDomain;
+import com.hncy58.bigdata.gateway.model.datasync.CanalMonitorInfo;
+import com.hncy58.bigdata.gateway.model.datasync.CanalConfInfo;
+import com.hncy58.bigdata.gateway.service.datasync.CanalService;
 import com.hncy58.bigdata.gateway.util.Constant;
 
 /**
- * HBase表数据删除控制器
+ * Canal数据抽取控制器
  * @author	tokings
  * @company	hncy58	湖南长银五八
  * @website	http://www.hncy58.com
@@ -30,23 +30,23 @@ import com.hncy58.bigdata.gateway.util.Constant;
  *
  */
 @RestController
-@RequestMapping("/api/hbase")
-public class HBaseDeleteController {
+@RequestMapping("/api/canal")
+public class CanalExtractorController {
 
-	Logger log = LoggerFactory.getLogger(HBaseDeleteController.class);
+	Logger log = LoggerFactory.getLogger(CanalExtractorController.class);
 
 	@Autowired
-	private HBaseService service;
+	private CanalService service;
 
 	@RequestMapping(value = "/conf/select", method = RequestMethod.GET)
-	public Map<String, Object> selectByPage(int pageNo, int pageSize, HBaseConfDomain domain) {
+	public Map<String, Object> selectByPage(int pageNo, int pageSize, CanalConfDomain domain) {
 
 		Map<String, Object> ret = new HashMap<>();
 
 		if (!StringUtils.isEmpty(domain.getSortField()))
 			domain.setSortFiled();
 			
-		Page<HBaseConfInfo> pageRet = service.selectConf(pageNo, pageSize, domain);
+		Page<CanalConfInfo> pageRet = service.selectConf(pageNo, pageSize, domain);
 
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
 		ret.put("total", pageRet.getTotal());
@@ -58,15 +58,15 @@ public class HBaseDeleteController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/audit/select", method = RequestMethod.GET)
-	public Map<String, Object> selectAuditByPage(int pageNo, int pageSize, HBaseAuditDomain domain) {
+	@RequestMapping(value = "/monitor/select", method = RequestMethod.GET)
+	public Map<String, Object> selectAuditByPage(int pageNo, int pageSize, CanalMonitorDomain domain) {
 		
 		Map<String, Object> ret = new HashMap<>();
 		
 		if (!StringUtils.isEmpty(domain.getSortField()))
 			domain.setSortFiled();
 		
-		Page<HBaseAuditInfo> pageRet = service.selectAudit(pageNo, pageSize, domain);
+		Page<CanalMonitorInfo> pageRet = service.selectMonitor(pageNo, pageSize, domain);
 		
 		ret.put("code", Constant.REQ_SUCCESS_CODE);
 		ret.put("total", pageRet.getTotal());
@@ -79,45 +79,45 @@ public class HBaseDeleteController {
 	}
 
 	@RequestMapping(value = "/conf/add")
-	public Map<String, Object> addConf(HBaseConfInfo domain) {
+	public Map<String, Object> addConf(CanalConfInfo model) {
 
 		Map<String, Object> ret = new HashMap<>();
-		domain.setUpdate_time(new Date());
-		domain.setCreate_time(new Date());
+		model.setUpdate_time(new Date());
+		model.setCreate_time(new Date());
 
 		try {
-			int num = service.addConf(domain);
+			int num = service.addConf(model);
 			if (num > 0) {
 				ret.put("code", Constant.REQ_SUCCESS_CODE);
 			} else {
-				ret.put("code", "6101");
-				ret.put("msg", "添加HBase表数据删除监控配置失败");
+				ret.put("code", "6201");
+				ret.put("msg", "添加Canal抽数监控配置失败");
 			}
 		} catch (Exception e) {
-			ret.put("code", "6101");
-			ret.put("msg", "添加HBase表数据删除监控配置失败," + e.getMessage());
+			ret.put("code", "6201");
+			ret.put("msg", "添加Canal抽数监控配置失败," + e.getMessage());
 		}
 
 		return ret;
 	}
 	
 	@RequestMapping(value = "/conf/modify")
-	public Map<String, Object> modifyConf(HBaseConfInfo domain) {
+	public Map<String, Object> modifyConf(CanalConfInfo model) {
 		
 		Map<String, Object> ret = new HashMap<>();
-		domain.setUpdate_time(new Date());
+		model.setUpdate_time(new Date());
 		
 		try {
-			int num = service.modifyConf(domain);
+			int num = service.modifyConf(model);
 			if (num > 0) {
 				ret.put("code", Constant.REQ_SUCCESS_CODE);
 			} else {
-				ret.put("code", "6102");
-				ret.put("msg", "修改HBase表数据删除监控配置失败");
+				ret.put("code", "6202");
+				ret.put("msg", "修改Canal抽数监控配置失败");
 			}
 		} catch (Exception e) {
-			ret.put("code", "6102");
-			ret.put("msg", "修改HBase表数据删除监控配置失败," + e.getMessage());
+			ret.put("code", "6202");
+			ret.put("msg", "修改Canal抽数监控配置失败," + e.getMessage());
 		}
 		
 		return ret;
