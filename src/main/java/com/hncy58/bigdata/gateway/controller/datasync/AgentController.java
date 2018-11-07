@@ -37,7 +37,7 @@ public class AgentController {
 	@Autowired
 	private AgentService agentService;
 
-	@RequestMapping(value = "/select", method = RequestMethod.GET)
+	@RequestMapping(value = "/svr/select", method = RequestMethod.GET)
 	public Map<String, Object> selectByPage(int pageNo, int pageSize, AgentDomain agentDomain) {
 
 		Map<String, Object> ret = new HashMap<>();

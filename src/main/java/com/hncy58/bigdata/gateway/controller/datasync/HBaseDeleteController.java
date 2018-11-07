@@ -38,7 +38,7 @@ public class HBaseDeleteController {
 	@Autowired
 	private HBaseService service;
 
-	@RequestMapping(value = "/select", method = RequestMethod.GET)
+	@RequestMapping(value = "/conf/select", method = RequestMethod.GET)
 	public Map<String, Object> selectByPage(int pageNo, int pageSize, HBaseConfDomain domain) {
 
 		Map<String, Object> ret = new HashMap<>();
