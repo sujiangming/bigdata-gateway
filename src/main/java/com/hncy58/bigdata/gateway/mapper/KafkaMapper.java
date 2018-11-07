@@ -133,4 +133,7 @@ public interface KafkaMapper {
 	@Insert("insert into kafka_topic_grp_cfg values(#{id}, #{topic_name}, #{grp_name}, #{status},#{create_time,jdbcType=TIMESTAMP},#{update_time,jdbcType=TIMESTAMP}, #{remark})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	int addConf(KafkaConfInfo domain);
+
+	@Update("update kafka_topic_grp_cfg set status=9, remark='修改为删除状态', update_time = now() where id=#{id}")
+	int deleteConf(String id);
 }

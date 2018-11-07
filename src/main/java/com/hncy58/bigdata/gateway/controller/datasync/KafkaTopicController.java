@@ -79,7 +79,7 @@ public class KafkaTopicController {
 		return ret;
 	}
 
-	@RequestMapping(value = "/conf/add")
+	@RequestMapping(value = "/conf/add", method = {RequestMethod.GET, RequestMethod.POST})
 	public Map<String, Object> addConf(KafkaConfInfo domain) {
 
 		Map<String, Object> ret = new HashMap<>();
@@ -102,7 +102,7 @@ public class KafkaTopicController {
 		return ret;
 	}
 	
-	@RequestMapping(value = "/conf/modify")
+	@RequestMapping(value = "/conf/modify", method = {RequestMethod.GET, RequestMethod.POST})
 	public Map<String, Object> modifyConf(KafkaConfInfo domain) {
 		
 		Map<String, Object> ret = new HashMap<>();
@@ -119,6 +119,33 @@ public class KafkaTopicController {
 		} catch (Exception e) {
 			ret.put("code", "6002");
 			ret.put("msg", "修改kafka主题监控配置失败," + e.getMessage());
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/conf/delete", method = {RequestMethod.GET, RequestMethod.POST})
+	public Map<String, Object> deleteConf(String ids) {
+		
+		Map<String, Object> ret = new HashMap<>();
+		
+		if(StringUtils.isEmpty(ids)) {
+			ret.put("code", "6003");
+			ret.put("msg", "删除kafka主题监控配置失败，没有传入正确的配置ID");
+			return ret;
+		}
+		
+		try {
+			int num = KafkaService.deleteConf(ids);
+			if (num > 0) {
+				ret.put("code", Constant.REQ_SUCCESS_CODE);
+			} else {
+				ret.put("code", "6003");
+				ret.put("msg", "删除kafka主题监控配置失败");
+			}
+		} catch (Exception e) {
+			ret.put("code", "6003");
+			ret.put("msg", "删除kafka主题监控配置失败," + e.getMessage());
 		}
 		
 		return ret;

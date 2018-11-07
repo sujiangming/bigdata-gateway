@@ -122,4 +122,31 @@ public class CanalExtractorController {
 		
 		return ret;
 	}
+	
+	@RequestMapping(value = "/conf/delete", method = {RequestMethod.GET, RequestMethod.POST})
+	public Map<String, Object> deleteConf(String ids) {
+		
+		Map<String, Object> ret = new HashMap<>();
+		
+		if(StringUtils.isEmpty(ids)) {
+			ret.put("code", "6203");
+			ret.put("msg", "删除配置失败，没有传入正确的配置ID");
+			return ret;
+		}
+		
+		try {
+			int num = service.deleteConf(ids);
+			if (num > 0) {
+				ret.put("code", Constant.REQ_SUCCESS_CODE);
+			} else {
+				ret.put("code", "6203");
+				ret.put("msg", "删除配置失败");
+			}
+		} catch (Exception e) {
+			ret.put("code", "6203");
+			ret.put("msg", "删除配置失败," + e.getMessage());
+		}
+		
+		return ret;
+	}
 }

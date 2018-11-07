@@ -62,4 +62,9 @@ public class CanalServiceImpl implements CanalService {
 		return canalMapper.modifyConf(model);
 	}
 
+	@Override
+	public int deleteConf(String id) {
+		return canalMapper.deleteConf(id);
+	}
+
 }

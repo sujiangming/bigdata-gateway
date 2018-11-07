@@ -15,4 +15,6 @@ public interface HBaseService {
 	int addConf(HBaseConfInfo domain);
 
 	int modifyConf(HBaseConfInfo domain);
+
+	int deleteConf(String id);
 }

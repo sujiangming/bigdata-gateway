@@ -15,4 +15,6 @@ public interface KafkaService {
 	int addConf(KafkaConfInfo domain);
 
 	int modifyConf(KafkaConfInfo domain);
+
+	int deleteConf(String id);
 }

@@ -141,4 +141,7 @@ public interface CanalMapper {
 			+ "values(#{id}, #{db_id}, #{tbl_id}, #{server_grp}, #{canal_id}, #{node_id}, #{status},#{create_time,jdbcType=TIMESTAMP},#{update_time,jdbcType=TIMESTAMP}, #{remark})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	int addConf(CanalConfInfo domain);
+
+	@Update("update canal_extract_tbl_cfg set status=9, remark='修改为删除状态', update_time = now() where id=#{id}")
+	int deleteConf(String id);
 }

@@ -127,4 +127,7 @@ public interface HBaseMapper {
 	@Insert("insert into hbase_tbl_batch_del_cfg values(#{id}, #{db_name}, #{table_name}, #{start_days_from_now}, #{delete_days}, #{status},#{create_time,jdbcType=TIMESTAMP},#{update_time,jdbcType=TIMESTAMP}, #{remark})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	int addConf(HBaseConfInfo domain);
+
+	@Update("update hbase_tbl_batch_del_cfg set status=9, remark='修改为删除状态', update_time = now() where id=#{id}")
+	int deleteConf(String id);
 }

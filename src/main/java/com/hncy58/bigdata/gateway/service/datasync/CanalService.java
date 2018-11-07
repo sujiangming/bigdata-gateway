@@ -15,4 +15,6 @@ public interface CanalService {
 	int addConf(CanalConfInfo model);
 
 	int modifyConf(CanalConfInfo model);
+
+	int deleteConf(String id);
 }

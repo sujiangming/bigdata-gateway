@@ -63,4 +63,9 @@ public class KafkaServiceImpl implements KafkaService {
 		return kafkaMapper.modifyConf(domain);
 	}
 
+	@Override
+	public int deleteConf(String id) {
+		return kafkaMapper.deleteConf(id);
+	}
+
 }

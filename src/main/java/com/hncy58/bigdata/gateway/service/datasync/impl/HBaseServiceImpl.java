@@ -62,4 +62,9 @@ public class HBaseServiceImpl implements HBaseService {
 		return hbaseMapper.modifyConf(domain);
 	}
 
+	@Override
+	public int deleteConf(String id) {
+		return hbaseMapper.deleteConf(id);
+	}
+
 }
