@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50714
 File Encoding         : 65001
 
-Date: 2018-11-07 09:11:28
+Date: 2018-11-09 19:25:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,69 +24,18 @@ CREATE TABLE `agent_svr_alarm` (
   `svr_name` varchar(255) NOT NULL,
   `svr_group` varchar(255) NOT NULL,
   `svr_type` int(11) DEFAULT NULL COMMENT '代理服务类型',
-  `alarm_type` int(11) DEFAULT NULL,
-  `alarm_level` int(11) DEFAULT NULL COMMENT '告警级别（1，2，3，4）',
+  `alarm_type` int(11) DEFAULT NULL COMMENT '告警类型：\r\n1：数据采集服务,\r\n2：监控服务,\r\n3：数据消费服务',
+  `alarm_level` int(11) DEFAULT NULL COMMENT '告警级别（4：紧急告警、3：主要告警、2：次要告警、1：提示告警）',
   `status` int(11) DEFAULT NULL COMMENT '处理状态（0：初始，1：处理，...，9：删除）',
-  `remark` varchar(255) DEFAULT NULL,
+  `remark` varchar(20480) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5663 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of agent_svr_alarm
 -- ----------------------------
-INSERT INTO `agent_svr_alarm` VALUES ('8', 'testname', 'testgrp', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：false，ERR_HANDLED_CNT：5', '2018-10-25 11:19:23', '2018-10-25 11:19:23');
-INSERT INTO `agent_svr_alarm` VALUES ('9', 'kafkaTopicMonitor', 'kafkaTopicMonitorGroup', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：false，ERR_HANDLED_CNT：5', '2018-10-25 16:38:58', '2018-10-25 16:38:58');
-INSERT INTO `agent_svr_alarm` VALUES ('11', 'kafkaTopicMonitor', 'kafkaTopicMonitorGroup', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：true，ERR_HANDLED_CNT：0', '2018-10-25 17:22:20', '2018-10-25 17:22:20');
-INSERT INTO `agent_svr_alarm` VALUES ('12', 'kafkaTopicMonitor', 'kafkaTopicMonitorGroup', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：true，ERR_HANDLED_CNT：0', '2018-10-25 17:47:53', '2018-10-25 17:47:53');
-INSERT INTO `agent_svr_alarm` VALUES ('13', 'kafkaTopicMonitor', 'kafkaTopicMonitorGroup', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：true，ERR_HANDLED_CNT：0', '2018-10-25 17:57:40', '2018-10-25 17:57:40');
-INSERT INTO `agent_svr_alarm` VALUES ('14', 'testname', 'testgrp', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：false，ERR_HANDLED_CNT：5', '2018-10-25 18:03:19', '2018-10-25 18:03:19');
-INSERT INTO `agent_svr_alarm` VALUES ('15', 'kafkaTopicMonitor', 'kafkaTopicMonitorGroup', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：true，ERR_HANDLED_CNT：0', '2018-10-25 18:08:51', '2018-10-25 18:08:51');
-INSERT INTO `agent_svr_alarm` VALUES ('16', 'testname', 'testgrp', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：false，ERR_HANDLED_CNT：5', '2018-10-25 18:09:59', '2018-10-25 18:09:59');
-INSERT INTO `agent_svr_alarm` VALUES ('17', 'testname', 'testgrp', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：false，ERR_HANDLED_CNT：5', '2018-10-25 18:14:12', '2018-10-25 18:14:12');
-INSERT INTO `agent_svr_alarm` VALUES ('18', 'testname', 'testgrp', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：false，ERR_HANDLED_CNT：5', '2018-10-25 18:14:25', '2018-10-25 18:14:25');
-INSERT INTO `agent_svr_alarm` VALUES ('19', 'kafkaTopicMonitor', 'kafkaTopicMonitorGroup', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：true，ERR_HANDLED_CNT：0', '2018-10-25 18:16:45', '2018-10-25 18:16:45');
-INSERT INTO `agent_svr_alarm` VALUES ('20', 'testname', 'testgrp', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：true，ERR_HANDLED_CNT：0', '2018-10-25 18:17:45', '2018-10-25 18:17:45');
-INSERT INTO `agent_svr_alarm` VALUES ('21', 'KafkaToHBase', 'KafkaToHBaseGroup', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：false，ERR_HANDLED_CNT：5', '2018-10-30 15:08:51', '2018-10-30 15:08:51');
-INSERT INTO `agent_svr_alarm` VALUES ('22', 'KafkaToHBase', 'KafkaToHBaseGroup', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：false，ERR_HANDLED_CNT：5', '2018-10-30 16:37:31', '2018-10-30 16:37:31');
-INSERT INTO `agent_svr_alarm` VALUES ('23', 'hbaseTableDataDelete', 'hbaseTableDataDeleteGroup', '2', '1', '3', '0', '删除数据失败，table:account,min:Wed Oct 31 00:00:00 CST 2018 , max:。Tue Oct 30 00:00:00 CST 2018maxStamp is smaller than minStamp', '2018-10-31 18:37:11', '2018-10-31 18:37:11');
-INSERT INTO `agent_svr_alarm` VALUES ('24', 'hbaseTableDataDelete', 'hbaseTableDataDeleteGroup', '2', '1', '3', '0', '删除数据失败，table:customer,min:Wed Oct 31 00:00:00 CST 2018 , max:。Tue Oct 30 00:00:00 CST 2018maxStamp is smaller than minStamp', '2018-10-31 18:37:16', '2018-10-31 18:37:16');
-INSERT INTO `agent_svr_alarm` VALUES ('25', 'hbaseTableDataDelete', 'hbaseTableDataDeleteGroup', '2', '1', '3', '0', '删除数据失败，table:order,min:Wed Oct 31 00:00:00 CST 2018 , max:。Tue Oct 30 00:00:00 CST 2018maxStamp is smaller than minStamp', '2018-10-31 18:37:18', '2018-10-31 18:37:18');
-INSERT INTO `agent_svr_alarm` VALUES ('26', 'hbaseTableDataDelete', 'hbaseTableDataDeleteGroup', '2', '1', '3', '0', '删除数据失败，table:account,min:Tue Oct 30 00:00:00 CST 2018 , max:。Wed Oct 31 00:00:00 CST 2018Data truncation: Incorrect datetime value: \'1540828800000\' for column \'start_time\' at row 1', '2018-10-31 18:42:33', '2018-10-31 18:42:33');
-INSERT INTO `agent_svr_alarm` VALUES ('27', 'hbaseTableDataDelete', 'hbaseTableDataDeleteGroup', '2', '1', '3', '0', '删除数据失败，table:customer,min:Tue Oct 30 00:00:00 CST 2018 , max:。Wed Oct 31 00:00:00 CST 2018Data truncation: Incorrect datetime value: \'1540828800000\' for column \'start_time\' at row 1', '2018-10-31 18:42:34', '2018-10-31 18:42:34');
-INSERT INTO `agent_svr_alarm` VALUES ('28', 'hbaseTableDataDelete', 'hbaseTableDataDeleteGroup', '2', '1', '3', '0', '删除数据失败，table:order,min:Tue Oct 30 00:00:00 CST 2018 , max:。Wed Oct 31 00:00:00 CST 2018Data truncation: Incorrect datetime value: \'1540828800000\' for column \'start_time\' at row 1', '2018-10-31 18:42:34', '2018-10-31 18:42:34');
-INSERT INTO `agent_svr_alarm` VALUES ('29', 'hbaseTableDataDelete', 'hbaseTableDataDeleteGroup', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：false', '2018-10-31 19:35:45', '2018-10-31 19:35:45');
-INSERT INTO `agent_svr_alarm` VALUES ('30', 'hbaseTableDataDelete', 'hbaseTableDataDeleteGroup', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：false', '2018-10-31 19:41:32', '2018-10-31 19:41:32');
-INSERT INTO `agent_svr_alarm` VALUES ('31', 'KafkaToHDFS', 'KafkaToHDFSGroup', '2', '1', '4', '0', '设置服务状态为下线：true，shutdown_singal：false，ERR_HANDLED_CNT：5', '2018-11-02 09:40:38', '2018-11-02 09:40:38');
-INSERT INTO `agent_svr_alarm` VALUES ('32', 'hbaseTableDataDelete', 'hbaseTableDataDeleteGroup', '2', '1', '3', '0', '删除数据失败，db:ccs,table:account,min:1541174400000 , max:。1541433600000java.lang.reflect.InvocationTargetException', '2018-11-05 08:56:08', '2018-11-05 08:56:08');
-INSERT INTO `agent_svr_alarm` VALUES ('33', 'hbaseTableDataDelete', 'hbaseTableDataDeleteGroup', '2', '1', '3', '0', '删除数据失败，db:ccs,table:customer,min:1541174400000 , max:。1541433600000java.lang.reflect.InvocationTargetException', '2018-11-05 08:56:08', '2018-11-05 08:56:08');
-INSERT INTO `agent_svr_alarm` VALUES ('34', 'hbaseTableDataDelete', 'hbaseTableDataDeleteGroup', '2', '1', '3', '0', '删除数据失败，db:ccs,table:order,min:1541174400000 , max:。1541433600000java.lang.reflect.InvocationTargetException', '2018-11-05 08:56:08', '2018-11-05 08:56:08');
-INSERT INTO `agent_svr_alarm` VALUES ('35', 'hbaseTableDataDelete', 'hbaseTableDataDeleteGroup', '2', '1', '3', '0', '删除数据失败，db:ccs,table:account,min:1541174400000 , max:。1541433600000java.lang.reflect.InvocationTargetException', '2018-11-05 08:58:07', '2018-11-05 08:58:07');
-INSERT INTO `agent_svr_alarm` VALUES ('36', 'hbaseTableDataDelete', 'hbaseTableDataDeleteGroup', '2', '1', '3', '0', '删除数据失败，db:ccs,table:customer,min:1541174400000 , max:。1541433600000java.lang.reflect.InvocationTargetException', '2018-11-05 08:58:07', '2018-11-05 08:58:07');
-INSERT INTO `agent_svr_alarm` VALUES ('37', 'hbaseTableDataDelete', 'hbaseTableDataDeleteGroup', '2', '1', '3', '0', '删除数据失败，db:ccs,table:order,min:1541174400000 , max:。1541433600000java.lang.reflect.InvocationTargetException', '2018-11-05 08:58:07', '2018-11-05 08:58:07');
-INSERT INTO `agent_svr_alarm` VALUES ('38', 'KafkaToHBase9_236_1', 'KafkaToHBaseGroupTest', '2', '1', '3', '0', '处理数据状态：true，提交偏移量状态：true', '2018-11-06 08:42:52', '2018-11-06 08:42:52');
-INSERT INTO `agent_svr_alarm` VALUES ('39', 'KafkaToHBase9_236_1', 'KafkaToHBaseGroupTest', '2', '1', '3', '0', '处理数据状态：true，提交偏移量状态：true', '2018-11-06 08:42:52', '2018-11-06 08:42:52');
-INSERT INTO `agent_svr_alarm` VALUES ('40', 'KafkaToHBase9_236_1', 'KafkaToHBaseGroupTest', '2', '1', '3', '0', '处理数据状态：true，提交偏移量状态：true', '2018-11-06 08:56:11', '2018-11-06 08:56:11');
-INSERT INTO `agent_svr_alarm` VALUES ('41', 'CanalClient9_236_1', 'CanalToKafkaGroupTest', '1', '1', '1', '0', '，收到退出信号，设置服务状态为下线：', '2018-11-06 15:16:54', '2018-11-06 15:16:54');
-INSERT INTO `agent_svr_alarm` VALUES ('42', 'CanalClient9_236_1', 'CanalToKafkaGroupTest', '1', '1', '1', '0', '，收到退出信号，设置服务状态为下线：', '2018-11-06 15:30:14', '2018-11-06 15:30:14');
-INSERT INTO `agent_svr_alarm` VALUES ('43', 'KafkaToHBase9_236_1', 'KafkaToHBaseGroupTest', '2', '1', '3', '0', '处理数据状态：true，提交偏移量状态：true', '2018-11-06 15:31:10', '2018-11-06 15:31:10');
-INSERT INTO `agent_svr_alarm` VALUES ('44', 'CanalClient9_236_1', 'CanalToKafkaGroupTest', '1', '1', '1', '0', '，收到退出信号，设置服务状态为下线：', '2018-11-06 15:34:58', '2018-11-06 15:34:58');
-INSERT INTO `agent_svr_alarm` VALUES ('45', 'KafkaToHBase9_236_1', 'KafkaToHBaseGroupTest', '2', '1', '3', '0', '处理数据状态：true，提交偏移量状态：true', '2018-11-06 15:35:59', '2018-11-06 15:35:59');
-INSERT INTO `agent_svr_alarm` VALUES ('46', 'CanalClient9_236_1', 'CanalToKafkaGroupTest', '1', '1', '1', '0', '，收到退出信号，设置服务状态为下线：', '2018-11-06 15:38:49', '2018-11-06 15:38:49');
-INSERT INTO `agent_svr_alarm` VALUES ('47', 'KafkaToHBase9_236_1', 'KafkaToHBaseGroupTest', '2', '1', '3', '0', '处理数据状态：true，提交偏移量状态：true', '2018-11-06 15:39:43', '2018-11-06 15:39:43');
-INSERT INTO `agent_svr_alarm` VALUES ('48', 'KafkaToHBase9_236_1', 'KafkaToHBaseGroupTest', '2', '1', '3', '0', '处理数据状态：true，提交偏移量状态：true', '2018-11-06 15:40:32', '2018-11-06 15:40:32');
-INSERT INTO `agent_svr_alarm` VALUES ('49', 'KafkaToHBase9_236_1', 'KafkaToHBaseGroupTest', '2', '1', '3', '0', '处理数据状态：true，提交偏移量状态：true', '2018-11-06 15:42:03', '2018-11-06 15:42:03');
-INSERT INTO `agent_svr_alarm` VALUES ('50', 'CanalClient9_236_1', 'CanalToKafkaGroupTest', '1', '1', '1', '0', '，收到退出信号，设置服务状态为下线：', '2018-11-06 15:46:23', '2018-11-06 15:46:23');
-INSERT INTO `agent_svr_alarm` VALUES ('51', 'KafkaToHBase9_236_1', 'KafkaToHBaseGroupTest', '2', '1', '3', '0', '处理数据状态：true，提交偏移量状态：true', '2018-11-06 15:47:35', '2018-11-06 15:47:35');
-INSERT INTO `agent_svr_alarm` VALUES ('52', 'CanalClient9_236_1', 'CanalToKafkaGroupTest', '1', '1', '1', '0', '，收到退出信号，设置服务状态为下线：', '2018-11-06 17:56:40', '2018-11-06 17:56:40');
-INSERT INTO `agent_svr_alarm` VALUES ('53', 'CanalClient9_236_1', 'CanalToKafkaGroupTest', '1', '1', '1', '0', '，收到退出信号，设置服务状态为下线：', '2018-11-06 17:57:37', '2018-11-06 17:57:37');
-INSERT INTO `agent_svr_alarm` VALUES ('54', 'CanalClient9_236_2', 'CanalToKafkaGroupTest', '1', '1', '1', '0', '，收到退出信号，设置服务状态为下线：', '2018-11-06 18:06:41', '2018-11-06 18:06:41');
-INSERT INTO `agent_svr_alarm` VALUES ('55', 'CanalClient9_236_1', 'CanalToKafkaGroupTest', '1', '1', '1', '0', '，收到退出信号，设置服务状态为下线：', '2018-11-06 18:08:42', '2018-11-06 18:08:42');
-INSERT INTO `agent_svr_alarm` VALUES ('56', 'CanalClient9_236_2', 'CanalToKafkaGroupTest', '1', '1', '1', '0', '，收到退出信号，设置服务状态为下线：', '2018-11-06 18:08:42', '2018-11-06 18:08:42');
-INSERT INTO `agent_svr_alarm` VALUES ('57', 'KafkaToHBase9_236_1', 'KafkaToHBaseGroupTest', '2', '1', '3', '0', '处理数据状态：true，提交偏移量状态：true', '2018-11-06 18:09:43', '2018-11-06 18:09:43');
-INSERT INTO `agent_svr_alarm` VALUES ('58', 'KafkaToHBase9_236_1', 'KafkaToHBaseGroupTest', '2', '1', '3', '0', '处理数据状态：true，提交偏移量状态：true', '2018-11-06 18:10:14', '2018-11-06 18:10:14');
-INSERT INTO `agent_svr_alarm` VALUES ('59', 'KafkaToHBase9_236_1', 'KafkaToHBaseGroupTest', '2', '1', '3', '0', '处理数据状态：true，提交偏移量状态：true', '2018-11-06 18:40:27', '2018-11-06 18:40:27');
 
 -- ----------------------------
 -- Table structure for agent_svr_info
@@ -96,7 +45,7 @@ CREATE TABLE `agent_svr_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `svr_name` varchar(255) NOT NULL,
   `svr_group` varchar(255) NOT NULL,
-  `svr_type` int(11) DEFAULT NULL COMMENT '代理服务类型',
+  `svr_type` int(11) DEFAULT NULL COMMENT '代理服务类型（1：数据采集服务，2：监控服务，3：数据消费服务，……）',
   `source_type` int(11) DEFAULT NULL COMMENT '输入源类型（1：MYSQL，2：Kafka，3：HBase，4：Kudu，5：Hive，6：HDFS...）',
   `dest_type` int(11) DEFAULT NULL COMMENT '目标源类型（1：MYSQL，2：Kafka，3：HBase，4：Kudu，5：Hive，6：HDFS...）',
   `status` int(11) DEFAULT NULL COMMENT '代理服务状态（0：下线，1：正常，2：备用，...，9：删除）',
@@ -105,22 +54,25 @@ CREATE TABLE `agent_svr_info` (
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uidx_agent_name_group` (`svr_name`,`svr_group`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of agent_svr_info
 -- ----------------------------
-INSERT INTO `agent_svr_info` VALUES ('9', 'kafkaTopicMonitor', 'kafkaTopicMonitorGroup', '2', '0', '0', '1', '心跳上报', '2018-10-25 16:38:58', '2018-11-05 11:17:47');
+INSERT INTO `agent_svr_info` VALUES ('9', 'kafkaTopicMonitor', 'kafkaTopicMonitorGroup', '2', '0', '0', '1', '心跳上报', '2018-10-25 16:38:58', '2018-11-09 19:23:35');
 INSERT INTO `agent_svr_info` VALUES ('10', 'kafka_to_hbase_1', 'KafkaToHBaseGroup', '2', '2', '2', '0', null, '2018-10-26 16:08:21', '2018-10-29 09:27:45');
-INSERT INTO `agent_svr_info` VALUES ('11', 'KafkaToHBase', 'KafkaToHBaseGroup', '2', '2', '2', '1', '心跳上报', '2018-10-30 14:49:25', '2018-11-05 11:17:31');
+INSERT INTO `agent_svr_info` VALUES ('11', 'KafkaToHBase', 'KafkaToHBaseGroup', '2', '2', '2', '0', '心跳上报', '2018-10-30 14:49:25', '2018-11-05 11:17:31');
 INSERT INTO `agent_svr_info` VALUES ('12', 'hbaseTableDataDelete', 'hbaseTableDataDeleteGroup', '2', '0', '0', '1', '心跳上报', '2018-10-31 19:27:36', '2018-11-05 09:11:45');
-INSERT INTO `agent_svr_info` VALUES ('13', 'KafkaToHDFS', 'KafkaToHDFSGroup', '2', '2', '2', '1', '心跳上报', '2018-11-02 09:38:26', '2018-11-05 09:11:43');
-INSERT INTO `agent_svr_info` VALUES ('14', 'CanalClient9_236_1', 'CanalToKafkaGroupTest', '1', '1', '2', '1', '心跳上报', '2018-11-05 16:44:39', '2018-11-07 09:09:40');
-INSERT INTO `agent_svr_info` VALUES ('15', 'KafkaToHBase9_236_2', 'KafkaToHBaseGroupTest', '2', '2', '3', '2', '监测到服务中断信号，退出服务！', '2018-11-05 16:45:25', '2018-11-07 09:09:42');
-INSERT INTO `agent_svr_info` VALUES ('16', 'KafkaToHBase9_236_1', 'KafkaToHBaseGroupTest', '2', '2', '3', '1', '心跳上报', '2018-11-05 17:15:39', '2018-11-07 09:09:40');
+INSERT INTO `agent_svr_info` VALUES ('13', 'KafkaToHDFS', 'KafkaToHDFSGroup', '2', '2', '2', '1', '心跳上报', '2018-11-02 09:38:26', '2018-11-09 19:23:35');
+INSERT INTO `agent_svr_info` VALUES ('14', 'CanalClient9_236_1', 'CanalToKafkaGroupTest', '1', '1', '2', '0', '监测到服务中断信号，退出服务！', '2018-11-05 16:44:39', '2018-11-08 13:13:26');
+INSERT INTO `agent_svr_info` VALUES ('15', 'KafkaToHBase9_236_2', 'KafkaToHBaseGroupTest', '2', '2', '3', '2', '监测到服务中断信号，退出服务！', '2018-11-05 16:45:25', '2018-11-08 12:15:42');
+INSERT INTO `agent_svr_info` VALUES ('16', 'KafkaToHBase9_236_1', 'KafkaToHBaseGroupTest', '2', '2', '3', '0', '监测到服务中断信号，退出服务！', '2018-11-05 17:15:39', '2018-11-08 12:15:46');
 INSERT INTO `agent_svr_info` VALUES ('17', 'CanalClient9_236_2', 'CanalToKafkaGroupTest', '1', '1', '2', '0', '监测到服务中断信号，退出服务！', '2018-11-06 18:03:24', '2018-11-06 18:08:42');
-INSERT INTO `agent_svr_info` VALUES ('18', 'CanalClient162.16.9.236', 'canal_kafka_group_1 ', '1', '1', '2', '1', '心跳上报', '2018-11-06 20:03:34', '2018-11-07 09:09:40');
-INSERT INTO `agent_svr_info` VALUES ('19', 'CanalClient162.16.9.236_2', 'canal_kafka_group_1 ', '1', '1', '2', '2', '备用服务', '2018-11-06 20:08:48', '2018-11-07 09:09:41');
+INSERT INTO `agent_svr_info` VALUES ('18', 'CanalClient162.16.9.236', 'canal_kafka_group_1 ', '1', '1', '2', '1', '心跳上报', '2018-11-06 20:03:34', '2018-11-09 19:23:33');
+INSERT INTO `agent_svr_info` VALUES ('19', 'CanalClient162.16.9.236_2', 'canal_kafka_group_1 ', '1', '1', '2', '0', '监测到服务中断信号，退出服务！', '2018-11-06 20:08:48', '2018-11-07 19:02:59');
+INSERT INTO `agent_svr_info` VALUES ('20', 'KafkaClient162.16.9.236_1 ', 'KafkaToHbaseGroup ', '2', '2', '3', '1', '心跳上报', '2018-11-07 10:02:46', '2018-11-09 19:23:31');
+INSERT INTO `agent_svr_info` VALUES ('21', 'KafkaToKudu', 'KafkaToKuduGroup', '2', '2', '2', '1', '心跳上报', '2018-11-07 15:11:19', '2018-11-09 19:23:35');
+INSERT INTO `agent_svr_info` VALUES ('22', 'KafkaClient162.16.9.236_2 ', 'KafkaToHbaseGroup ', '2', '2', '3', '2', '备用服务', '2018-11-07 15:56:09', '2018-11-07 19:25:26');
 
 -- ----------------------------
 -- Table structure for canal_extract_tbl_cfg
@@ -132,72 +84,81 @@ CREATE TABLE `canal_extract_tbl_cfg` (
   `canal_id` varchar(255) NOT NULL,
   `tbl_id` varchar(255) NOT NULL,
   `db_id` varchar(255) NOT NULL,
+  `node_id` int(11) NOT NULL DEFAULT '0',
   `status` int(11) DEFAULT NULL COMMENT '抽取状态（0：未同步，1：同步中，9：删除）',
   `remark` varchar(255) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uidx_canal_db_tbl_cfg` (`canal_id`,`tbl_id`,`db_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of canal_extract_tbl_cfg
 -- ----------------------------
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('1', 'CanalToKafkaGroupTest', '162.16.6.181:3306', 'test_table', 'canal_tsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('2', 'CanalToKafkaGroupTest', '162.16.6.181:3306', 'test_table2', 'canal_tsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('5', 'CanalToKafkaGroupTest', '162.16.6.181:3306', 'test_table1', 'canal_tsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('6', 'canal_kafka_group_1', '162.16.4.9:3306', 'isop_employee\r\n', 'migration_sdv_isop', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('7', 'canal_kafka_group_1', '162.16.4.9:3306', 'isop_department', 'migration_sdv_isop', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('8', 'canal_kafka_group_1', '162.16.4.9:3306', 'customer', 'migration_sdv_isop', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('9', 'canal_kafka_group_1', '162.16.4.9:3306', 'customer_account', 'migration_sdv_isop', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('10', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_customer_contact', 'migration_sdv_isop', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('11', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_customer_base', 'migration_sdv_isop', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('12', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_cust_address', 'migration_sdv_isop', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('13', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_customer_occupation', 'migration_sdv_isop', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('14', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_customer', 'risk_uat', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('15', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_customer_credit', 'risk_uat', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('16', 'canal_kafka_group_1', '162.16.4.9:3306', 'his_customer_credit', 'risk_uat', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('17', 'canal_kafka_group_1', '162.16.4.9:3306', 'customer_credit_apply_log', 'risk_uat', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('18', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_credit_frozen', 'risk_uat', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('19', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_credit_unfrozen', 'risk_uat', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('20', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_zmxy', 'risk_uat', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('21', 'canal_kafka_group_1', '162.16.4.9:3306', 'customer_blacklist', 'risk_uat', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('22', 'canal_kafka_group_1', '162.16.4.9:3306', 'call_ack_task', 'risk_uat', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('23', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_baiqishi', 'risk_uat', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('24', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_tongdun', 'risk_uat', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('25', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_tongdun_education', 'risk_uat', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('26', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_cs_insurance', 'risk_uat', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('27', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_cs_accum_found', 'risk_uat', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('28', 'canal_kafka_group_1', '162.16.4.9:3306', 'interface_log', 'risk_uat', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('29', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_channel_info', 'prodccsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('30', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_loan', 'prodccsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('31', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_loan_reg', 'prodccsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('32', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_loan_reg_hst', 'prodccsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('33', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_acct', 'prodccsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('34', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_plan', 'prodccsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('35', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_customer', 'prodccsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('36', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_order', 'prodccsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('37', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_order_hst', 'prodccsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('38', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_loan_bal_rpt', 'prodccsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('39', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_overdue_hst_rpt', 'prodccsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('40', 'canal_kafka_group_1', '162.16.4.9:3306', 'tpl_customer', 'prodccsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('41', 'canal_kafka_group_1', '162.16.4.9:3306', 'tpl_loan_info', 'prodccsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('42', 'canal_kafka_group_1', '162.16.4.9:3306', 'tpl_repay_info', 'prodccsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('43', 'canal_kafka_group_1', '162.16.4.9:3306', 'tpl_trade_register', 'prodccsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('44', 'canal_kafka_group_1', '162.16.4.9:3306', 'tpl_txn_register', 'prodccsdb', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('45', 'canal_kafka_group_1', '162.16.4.9:3306', 'wechatmember', 'wechat2', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('46', 'canal_kafka_group_1', '162.16.4.9:3306', 'loan_user_info', 'wechat2', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('47', 'canal_kafka_group_1', '162.16.4.9:3306', 'his_loan_user_info', 'wechat2', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('48', 'canal_kafka_group_1', '162.16.4.9:3306', 'customer_login_record', 'wechat2', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('49', 'canal_kafka_group_1', '162.16.4.9:3306', 'customer_verify_record', 'wechat2', '1', null, null, null);
-INSERT INTO `canal_extract_tbl_cfg` VALUES ('50', 'canal_kafka_group_1', '162.16.4.9:3306', 'feedback_record', 'wechat2', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('1', 'CanalToKafkaGroupTest', '162.16.6.181:3306', 'test_table', 'canal_tsdb', '0', '9', '', null, '2018-11-09 19:15:41');
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('2', 'CanalToKafkaGroupTest', '162.16.6.181:3306', 'test_table2', 'canal_tsdb', '0', '9', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('5', 'CanalToKafkaGroupTest', '162.16.6.181:3306', 'test_table1', 'canal_tsdb', '0', '9', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('6', 'canal_kafka_group_1', '162.16.4.9:3306', 'isop_employee\r\n', 'migration_sdv_isop', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('7', 'canal_kafka_group_1', '162.16.4.9:3306', 'isop_department', 'migration_sdv_isop', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('8', 'canal_kafka_group_1', '162.16.4.9:3306', 'customer', 'migration_sdv_isop', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('9', 'canal_kafka_group_1', '162.16.4.9:3306', 'customer_account', 'migration_sdv_isop', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('10', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_customer_contact', 'migration_sdv_isop', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('11', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_customer_base', 'migration_sdv_isop', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('12', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_cust_address', 'migration_sdv_isop', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('13', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_customer_occupation', 'migration_sdv_isop', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('14', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_customer', 'risk_uat', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('15', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_customer_credit', 'risk_uat', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('16', 'canal_kafka_group_1', '162.16.4.9:3306', 'his_customer_credit', 'risk_uat', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('17', 'canal_kafka_group_1', '162.16.4.9:3306', 'customer_credit_apply_log', 'risk_uat', '0', '1', '', null, '2018-11-08 10:32:02');
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('18', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_credit_frozen', 'risk_uat', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('19', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_credit_unfrozen', 'risk_uat', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('20', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_zmxy', 'risk_uat', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('21', 'canal_kafka_group_1', '162.16.4.9:3306', 'customer_blacklist', 'risk_uat', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('22', 'canal_kafka_group_1', '162.16.4.9:3306', 'call_ack_task', 'risk_uat', '0', '9', '修改为删除状态', null, '2018-11-08 10:30:49');
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('23', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_baiqishi', 'risk_uat', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('24', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_tongdun', 'risk_uat', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('25', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_tongdun_education', 'risk_uat', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('26', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_cs_insurance', 'risk_uat', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('27', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_cs_accum_found', 'risk_uat', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('28', 'canal_kafka_group_1', '162.16.4.9:3306', 'interface_log', 'risk_uat', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('29', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_channel_info', 'prodccsdb', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('30', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_loan', 'prodccsdb', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('31', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_loan_reg', 'prodccsdb', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('32', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_loan_reg_hst', 'prodccsdb', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('33', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_acct', 'prodccsdb', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('34', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_plan', 'prodccsdb', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('35', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_customer', 'prodccsdb', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('36', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_order', 'prodccsdb', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('37', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_order_hst', 'prodccsdb', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('38', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_loan_bal_rpt', 'prodccsdb', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('39', 'canal_kafka_group_1', '162.16.4.9:3306', 'ccs_overdue_hst_rpt', 'prodccsdb', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('40', 'canal_kafka_group_1', '162.16.4.9:3306', 'tpl_customer', 'prodccsdb', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('41', 'canal_kafka_group_1', '162.16.4.9:3306', 'tpl_loan_info', 'prodccsdb', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('42', 'canal_kafka_group_1', '162.16.4.9:3306', 'tpl_repay_info', 'prodccsdb', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('43', 'canal_kafka_group_1', '162.16.4.9:3306', 'tpl_trade_register', 'prodccsdb', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('44', 'canal_kafka_group_1', '162.16.4.9:3306', 'tpl_txn_register', 'prodccsdb', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('45', 'canal_kafka_group_1', '162.16.4.9:3306', 'wechatmember', 'wechat2', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('46', 'canal_kafka_group_1', '162.16.4.9:3306', 'loan_user_info', 'wechat2', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('47', 'canal_kafka_group_1', '162.16.4.9:3306', 'his_loan_user_info', 'wechat2', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('48', 'canal_kafka_group_1', '162.16.4.9:3306', 'customer_login_record', 'wechat2', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('49', 'canal_kafka_group_1', '162.16.4.9:3306', 'customer_verify_record', 'wechat2', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('50', 'canal_kafka_group_1', '162.16.4.9:3306', 'feedback_record', 'wechat2', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('51', 'canal_kafka_group_1', '162.16.6.181:3306', 'inf_customer_credit', 'riskcontrol', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('52', 'canal_kafka_group_1', '162.16.6.181:3306', 'inf_customer', 'riskcontrol', '0', '1', null, null, null);
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('56', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_customer_borrow', 'migration_sdv_isop', '0', '1', '实时看板需要此表数据', '2018-11-08 10:57:22', '2018-11-08 10:57:22');
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('57', 'canal_kafka_group_1', '162.16.4.9:3306', 'inf_customer_decoration', 'migration_sdv_isop', '0', '1', '实时看板需要此表数据', '2018-11-08 10:58:53', '2018-11-08 10:58:53');
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('58', 'canal_kafka_group_1', '162.16.6.181:3306', 'customer', 'isop', '0', '1', '', '2018-11-09 18:55:34', '2018-11-09 19:10:39');
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('59', 'canal_kafka_group_1', '162.16.6.181:3306', 'customer_account', 'isop', '0', '1', '', '2018-11-09 18:55:55', '2018-11-09 19:10:34');
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('60', 'canal_kafka_group_1', '162.16.6.181:3306', 'dict_card_bin', 'payment', '0', '1', '', '2018-11-09 19:06:06', '2018-11-09 19:10:29');
+INSERT INTO `canal_extract_tbl_cfg` VALUES ('61', 'canal_kafka_group_1', '162.16.6.181:3306', 'wechatmember', 'wechat', '0', '1', '', '2018-11-09 19:09:59', '2018-11-09 19:09:59');
 
 -- ----------------------------
 -- Table structure for canal_extract_tbl_monitor
 -- ----------------------------
 DROP TABLE IF EXISTS `canal_extract_tbl_monitor`;
 CREATE TABLE `canal_extract_tbl_monitor` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `date_id` int(11) NOT NULL COMMENT '  日期(格式:YYYYMMDD)',
   `canal_id` varchar(255) NOT NULL COMMENT 'canalId',
   `db_id` varchar(255) NOT NULL COMMENT '同步的数据库名',
@@ -205,6 +166,7 @@ CREATE TABLE `canal_extract_tbl_monitor` (
   `start_time` datetime(3) DEFAULT NULL COMMENT '当前同步表在当天最早的变更时间',
   `start_bin_file` varchar(64) DEFAULT NULL COMMENT '当前同步表对应的binlog文件名',
   `start_offset` bigint(20) DEFAULT NULL COMMENT '当前同步表对应binlog文件的起始偏移量',
+  `update_count` int(10) DEFAULT '0' COMMENT '按天累计的数据行的变更次数（插入+更新+删除）',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注说明',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
@@ -213,118 +175,196 @@ CREATE TABLE `canal_extract_tbl_monitor` (
   `cur_offset` bigint(20) DEFAULT NULL COMMENT '当前同步到的binlog偏移量',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uidx_canal_db_tbl_monitor` (`date_id`,`canal_id`,`db_id`,`tbl_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=193 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of canal_extract_tbl_monitor
 -- ----------------------------
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('8', '20181106', '162.16.6.181:3306', 'canal_tsdb', 'test_table', '2018-11-06 15:21:13.000', 'mysql-bin.000016', '448769967', '更新数据条数:243', '2018-11-06 15:31:06', '2018-11-06 18:41:22', '2018-11-06 18:41:07.000', 'mysql-bin.000016', '450757821');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('9', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_acct', '2018-11-01 09:15:10.000', 'master-bin.000158', '961181891', '更新数据条数:227', '2018-11-06 20:05:40', '2018-11-06 20:05:51', '2018-11-01 09:46:43.000', 'master-bin.000158', '977648979');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('10', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_customer', '2018-11-01 09:15:10.000', 'master-bin.000158', '961303575', '更新数据条数:33', '2018-11-06 20:05:41', '2018-11-06 20:05:51', '2018-11-01 09:46:43.000', 'master-bin.000158', '977647690');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('11', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan', '2018-11-01 09:15:10.000', 'master-bin.000158', '961309465', '更新数据条数:128', '2018-11-06 20:05:41', '2018-11-06 20:05:51', '2018-11-01 09:46:42.000', 'master-bin.000158', '976015061');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('12', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg', '2018-11-01 09:15:10.000', 'master-bin.000158', '961343817', '更新数据条数:127', '2018-11-06 20:05:41', '2018-11-06 20:05:51', '2018-11-01 09:46:43.000', 'master-bin.000158', '977659982');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('13', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg_hst', '2018-11-01 09:15:10.000', 'master-bin.000158', '961347767', '更新数据条数:104', '2018-11-06 20:05:41', '2018-11-06 20:05:51', '2018-11-01 09:46:42.000', 'master-bin.000158', '976016372');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('14', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_order', '2018-11-01 09:15:10.000', 'master-bin.000158', '961373689', '更新数据条数:365', '2018-11-06 20:05:41', '2018-11-06 20:05:51', '2018-11-01 09:46:43.000', 'master-bin.000158', '977661070');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('15', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_order_hst', '2018-11-01 09:15:10.000', 'master-bin.000158', '961391377', '更新数据条数:505', '2018-11-06 20:05:41', '2018-11-06 20:05:51', '2018-11-01 09:46:42.000', 'master-bin.000158', '976040627');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('16', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_plan', '2018-11-01 09:15:10.000', 'master-bin.000158', '961530930', '更新数据条数:439', '2018-11-06 20:05:42', '2018-11-06 20:05:51', '2018-11-01 09:46:42.000', 'master-bin.000158', '976068239');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('17', '20181101', '162.16.4.9:3306', 'wechat2', 'wechatmember', '2018-11-01 09:30:22.000', 'master-bin.000158', '964839787', '更新数据条数:2', '2018-11-06 20:05:45', '2018-11-06 20:05:51', '2018-11-01 09:35:04.000', 'master-bin.000158', '965196111');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('18', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_bal_rpt', '2018-11-01 09:39:25.000', 'master-bin.000158', '966708781', '更新数据条数:284', '2018-11-06 20:05:47', '2018-11-06 20:06:52', '2018-11-01 09:59:53.000', 'master-bin.000158', '996862630');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('19', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_overdue_hst_rpt', '2018-11-01 09:43:13.000', 'master-bin.000158', '971541797', '更新数据条数:64', '2018-11-06 20:05:49', '2018-11-06 20:06:52', '2018-11-01 09:59:53.000', 'master-bin.000158', '996854761');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('20', '20181101', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_contact', '2018-11-01 10:18:38.000', 'master-bin.000158', '998926479', '本轮总计更新数据条数:1', '2018-11-06 20:05:57', '2018-11-06 20:05:57', '2018-11-01 10:18:38.000', 'master-bin.000158', '998926479');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('21', '20181101', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_base', '2018-11-01 10:18:38.000', 'master-bin.000158', '998926906', '本轮总计更新数据条数:1', '2018-11-06 20:05:57', '2018-11-06 20:05:57', '2018-11-01 10:18:38.000', 'master-bin.000158', '998926906');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('22', '20181101', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_occupation', '2018-11-01 10:18:38.000', 'master-bin.000158', '998929498', '本轮总计更新数据条数:1', '2018-11-06 20:05:57', '2018-11-06 20:05:57', '2018-11-01 10:18:38.000', 'master-bin.000158', '998929498');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('23', '20181101', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_cust_address', '2018-11-01 10:18:38.000', 'master-bin.000158', '998929866', '本轮总计更新数据条数:1', '2018-11-06 20:05:57', '2018-11-06 20:05:57', '2018-11-01 10:18:38.000', 'master-bin.000158', '998929866');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('24', '20181101', '162.16.4.9:3306', 'migration_sdv_isop', 'customer', '2018-11-01 10:18:38.000', 'master-bin.000158', '998931676', '本轮总计更新数据条数:1', '2018-11-06 20:05:57', '2018-11-06 20:05:57', '2018-11-01 10:18:38.000', 'master-bin.000158', '998931676');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('25', '20181101', '162.16.4.9:3306', 'risk_uat', 'inf_customer', '2018-11-01 10:18:38.000', 'master-bin.000158', '998943311', '本轮总计更新数据条数:1', '2018-11-06 20:05:58', '2018-11-06 20:05:58', '2018-11-01 10:18:38.000', 'master-bin.000158', '998943311');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('26', '20181101', '162.16.4.9:3306', 'risk_uat', 'inf_customer_credit', '2018-11-01 10:18:38.000', 'master-bin.000158', '998943757', '本轮总计更新数据条数:1', '2018-11-06 20:05:58', '2018-11-06 20:05:58', '2018-11-01 10:18:38.000', 'master-bin.000158', '998943757');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('27', '20181101', '162.16.4.9:3306', 'risk_uat', 'his_customer_credit', '2018-11-01 10:18:38.000', 'master-bin.000158', '998944374', '本轮总计更新数据条数:3', '2018-11-06 20:05:58', '2018-11-06 20:05:58', '2018-11-01 10:18:38.000', 'master-bin.000158', '998944374');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('28', '20181101', '162.16.4.9:3306', 'risk_uat', 'inf_tongdun', '2018-11-01 10:18:38.000', 'master-bin.000158', '998945242', '本轮总计更新数据条数:1', '2018-11-06 20:05:58', '2018-11-06 20:05:58', '2018-11-01 10:18:38.000', 'master-bin.000158', '998945242');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('29', '20181101', '162.16.4.9:3306', 'risk_uat', 'inf_baiqishi', '2018-11-01 10:18:38.000', 'master-bin.000158', '998945731', '本轮总计更新数据条数:1', '2018-11-06 20:05:58', '2018-11-06 20:05:58', '2018-11-01 10:18:38.000', 'master-bin.000158', '998945731');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('30', '20181101', '162.16.4.9:3306', 'wechat2', 'feedback_record', '2018-11-01 10:49:31.000', 'master-bin.000158', '1000938811', '本轮总计更新数据条数:1', '2018-11-06 20:05:58', '2018-11-06 20:05:58', '2018-11-01 10:49:31.000', 'master-bin.000158', '1000938811');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('31', '20181101', '162.16.4.9:3306', 'wechat2', 'loan_user_info', '2018-11-01 11:32:18.000', 'master-bin.000158', '1009053906', '本轮总计更新数据条数:1', '2018-11-06 20:05:58', '2018-11-06 20:05:58', '2018-11-01 11:32:18.000', 'master-bin.000158', '1009053906');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('32', '20181101', '162.16.4.9:3306', 'risk_uat', 'interface_log', '2018-11-01 11:32:18.000', 'master-bin.000158', '1009060816', '本轮总计更新数据条数:2', '2018-11-06 20:05:58', '2018-11-06 20:05:58', '2018-11-01 11:32:18.000', 'master-bin.000158', '1009060816');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('33', '20181101', '162.16.4.9:3306', 'wechat2', 'customer_login_record', '2018-11-01 16:25:36.000', 'master-bin.000158', '1056878899', '本轮总计更新数据条数:1', '2018-11-06 20:05:59', '2018-11-06 20:05:59', '2018-11-01 16:25:36.000', 'master-bin.000158', '1056878899');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('34', '20181101', '162.16.4.9:3306', 'wechat2', 'his_loan_user_info', '2018-11-01 16:27:18.000', 'master-bin.000158', '1057121072', '本轮总计更新数据条数:1', '2018-11-06 20:05:59', '2018-11-06 20:05:59', '2018-11-01 16:27:18.000', 'master-bin.000158', '1057121072');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('35', '20181101', '162.16.4.9:3306', 'risk_uat', 'customer_credit_apply_log', '2018-11-01 16:27:23.000', 'master-bin.000158', '1057144659', '本轮总计更新数据条数:1', '2018-11-06 20:05:59', '2018-11-06 20:05:59', '2018-11-01 16:27:23.000', 'master-bin.000158', '1057144659');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('36', '20181101', '162.16.4.9:3306', 'migration_sdv_isop', 'customer_account', '2018-11-01 16:28:18.000', 'master-bin.000158', '1057595758', '本轮总计更新数据条数:2', '2018-11-06 20:05:59', '2018-11-06 20:05:59', '2018-11-01 16:28:18.000', 'master-bin.000158', '1057595758');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('37', '20181101', '162.16.4.9:3306', 'risk_uat', 'inf_zmxy', '2018-11-01 16:56:34.000', 'master-bin.000158', '1060123225', '本轮总计更新数据条数:1', '2018-11-06 20:05:59', '2018-11-06 20:05:59', '2018-11-01 16:56:34.000', 'master-bin.000158', '1060123225');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('38', '20181101', '162.16.4.9:3306', 'risk_uat', 'call_ack_task', '2018-11-01 17:55:56.000', 'master-bin.000158', '1070684438', '本轮总计更新数据条数:1', '2018-11-06 20:06:01', '2018-11-06 20:06:01', '2018-11-01 17:55:56.000', 'master-bin.000158', '1070684438');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('39', '20181102', '162.16.4.9:3306', 'risk_uat', 'customer_credit_apply_log', '2018-11-02 08:56:46.000', 'master-bin.000159', '51254075', '本轮总计更新数据条数:1', '2018-11-06 20:06:06', '2018-11-06 20:06:06', '2018-11-02 08:56:46.000', 'master-bin.000159', '51254075');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('40', '20181102', '162.16.4.9:3306', 'wechat2', 'wechatmember', '2018-11-02 08:56:47.000', 'master-bin.000159', '51256488', '本轮总计更新数据条数:1', '2018-11-06 20:06:06', '2018-11-06 20:06:06', '2018-11-02 08:56:47.000', 'master-bin.000159', '51256488');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('41', '20181102', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg', '2018-11-02 09:01:25.000', 'master-bin.000159', '51547279', '本轮总计更新数据条数:1', '2018-11-06 20:06:06', '2018-11-06 20:06:06', '2018-11-02 09:01:25.000', 'master-bin.000159', '51547279');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('42', '20181102', '162.16.4.9:3306', 'prodccsdb', 'ccs_order', '2018-11-02 09:01:25.000', 'master-bin.000159', '51547994', '本轮总计更新数据条数:1', '2018-11-06 20:06:06', '2018-11-06 20:06:06', '2018-11-02 09:01:25.000', 'master-bin.000159', '51547994');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('43', '20181102', '162.16.4.9:3306', 'wechat2', 'feedback_record', '2018-11-02 10:19:29.000', 'master-bin.000159', '59854809', '本轮总计更新数据条数:1', '2018-11-06 20:06:06', '2018-11-06 20:06:06', '2018-11-02 10:19:29.000', 'master-bin.000159', '59854809');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('44', '20181102', '162.16.4.9:3306', 'prodccsdb', 'ccs_customer', '2018-11-02 11:24:33.000', 'master-bin.000159', '67295083', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:24:33.000', 'master-bin.000159', '67295083');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('45', '20181102', '162.16.4.9:3306', 'prodccsdb', 'ccs_acct', '2018-11-02 11:24:33.000', 'master-bin.000159', '67297461', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:24:33.000', 'master-bin.000159', '67297461');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('46', '20181102', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_contact', '2018-11-02 11:36:03.000', 'master-bin.000159', '68054272', '本轮总计更新数据条数:2', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68054272');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('47', '20181102', '162.16.4.9:3306', 'migration_sdv_isop', 'customer_account', '2018-11-02 11:36:03.000', 'master-bin.000159', '68054724', '本轮总计更新数据条数:2', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68054724');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('48', '20181102', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_base', '2018-11-02 11:36:03.000', 'master-bin.000159', '68057293', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68057293');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('49', '20181102', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_occupation', '2018-11-02 11:36:03.000', 'master-bin.000159', '68062090', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68062090');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('50', '20181102', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_cust_address', '2018-11-02 11:36:03.000', 'master-bin.000159', '68062568', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68062568');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('51', '20181102', '162.16.4.9:3306', 'migration_sdv_isop', 'customer', '2018-11-02 11:36:03.000', 'master-bin.000159', '68064756', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68064756');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('52', '20181102', '162.16.4.9:3306', 'risk_uat', 'inf_customer', '2018-11-02 11:36:03.000', 'master-bin.000159', '68073736', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68073736');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('53', '20181102', '162.16.4.9:3306', 'risk_uat', 'inf_customer_credit', '2018-11-02 11:36:03.000', 'master-bin.000159', '68074218', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68074218');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('54', '20181102', '162.16.4.9:3306', 'risk_uat', 'his_customer_credit', '2018-11-02 11:36:03.000', 'master-bin.000159', '68074783', '本轮总计更新数据条数:2', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68074783');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('55', '20181102', '162.16.4.9:3306', 'risk_uat', 'inf_tongdun', '2018-11-02 11:36:03.000', 'master-bin.000159', '68075435', '本轮总计更新数据条数:2', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68075435');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('56', '20181102', '162.16.4.9:3306', 'wechat2', 'customer_login_record', '2018-11-02 11:40:50.000', 'master-bin.000159', '68352851', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:40:50.000', 'master-bin.000159', '68352851');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('57', '20181102', '162.16.4.9:3306', 'wechat2', 'loan_user_info', '2018-11-02 11:42:38.000', 'master-bin.000159', '68423092', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:42:38.000', 'master-bin.000159', '68423092');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('58', '20181102', '162.16.4.9:3306', 'wechat2', 'his_loan_user_info', '2018-11-02 11:54:04.000', 'master-bin.000159', '68899912', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:54:04.000', 'master-bin.000159', '68899912');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('59', '20181102', '162.16.4.9:3306', 'risk_uat', 'interface_log', '2018-11-02 11:54:09.000', 'master-bin.000159', '68937548', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:54:09.000', 'master-bin.000159', '68937548');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('60', '20181102', '162.16.4.9:3306', 'risk_uat', 'inf_baiqishi', '2018-11-02 11:54:09.000', 'master-bin.000159', '68938086', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:54:09.000', 'master-bin.000159', '68938086');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('61', '20181102', '162.16.4.9:3306', 'risk_uat', 'inf_zmxy', '2018-11-02 11:54:10.000', 'master-bin.000159', '68944469', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:54:10.000', 'master-bin.000159', '68944469');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('62', '20181103', '162.16.4.9:3306', 'prodccsdb', 'ccs_order', '2018-11-03 00:00:00.000', 'master-bin.000159', '107585930', '本轮总计更新数据条数:1', '2018-11-06 20:06:11', '2018-11-06 20:06:11', '2018-11-03 00:00:00.000', 'master-bin.000159', '107585930');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('63', '20181103', '162.16.4.9:3306', 'wechat2', 'wechatmember', '2018-11-03 13:48:49.000', 'master-bin.000159', '144362916', '本轮总计更新数据条数:1', '2018-11-06 20:06:15', '2018-11-06 20:06:15', '2018-11-03 13:48:49.000', 'master-bin.000159', '144362916');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('64', '20181103', '162.16.4.9:3306', 'wechat2', 'feedback_record', '2018-11-03 13:49:07.000', 'master-bin.000159', '144377524', '本轮总计更新数据条数:1', '2018-11-06 20:06:15', '2018-11-06 20:06:15', '2018-11-03 13:49:07.000', 'master-bin.000159', '144377524');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('65', '20181104', '162.16.4.9:3306', 'prodccsdb', 'ccs_order', '2018-11-04 00:00:00.000', 'master-bin.000159', '173437051', '本轮总计更新数据条数:1', '2018-11-06 20:06:19', '2018-11-06 20:06:19', '2018-11-04 00:00:00.000', 'master-bin.000159', '173437051');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('66', '20181105', '162.16.4.9:3306', 'prodccsdb', 'ccs_order', '2018-11-05 00:00:00.000', 'master-bin.000159', '238119366', '本轮总计更新数据条数:1', '2018-11-06 20:06:26', '2018-11-06 20:06:26', '2018-11-05 00:00:00.000', 'master-bin.000159', '238119366');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('67', '20181105', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg_hst', '2018-11-05 09:54:01.000', 'master-bin.000159', '266890112', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 09:54:01.000', 'master-bin.000159', '266890112');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('68', '20181105', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg', '2018-11-05 09:54:01.000', 'master-bin.000159', '266893349', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 09:54:01.000', 'master-bin.000159', '266893349');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('69', '20181105', '162.16.4.9:3306', 'risk_uat', 'customer_credit_apply_log', '2018-11-05 10:36:00.000', 'master-bin.000159', '268473317', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 10:36:00.000', 'master-bin.000159', '268473317');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('70', '20181105', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_base', '2018-11-05 10:36:00.000', 'master-bin.000159', '268494577', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 10:36:00.000', 'master-bin.000159', '268494577');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('71', '20181105', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_cust_address', '2018-11-05 10:36:00.000', 'master-bin.000159', '268494911', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 10:36:00.000', 'master-bin.000159', '268494911');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('72', '20181105', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_occupation', '2018-11-05 10:36:00.000', 'master-bin.000159', '268495229', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 10:36:00.000', 'master-bin.000159', '268495229');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('73', '20181105', '162.16.4.9:3306', 'migration_sdv_isop', 'customer', '2018-11-05 10:36:00.000', 'master-bin.000159', '268499170', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 10:36:00.000', 'master-bin.000159', '268499170');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('74', '20181105', '162.16.4.9:3306', 'wechat2', 'wechatmember', '2018-11-05 11:06:33.000', 'master-bin.000159', '278878585', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 11:06:33.000', 'master-bin.000159', '278878585');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('75', '20181105', '162.16.4.9:3306', 'risk_uat', 'inf_customer', '2018-11-05 11:09:40.000', 'master-bin.000159', '280152505', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 11:09:40.000', 'master-bin.000159', '280152505');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('76', '20181105', '162.16.4.9:3306', 'risk_uat', 'inf_customer_credit', '2018-11-05 11:09:40.000', 'master-bin.000159', '280154080', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 11:09:40.000', 'master-bin.000159', '280154080');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('77', '20181105', '162.16.4.9:3306', 'risk_uat', 'interface_log', '2018-11-05 11:09:40.000', 'master-bin.000159', '280195847', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 11:09:40.000', 'master-bin.000159', '280195847');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('78', '20181105', '162.16.4.9:3306', 'risk_uat', 'inf_baiqishi', '2018-11-05 11:09:40.000', 'master-bin.000159', '280196385', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 11:09:40.000', 'master-bin.000159', '280196385');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('79', '20181105', '162.16.4.9:3306', 'risk_uat', 'inf_tongdun', '2018-11-05 11:09:41.000', 'master-bin.000159', '280203265', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 11:09:41.000', 'master-bin.000159', '280203265');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('80', '20181105', '162.16.4.9:3306', 'wechat2', 'feedback_record', '2018-11-05 11:09:49.000', 'master-bin.000159', '280280908', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 11:09:49.000', 'master-bin.000159', '280280908');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('81', '20181105', '162.16.4.9:3306', 'risk_uat', 'his_customer_credit', '2018-11-05 11:11:03.000', 'master-bin.000159', '280428492', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 11:11:03.000', 'master-bin.000159', '280428492');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('82', '20181105', '162.16.4.9:3306', 'wechat2', 'customer_login_record', '2018-11-05 14:02:50.000', 'master-bin.000159', '297871868', '更新数据条数:11', '2018-11-06 20:06:30', '2018-11-06 20:06:52', '2018-11-05 17:21:50.000', 'master-bin.000159', '370554304');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('83', '20181105', '162.16.4.9:3306', 'wechat2', 'his_loan_user_info', '2018-11-05 14:02:56.000', 'master-bin.000159', '297877069', '更新数据条数:5', '2018-11-06 20:06:30', '2018-11-06 20:06:52', '2018-11-05 17:23:43.000', 'master-bin.000159', '370710860');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('84', '20181105', '162.16.4.9:3306', 'wechat2', 'loan_user_info', '2018-11-05 14:02:56.000', 'master-bin.000159', '297877320', '更新数据条数:10', '2018-11-06 20:06:30', '2018-11-06 20:06:52', '2018-11-05 17:23:43.000', 'master-bin.000159', '370710610');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('85', '20181105', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_contact', '2018-11-05 14:07:50.000', 'master-bin.000159', '298115514', '更新数据条数:16', '2018-11-06 20:06:30', '2018-11-06 20:06:52', '2018-11-05 17:27:24.000', 'master-bin.000159', '371324012');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('86', '20181105', '162.16.4.9:3306', 'migration_sdv_isop', 'customer_account', '2018-11-05 14:08:20.000', 'master-bin.000159', '298137099', '更新数据条数:8', '2018-11-06 20:06:30', '2018-11-06 20:06:52', '2018-11-05 17:46:30.000', 'master-bin.000159', '375829776');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('87', '20181105', '162.16.4.9:3306', 'risk_uat', 'call_ack_task', '2018-11-05 17:17:32.000', 'master-bin.000159', '369999517', '更新数据条数:13', '2018-11-06 20:06:31', '2018-11-06 20:06:52', '2018-11-05 17:31:54.000', 'master-bin.000159', '371841380');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('88', '20181105', '162.16.4.9:3306', 'prodccsdb', 'ccs_acct', '2018-11-05 17:18:30.000', 'master-bin.000159', '370107722', '本轮总计更新数据条数:1', '2018-11-06 20:06:31', '2018-11-06 20:06:31', '2018-11-05 17:18:30.000', 'master-bin.000159', '370107722');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('89', '20181105', '162.16.4.9:3306', 'prodccsdb', 'ccs_customer', '2018-11-05 17:18:30.000', 'master-bin.000159', '370110707', '本轮总计更新数据条数:1', '2018-11-06 20:06:31', '2018-11-06 20:06:31', '2018-11-05 17:18:30.000', 'master-bin.000159', '370110707');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('90', '20181105', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan', '2018-11-05 17:34:21.000', 'master-bin.000159', '372396551', '本轮总计更新数据条数:1', '2018-11-06 20:06:31', '2018-11-06 20:06:31', '2018-11-05 17:34:21.000', 'master-bin.000159', '372396551');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('91', '20181105', '162.16.4.9:3306', 'prodccsdb', 'ccs_plan', '2018-11-05 17:34:24.000', 'master-bin.000159', '372516673', '本轮总计更新数据条数:1', '2018-11-06 20:06:31', '2018-11-06 20:06:31', '2018-11-05 17:34:24.000', 'master-bin.000159', '372516673');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('92', '20181105', '162.16.4.9:3306', 'prodccsdb', 'ccs_order_hst', '2018-11-05 17:35:14.000', 'master-bin.000159', '373033905', '更新数据条数:37', '2018-11-06 20:06:31', '2018-11-06 20:06:52', '2018-11-05 17:38:26.000', 'master-bin.000159', '374433788');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('93', '20181106', '162.16.4.9:3306', 'wechat2', 'wechatmember', '2018-11-06 01:45:33.000', 'master-bin.000159', '440972151', '更新数据条数:7', '2018-11-06 20:06:33', '2018-11-06 22:55:03', '2018-11-06 22:54:41.000', 'master-bin.000159', '786700091');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('94', '20181106', '162.16.4.9:3306', 'wechat2', 'feedback_record', '2018-11-06 14:46:50.000', 'master-bin.000159', '547377849', '更新数据条数:2', '2018-11-06 20:06:34', '2018-11-06 22:55:03', '2018-11-06 22:54:54.000', 'master-bin.000159', '786706798');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('95', '20181106', '162.16.4.9:3306', 'risk_uat', 'customer_credit_apply_log', '2018-11-06 16:13:00.000', 'master-bin.000159', '699946693', '更新数据条数:3', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:33:57.000', 'master-bin.000159', '756967645');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('96', '20181106', '162.16.4.9:3306', 'risk_uat', 'inf_customer', '2018-11-06 16:13:00.000', 'master-bin.000159', '699947018', '更新数据条数:10', '2018-11-06 20:06:37', '2018-11-06 20:21:08', '2018-11-06 20:20:53.000', 'master-bin.000159', '775685939');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('97', '20181106', '162.16.4.9:3306', 'risk_uat', 'inf_customer_credit', '2018-11-06 16:13:00.000', 'master-bin.000159', '699948593', '更新数据条数:13', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:34:31.000', 'master-bin.000159', '757272893');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('98', '20181106', '162.16.4.9:3306', 'migration_sdv_isop', 'customer', '2018-11-06 16:13:01.000', 'master-bin.000159', '699954099', '更新数据条数:4', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:33:57.000', 'master-bin.000159', '756987381');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('99', '20181106', '162.16.4.9:3306', 'risk_uat', 'interface_log', '2018-11-06 16:13:01.000', 'master-bin.000159', '699983834', '更新数据条数:14', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:33:59.000', 'master-bin.000159', '757032810');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('100', '20181106', '162.16.4.9:3306', 'risk_uat', 'inf_baiqishi', '2018-11-06 16:13:02.000', 'master-bin.000159', '699984372', '更新数据条数:3', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:33:58.000', 'master-bin.000159', '756986903');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('101', '20181106', '162.16.4.9:3306', 'risk_uat', 'inf_tongdun', '2018-11-06 16:13:02.000', 'master-bin.000159', '699991793', '更新数据条数:3', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:33:58.000', 'master-bin.000159', '757008149');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('102', '20181106', '162.16.4.9:3306', 'risk_uat', 'his_customer_credit', '2018-11-06 16:13:04.000', 'master-bin.000159', '700127517', '更新数据条数:8', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:34:31.000', 'master-bin.000159', '757272522');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('103', '20181106', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_base', '2018-11-06 16:31:01.000', 'master-bin.000159', '739557257', '本轮总计更新数据条数:1', '2018-11-06 20:06:37', '2018-11-06 20:06:37', '2018-11-06 16:31:01.000', 'master-bin.000159', '739557257');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('104', '20181106', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_cust_address', '2018-11-06 16:31:01.000', 'master-bin.000159', '739557588', '本轮总计更新数据条数:1', '2018-11-06 20:06:37', '2018-11-06 20:06:37', '2018-11-06 16:31:01.000', 'master-bin.000159', '739557588');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('105', '20181106', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_occupation', '2018-11-06 16:31:01.000', 'master-bin.000159', '739557906', '本轮总计更新数据条数:1', '2018-11-06 20:06:37', '2018-11-06 20:06:37', '2018-11-06 16:31:01.000', 'master-bin.000159', '739557906');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('106', '20181106', '162.16.4.9:3306', 'prodccsdb', 'ccs_customer', '2018-11-06 16:41:57.000', 'master-bin.000159', '740413777', '更新数据条数:4', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:36:19.000', 'master-bin.000159', '757412866');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('107', '20181106', '162.16.4.9:3306', 'prodccsdb', 'ccs_acct', '2018-11-06 16:41:57.000', 'master-bin.000159', '740416151', '更新数据条数:54', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:40:28.000', 'master-bin.000159', '759075312');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('108', '20181106', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg', '2018-11-06 16:41:57.000', 'master-bin.000159', '740422983', '更新数据条数:8', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:40:01.000', 'master-bin.000159', '758084863');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('109', '20181106', '162.16.4.9:3306', 'prodccsdb', 'ccs_order', '2018-11-06 16:41:57.000', 'master-bin.000159', '740424424', '更新数据条数:137', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:40:28.000', 'master-bin.000159', '759074002');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('110', '20181106', '162.16.4.9:3306', 'prodccsdb', 'ccs_plan', '2018-11-06 17:39:54.000', 'master-bin.000159', '757736753', '更新数据条数:95', '2018-11-06 20:06:38', '2018-11-06 20:06:52', '2018-11-06 17:40:28.000', 'master-bin.000159', '759078373');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('111', '20181106', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan', '2018-11-06 17:40:01.000', 'master-bin.000159', '758073231', '更新数据条数:32', '2018-11-06 20:06:38', '2018-11-06 20:06:52', '2018-11-06 17:40:04.000', 'master-bin.000159', '758526627');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('112', '20181106', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg_hst', '2018-11-06 17:40:01.000', 'master-bin.000159', '758076358', '本轮总计更新数据条数:1', '2018-11-06 20:06:38', '2018-11-06 20:06:38', '2018-11-06 17:40:01.000', 'master-bin.000159', '758076358');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('113', '20181107', '162.16.4.9:3306', 'wechat2', 'wechatmember', '2018-11-07 00:10:31.000', 'master-bin.000159', '792051441', '更新数据条数:2', '2018-11-07 00:10:33', '2018-11-07 02:10:40', '2018-11-07 02:10:31.000', 'master-bin.000159', '800128568');
-INSERT INTO `canal_extract_tbl_monitor` VALUES ('114', '20181107', '162.16.4.9:3306', 'prodccsdb', 'ccs_acct', '2018-11-07 09:08:16.000', 'master-bin.000159', '831907922', '本轮总计更新数据条数:1', '2018-11-07 09:08:18', '2018-11-07 09:08:18', '2018-11-07 09:08:16.000', 'master-bin.000159', '831907922');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('8', '20181106', '162.16.6.181:3306', 'canal_tsdb', 'test_table', '2018-11-06 15:21:13.000', 'mysql-bin.000016', '448769967', '0', '更新数据条数:243', '2018-11-06 15:31:06', '2018-11-06 18:41:22', '2018-11-06 18:41:07.000', 'mysql-bin.000016', '450757821');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('9', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_acct', '2018-11-01 09:15:10.000', 'master-bin.000158', '961181891', '0', '更新数据条数:227', '2018-11-06 20:05:40', '2018-11-06 20:05:51', '2018-11-01 09:46:43.000', 'master-bin.000158', '977648979');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('10', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_customer', '2018-11-01 09:15:10.000', 'master-bin.000158', '961303575', '0', '更新数据条数:33', '2018-11-06 20:05:41', '2018-11-06 20:05:51', '2018-11-01 09:46:43.000', 'master-bin.000158', '977647690');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('11', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan', '2018-11-01 09:15:10.000', 'master-bin.000158', '961309465', '0', '更新数据条数:128', '2018-11-06 20:05:41', '2018-11-06 20:05:51', '2018-11-01 09:46:42.000', 'master-bin.000158', '976015061');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('12', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg', '2018-11-01 09:15:10.000', 'master-bin.000158', '961343817', '0', '更新数据条数:127', '2018-11-06 20:05:41', '2018-11-06 20:05:51', '2018-11-01 09:46:43.000', 'master-bin.000158', '977659982');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('13', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg_hst', '2018-11-01 09:15:10.000', 'master-bin.000158', '961347767', '0', '更新数据条数:104', '2018-11-06 20:05:41', '2018-11-06 20:05:51', '2018-11-01 09:46:42.000', 'master-bin.000158', '976016372');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('14', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_order', '2018-11-01 09:15:10.000', 'master-bin.000158', '961373689', '0', '更新数据条数:365', '2018-11-06 20:05:41', '2018-11-06 20:05:51', '2018-11-01 09:46:43.000', 'master-bin.000158', '977661070');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('15', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_order_hst', '2018-11-01 09:15:10.000', 'master-bin.000158', '961391377', '0', '更新数据条数:505', '2018-11-06 20:05:41', '2018-11-06 20:05:51', '2018-11-01 09:46:42.000', 'master-bin.000158', '976040627');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('16', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_plan', '2018-11-01 09:15:10.000', 'master-bin.000158', '961530930', '0', '更新数据条数:439', '2018-11-06 20:05:42', '2018-11-06 20:05:51', '2018-11-01 09:46:42.000', 'master-bin.000158', '976068239');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('17', '20181101', '162.16.4.9:3306', 'wechat2', 'wechatmember', '2018-11-01 09:30:22.000', 'master-bin.000158', '964839787', '0', '更新数据条数:2', '2018-11-06 20:05:45', '2018-11-06 20:05:51', '2018-11-01 09:35:04.000', 'master-bin.000158', '965196111');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('18', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_bal_rpt', '2018-11-01 09:39:25.000', 'master-bin.000158', '966708781', '0', '更新数据条数:284', '2018-11-06 20:05:47', '2018-11-06 20:06:52', '2018-11-01 09:59:53.000', 'master-bin.000158', '996862630');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('19', '20181101', '162.16.4.9:3306', 'prodccsdb', 'ccs_overdue_hst_rpt', '2018-11-01 09:43:13.000', 'master-bin.000158', '971541797', '0', '更新数据条数:64', '2018-11-06 20:05:49', '2018-11-06 20:06:52', '2018-11-01 09:59:53.000', 'master-bin.000158', '996854761');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('20', '20181101', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_contact', '2018-11-01 10:18:38.000', 'master-bin.000158', '998926479', '0', '本轮总计更新数据条数:1', '2018-11-06 20:05:57', '2018-11-06 20:05:57', '2018-11-01 10:18:38.000', 'master-bin.000158', '998926479');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('21', '20181101', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_base', '2018-11-01 10:18:38.000', 'master-bin.000158', '998926906', '0', '本轮总计更新数据条数:1', '2018-11-06 20:05:57', '2018-11-06 20:05:57', '2018-11-01 10:18:38.000', 'master-bin.000158', '998926906');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('22', '20181101', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_occupation', '2018-11-01 10:18:38.000', 'master-bin.000158', '998929498', '0', '本轮总计更新数据条数:1', '2018-11-06 20:05:57', '2018-11-06 20:05:57', '2018-11-01 10:18:38.000', 'master-bin.000158', '998929498');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('23', '20181101', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_cust_address', '2018-11-01 10:18:38.000', 'master-bin.000158', '998929866', '0', '本轮总计更新数据条数:1', '2018-11-06 20:05:57', '2018-11-06 20:05:57', '2018-11-01 10:18:38.000', 'master-bin.000158', '998929866');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('24', '20181101', '162.16.4.9:3306', 'migration_sdv_isop', 'customer', '2018-11-01 10:18:38.000', 'master-bin.000158', '998931676', '0', '本轮总计更新数据条数:1', '2018-11-06 20:05:57', '2018-11-06 20:05:57', '2018-11-01 10:18:38.000', 'master-bin.000158', '998931676');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('25', '20181101', '162.16.4.9:3306', 'risk_uat', 'inf_customer', '2018-11-01 10:18:38.000', 'master-bin.000158', '998943311', '0', '本轮总计更新数据条数:1', '2018-11-06 20:05:58', '2018-11-06 20:05:58', '2018-11-01 10:18:38.000', 'master-bin.000158', '998943311');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('26', '20181101', '162.16.4.9:3306', 'risk_uat', 'inf_customer_credit', '2018-11-01 10:18:38.000', 'master-bin.000158', '998943757', '0', '本轮总计更新数据条数:1', '2018-11-06 20:05:58', '2018-11-06 20:05:58', '2018-11-01 10:18:38.000', 'master-bin.000158', '998943757');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('27', '20181101', '162.16.4.9:3306', 'risk_uat', 'his_customer_credit', '2018-11-01 10:18:38.000', 'master-bin.000158', '998944374', '0', '本轮总计更新数据条数:3', '2018-11-06 20:05:58', '2018-11-06 20:05:58', '2018-11-01 10:18:38.000', 'master-bin.000158', '998944374');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('28', '20181101', '162.16.4.9:3306', 'risk_uat', 'inf_tongdun', '2018-11-01 10:18:38.000', 'master-bin.000158', '998945242', '0', '本轮总计更新数据条数:1', '2018-11-06 20:05:58', '2018-11-06 20:05:58', '2018-11-01 10:18:38.000', 'master-bin.000158', '998945242');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('29', '20181101', '162.16.4.9:3306', 'risk_uat', 'inf_baiqishi', '2018-11-01 10:18:38.000', 'master-bin.000158', '998945731', '0', '本轮总计更新数据条数:1', '2018-11-06 20:05:58', '2018-11-06 20:05:58', '2018-11-01 10:18:38.000', 'master-bin.000158', '998945731');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('30', '20181101', '162.16.4.9:3306', 'wechat2', 'feedback_record', '2018-11-01 10:49:31.000', 'master-bin.000158', '1000938811', '0', '本轮总计更新数据条数:1', '2018-11-06 20:05:58', '2018-11-06 20:05:58', '2018-11-01 10:49:31.000', 'master-bin.000158', '1000938811');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('31', '20181101', '162.16.4.9:3306', 'wechat2', 'loan_user_info', '2018-11-01 11:32:18.000', 'master-bin.000158', '1009053906', '0', '本轮总计更新数据条数:1', '2018-11-06 20:05:58', '2018-11-06 20:05:58', '2018-11-01 11:32:18.000', 'master-bin.000158', '1009053906');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('32', '20181101', '162.16.4.9:3306', 'risk_uat', 'interface_log', '2018-11-01 11:32:18.000', 'master-bin.000158', '1009060816', '0', '本轮总计更新数据条数:2', '2018-11-06 20:05:58', '2018-11-06 20:05:58', '2018-11-01 11:32:18.000', 'master-bin.000158', '1009060816');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('33', '20181101', '162.16.4.9:3306', 'wechat2', 'customer_login_record', '2018-11-01 16:25:36.000', 'master-bin.000158', '1056878899', '0', '本轮总计更新数据条数:1', '2018-11-06 20:05:59', '2018-11-06 20:05:59', '2018-11-01 16:25:36.000', 'master-bin.000158', '1056878899');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('34', '20181101', '162.16.4.9:3306', 'wechat2', 'his_loan_user_info', '2018-11-01 16:27:18.000', 'master-bin.000158', '1057121072', '0', '本轮总计更新数据条数:1', '2018-11-06 20:05:59', '2018-11-06 20:05:59', '2018-11-01 16:27:18.000', 'master-bin.000158', '1057121072');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('35', '20181101', '162.16.4.9:3306', 'risk_uat', 'customer_credit_apply_log', '2018-11-01 16:27:23.000', 'master-bin.000158', '1057144659', '0', '本轮总计更新数据条数:1', '2018-11-06 20:05:59', '2018-11-06 20:05:59', '2018-11-01 16:27:23.000', 'master-bin.000158', '1057144659');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('36', '20181101', '162.16.4.9:3306', 'migration_sdv_isop', 'customer_account', '2018-11-01 16:28:18.000', 'master-bin.000158', '1057595758', '0', '本轮总计更新数据条数:2', '2018-11-06 20:05:59', '2018-11-06 20:05:59', '2018-11-01 16:28:18.000', 'master-bin.000158', '1057595758');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('37', '20181101', '162.16.4.9:3306', 'risk_uat', 'inf_zmxy', '2018-11-01 16:56:34.000', 'master-bin.000158', '1060123225', '0', '本轮总计更新数据条数:1', '2018-11-06 20:05:59', '2018-11-06 20:05:59', '2018-11-01 16:56:34.000', 'master-bin.000158', '1060123225');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('38', '20181101', '162.16.4.9:3306', 'risk_uat', 'call_ack_task', '2018-11-01 17:55:56.000', 'master-bin.000158', '1070684438', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:01', '2018-11-06 20:06:01', '2018-11-01 17:55:56.000', 'master-bin.000158', '1070684438');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('39', '20181102', '162.16.4.9:3306', 'risk_uat', 'customer_credit_apply_log', '2018-11-02 08:56:46.000', 'master-bin.000159', '51254075', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:06', '2018-11-06 20:06:06', '2018-11-02 08:56:46.000', 'master-bin.000159', '51254075');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('40', '20181102', '162.16.4.9:3306', 'wechat2', 'wechatmember', '2018-11-02 08:56:47.000', 'master-bin.000159', '51256488', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:06', '2018-11-06 20:06:06', '2018-11-02 08:56:47.000', 'master-bin.000159', '51256488');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('41', '20181102', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg', '2018-11-02 09:01:25.000', 'master-bin.000159', '51547279', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:06', '2018-11-06 20:06:06', '2018-11-02 09:01:25.000', 'master-bin.000159', '51547279');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('42', '20181102', '162.16.4.9:3306', 'prodccsdb', 'ccs_order', '2018-11-02 09:01:25.000', 'master-bin.000159', '51547994', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:06', '2018-11-06 20:06:06', '2018-11-02 09:01:25.000', 'master-bin.000159', '51547994');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('43', '20181102', '162.16.4.9:3306', 'wechat2', 'feedback_record', '2018-11-02 10:19:29.000', 'master-bin.000159', '59854809', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:06', '2018-11-06 20:06:06', '2018-11-02 10:19:29.000', 'master-bin.000159', '59854809');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('44', '20181102', '162.16.4.9:3306', 'prodccsdb', 'ccs_customer', '2018-11-02 11:24:33.000', 'master-bin.000159', '67295083', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:24:33.000', 'master-bin.000159', '67295083');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('45', '20181102', '162.16.4.9:3306', 'prodccsdb', 'ccs_acct', '2018-11-02 11:24:33.000', 'master-bin.000159', '67297461', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:24:33.000', 'master-bin.000159', '67297461');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('46', '20181102', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_contact', '2018-11-02 11:36:03.000', 'master-bin.000159', '68054272', '0', '本轮总计更新数据条数:2', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68054272');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('47', '20181102', '162.16.4.9:3306', 'migration_sdv_isop', 'customer_account', '2018-11-02 11:36:03.000', 'master-bin.000159', '68054724', '0', '本轮总计更新数据条数:2', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68054724');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('48', '20181102', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_base', '2018-11-02 11:36:03.000', 'master-bin.000159', '68057293', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68057293');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('49', '20181102', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_occupation', '2018-11-02 11:36:03.000', 'master-bin.000159', '68062090', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68062090');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('50', '20181102', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_cust_address', '2018-11-02 11:36:03.000', 'master-bin.000159', '68062568', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68062568');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('51', '20181102', '162.16.4.9:3306', 'migration_sdv_isop', 'customer', '2018-11-02 11:36:03.000', 'master-bin.000159', '68064756', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68064756');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('52', '20181102', '162.16.4.9:3306', 'risk_uat', 'inf_customer', '2018-11-02 11:36:03.000', 'master-bin.000159', '68073736', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68073736');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('53', '20181102', '162.16.4.9:3306', 'risk_uat', 'inf_customer_credit', '2018-11-02 11:36:03.000', 'master-bin.000159', '68074218', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68074218');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('54', '20181102', '162.16.4.9:3306', 'risk_uat', 'his_customer_credit', '2018-11-02 11:36:03.000', 'master-bin.000159', '68074783', '0', '本轮总计更新数据条数:2', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68074783');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('55', '20181102', '162.16.4.9:3306', 'risk_uat', 'inf_tongdun', '2018-11-02 11:36:03.000', 'master-bin.000159', '68075435', '0', '本轮总计更新数据条数:2', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:36:03.000', 'master-bin.000159', '68075435');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('56', '20181102', '162.16.4.9:3306', 'wechat2', 'customer_login_record', '2018-11-02 11:40:50.000', 'master-bin.000159', '68352851', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:40:50.000', 'master-bin.000159', '68352851');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('57', '20181102', '162.16.4.9:3306', 'wechat2', 'loan_user_info', '2018-11-02 11:42:38.000', 'master-bin.000159', '68423092', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:42:38.000', 'master-bin.000159', '68423092');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('58', '20181102', '162.16.4.9:3306', 'wechat2', 'his_loan_user_info', '2018-11-02 11:54:04.000', 'master-bin.000159', '68899912', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:54:04.000', 'master-bin.000159', '68899912');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('59', '20181102', '162.16.4.9:3306', 'risk_uat', 'interface_log', '2018-11-02 11:54:09.000', 'master-bin.000159', '68937548', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:54:09.000', 'master-bin.000159', '68937548');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('60', '20181102', '162.16.4.9:3306', 'risk_uat', 'inf_baiqishi', '2018-11-02 11:54:09.000', 'master-bin.000159', '68938086', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:54:09.000', 'master-bin.000159', '68938086');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('61', '20181102', '162.16.4.9:3306', 'risk_uat', 'inf_zmxy', '2018-11-02 11:54:10.000', 'master-bin.000159', '68944469', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:07', '2018-11-06 20:06:07', '2018-11-02 11:54:10.000', 'master-bin.000159', '68944469');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('62', '20181103', '162.16.4.9:3306', 'prodccsdb', 'ccs_order', '2018-11-03 00:00:00.000', 'master-bin.000159', '107585930', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:11', '2018-11-06 20:06:11', '2018-11-03 00:00:00.000', 'master-bin.000159', '107585930');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('63', '20181103', '162.16.4.9:3306', 'wechat2', 'wechatmember', '2018-11-03 13:48:49.000', 'master-bin.000159', '144362916', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:15', '2018-11-06 20:06:15', '2018-11-03 13:48:49.000', 'master-bin.000159', '144362916');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('64', '20181103', '162.16.4.9:3306', 'wechat2', 'feedback_record', '2018-11-03 13:49:07.000', 'master-bin.000159', '144377524', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:15', '2018-11-06 20:06:15', '2018-11-03 13:49:07.000', 'master-bin.000159', '144377524');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('65', '20181104', '162.16.4.9:3306', 'prodccsdb', 'ccs_order', '2018-11-04 00:00:00.000', 'master-bin.000159', '173437051', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:19', '2018-11-06 20:06:19', '2018-11-04 00:00:00.000', 'master-bin.000159', '173437051');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('66', '20181105', '162.16.4.9:3306', 'prodccsdb', 'ccs_order', '2018-11-05 00:00:00.000', 'master-bin.000159', '238119366', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:26', '2018-11-06 20:06:26', '2018-11-05 00:00:00.000', 'master-bin.000159', '238119366');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('67', '20181105', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg_hst', '2018-11-05 09:54:01.000', 'master-bin.000159', '266890112', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 09:54:01.000', 'master-bin.000159', '266890112');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('68', '20181105', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg', '2018-11-05 09:54:01.000', 'master-bin.000159', '266893349', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 09:54:01.000', 'master-bin.000159', '266893349');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('69', '20181105', '162.16.4.9:3306', 'risk_uat', 'customer_credit_apply_log', '2018-11-05 10:36:00.000', 'master-bin.000159', '268473317', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 10:36:00.000', 'master-bin.000159', '268473317');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('70', '20181105', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_base', '2018-11-05 10:36:00.000', 'master-bin.000159', '268494577', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 10:36:00.000', 'master-bin.000159', '268494577');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('71', '20181105', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_cust_address', '2018-11-05 10:36:00.000', 'master-bin.000159', '268494911', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 10:36:00.000', 'master-bin.000159', '268494911');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('72', '20181105', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_occupation', '2018-11-05 10:36:00.000', 'master-bin.000159', '268495229', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 10:36:00.000', 'master-bin.000159', '268495229');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('73', '20181105', '162.16.4.9:3306', 'migration_sdv_isop', 'customer', '2018-11-05 10:36:00.000', 'master-bin.000159', '268499170', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 10:36:00.000', 'master-bin.000159', '268499170');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('74', '20181105', '162.16.4.9:3306', 'wechat2', 'wechatmember', '2018-11-05 11:06:33.000', 'master-bin.000159', '278878585', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 11:06:33.000', 'master-bin.000159', '278878585');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('75', '20181105', '162.16.4.9:3306', 'risk_uat', 'inf_customer', '2018-11-05 11:09:40.000', 'master-bin.000159', '280152505', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 11:09:40.000', 'master-bin.000159', '280152505');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('76', '20181105', '162.16.4.9:3306', 'risk_uat', 'inf_customer_credit', '2018-11-05 11:09:40.000', 'master-bin.000159', '280154080', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 11:09:40.000', 'master-bin.000159', '280154080');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('77', '20181105', '162.16.4.9:3306', 'risk_uat', 'interface_log', '2018-11-05 11:09:40.000', 'master-bin.000159', '280195847', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 11:09:40.000', 'master-bin.000159', '280195847');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('78', '20181105', '162.16.4.9:3306', 'risk_uat', 'inf_baiqishi', '2018-11-05 11:09:40.000', 'master-bin.000159', '280196385', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 11:09:40.000', 'master-bin.000159', '280196385');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('79', '20181105', '162.16.4.9:3306', 'risk_uat', 'inf_tongdun', '2018-11-05 11:09:41.000', 'master-bin.000159', '280203265', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 11:09:41.000', 'master-bin.000159', '280203265');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('80', '20181105', '162.16.4.9:3306', 'wechat2', 'feedback_record', '2018-11-05 11:09:49.000', 'master-bin.000159', '280280908', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 11:09:49.000', 'master-bin.000159', '280280908');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('81', '20181105', '162.16.4.9:3306', 'risk_uat', 'his_customer_credit', '2018-11-05 11:11:03.000', 'master-bin.000159', '280428492', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:30', '2018-11-06 20:06:30', '2018-11-05 11:11:03.000', 'master-bin.000159', '280428492');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('82', '20181105', '162.16.4.9:3306', 'wechat2', 'customer_login_record', '2018-11-05 14:02:50.000', 'master-bin.000159', '297871868', '0', '更新数据条数:11', '2018-11-06 20:06:30', '2018-11-06 20:06:52', '2018-11-05 17:21:50.000', 'master-bin.000159', '370554304');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('83', '20181105', '162.16.4.9:3306', 'wechat2', 'his_loan_user_info', '2018-11-05 14:02:56.000', 'master-bin.000159', '297877069', '0', '更新数据条数:5', '2018-11-06 20:06:30', '2018-11-06 20:06:52', '2018-11-05 17:23:43.000', 'master-bin.000159', '370710860');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('84', '20181105', '162.16.4.9:3306', 'wechat2', 'loan_user_info', '2018-11-05 14:02:56.000', 'master-bin.000159', '297877320', '0', '更新数据条数:10', '2018-11-06 20:06:30', '2018-11-06 20:06:52', '2018-11-05 17:23:43.000', 'master-bin.000159', '370710610');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('85', '20181105', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_contact', '2018-11-05 14:07:50.000', 'master-bin.000159', '298115514', '0', '更新数据条数:16', '2018-11-06 20:06:30', '2018-11-06 20:06:52', '2018-11-05 17:27:24.000', 'master-bin.000159', '371324012');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('86', '20181105', '162.16.4.9:3306', 'migration_sdv_isop', 'customer_account', '2018-11-05 14:08:20.000', 'master-bin.000159', '298137099', '0', '更新数据条数:8', '2018-11-06 20:06:30', '2018-11-06 20:06:52', '2018-11-05 17:46:30.000', 'master-bin.000159', '375829776');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('87', '20181105', '162.16.4.9:3306', 'risk_uat', 'call_ack_task', '2018-11-05 17:17:32.000', 'master-bin.000159', '369999517', '0', '更新数据条数:13', '2018-11-06 20:06:31', '2018-11-06 20:06:52', '2018-11-05 17:31:54.000', 'master-bin.000159', '371841380');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('88', '20181105', '162.16.4.9:3306', 'prodccsdb', 'ccs_acct', '2018-11-05 17:18:30.000', 'master-bin.000159', '370107722', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:31', '2018-11-06 20:06:31', '2018-11-05 17:18:30.000', 'master-bin.000159', '370107722');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('89', '20181105', '162.16.4.9:3306', 'prodccsdb', 'ccs_customer', '2018-11-05 17:18:30.000', 'master-bin.000159', '370110707', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:31', '2018-11-06 20:06:31', '2018-11-05 17:18:30.000', 'master-bin.000159', '370110707');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('90', '20181105', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan', '2018-11-05 17:34:21.000', 'master-bin.000159', '372396551', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:31', '2018-11-06 20:06:31', '2018-11-05 17:34:21.000', 'master-bin.000159', '372396551');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('91', '20181105', '162.16.4.9:3306', 'prodccsdb', 'ccs_plan', '2018-11-05 17:34:24.000', 'master-bin.000159', '372516673', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:31', '2018-11-06 20:06:31', '2018-11-05 17:34:24.000', 'master-bin.000159', '372516673');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('92', '20181105', '162.16.4.9:3306', 'prodccsdb', 'ccs_order_hst', '2018-11-05 17:35:14.000', 'master-bin.000159', '373033905', '0', '更新数据条数:37', '2018-11-06 20:06:31', '2018-11-06 20:06:52', '2018-11-05 17:38:26.000', 'master-bin.000159', '374433788');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('93', '20181106', '162.16.4.9:3306', 'wechat2', 'wechatmember', '2018-11-06 01:45:33.000', 'master-bin.000159', '440972151', '0', '更新数据条数:7', '2018-11-06 20:06:33', '2018-11-06 22:55:03', '2018-11-06 22:54:41.000', 'master-bin.000159', '786700091');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('94', '20181106', '162.16.4.9:3306', 'wechat2', 'feedback_record', '2018-11-06 14:46:50.000', 'master-bin.000159', '547377849', '0', '更新数据条数:2', '2018-11-06 20:06:34', '2018-11-06 22:55:03', '2018-11-06 22:54:54.000', 'master-bin.000159', '786706798');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('95', '20181106', '162.16.4.9:3306', 'risk_uat', 'customer_credit_apply_log', '2018-11-06 16:13:00.000', 'master-bin.000159', '699946693', '0', '更新数据条数:3', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:33:57.000', 'master-bin.000159', '756967645');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('96', '20181106', '162.16.4.9:3306', 'risk_uat', 'inf_customer', '2018-11-06 16:13:00.000', 'master-bin.000159', '699947018', '0', '更新数据条数:10', '2018-11-06 20:06:37', '2018-11-06 20:21:08', '2018-11-06 20:20:53.000', 'master-bin.000159', '775685939');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('97', '20181106', '162.16.4.9:3306', 'risk_uat', 'inf_customer_credit', '2018-11-06 16:13:00.000', 'master-bin.000159', '699948593', '0', '更新数据条数:13', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:34:31.000', 'master-bin.000159', '757272893');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('98', '20181106', '162.16.4.9:3306', 'migration_sdv_isop', 'customer', '2018-11-06 16:13:01.000', 'master-bin.000159', '699954099', '0', '更新数据条数:4', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:33:57.000', 'master-bin.000159', '756987381');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('99', '20181106', '162.16.4.9:3306', 'risk_uat', 'interface_log', '2018-11-06 16:13:01.000', 'master-bin.000159', '699983834', '0', '更新数据条数:14', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:33:59.000', 'master-bin.000159', '757032810');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('100', '20181106', '162.16.4.9:3306', 'risk_uat', 'inf_baiqishi', '2018-11-06 16:13:02.000', 'master-bin.000159', '699984372', '0', '更新数据条数:3', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:33:58.000', 'master-bin.000159', '756986903');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('101', '20181106', '162.16.4.9:3306', 'risk_uat', 'inf_tongdun', '2018-11-06 16:13:02.000', 'master-bin.000159', '699991793', '0', '更新数据条数:3', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:33:58.000', 'master-bin.000159', '757008149');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('102', '20181106', '162.16.4.9:3306', 'risk_uat', 'his_customer_credit', '2018-11-06 16:13:04.000', 'master-bin.000159', '700127517', '0', '更新数据条数:8', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:34:31.000', 'master-bin.000159', '757272522');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('103', '20181106', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_base', '2018-11-06 16:31:01.000', 'master-bin.000159', '739557257', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:37', '2018-11-06 20:06:37', '2018-11-06 16:31:01.000', 'master-bin.000159', '739557257');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('104', '20181106', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_cust_address', '2018-11-06 16:31:01.000', 'master-bin.000159', '739557588', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:37', '2018-11-06 20:06:37', '2018-11-06 16:31:01.000', 'master-bin.000159', '739557588');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('105', '20181106', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_occupation', '2018-11-06 16:31:01.000', 'master-bin.000159', '739557906', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:37', '2018-11-06 20:06:37', '2018-11-06 16:31:01.000', 'master-bin.000159', '739557906');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('106', '20181106', '162.16.4.9:3306', 'prodccsdb', 'ccs_customer', '2018-11-06 16:41:57.000', 'master-bin.000159', '740413777', '0', '更新数据条数:4', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:36:19.000', 'master-bin.000159', '757412866');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('107', '20181106', '162.16.4.9:3306', 'prodccsdb', 'ccs_acct', '2018-11-06 16:41:57.000', 'master-bin.000159', '740416151', '0', '更新数据条数:54', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:40:28.000', 'master-bin.000159', '759075312');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('108', '20181106', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg', '2018-11-06 16:41:57.000', 'master-bin.000159', '740422983', '0', '更新数据条数:8', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:40:01.000', 'master-bin.000159', '758084863');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('109', '20181106', '162.16.4.9:3306', 'prodccsdb', 'ccs_order', '2018-11-06 16:41:57.000', 'master-bin.000159', '740424424', '0', '更新数据条数:137', '2018-11-06 20:06:37', '2018-11-06 20:06:52', '2018-11-06 17:40:28.000', 'master-bin.000159', '759074002');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('110', '20181106', '162.16.4.9:3306', 'prodccsdb', 'ccs_plan', '2018-11-06 17:39:54.000', 'master-bin.000159', '757736753', '0', '更新数据条数:95', '2018-11-06 20:06:38', '2018-11-06 20:06:52', '2018-11-06 17:40:28.000', 'master-bin.000159', '759078373');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('111', '20181106', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan', '2018-11-06 17:40:01.000', 'master-bin.000159', '758073231', '0', '更新数据条数:32', '2018-11-06 20:06:38', '2018-11-06 20:06:52', '2018-11-06 17:40:04.000', 'master-bin.000159', '758526627');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('112', '20181106', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg_hst', '2018-11-06 17:40:01.000', 'master-bin.000159', '758076358', '0', '本轮总计更新数据条数:1', '2018-11-06 20:06:38', '2018-11-06 20:06:38', '2018-11-06 17:40:01.000', 'master-bin.000159', '758076358');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('113', '20181107', '162.16.4.9:3306', 'wechat2', 'wechatmember', '2018-11-07 00:10:31.000', 'master-bin.000159', '792051441', '5', '更新数据条数', '2018-11-07 00:10:33', '2018-11-07 22:02:32', '2018-11-07 22:02:06.000', 'master-bin.000160', '168032556');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('114', '20181107', '162.16.4.9:3306', 'prodccsdb', 'ccs_acct', '2018-11-07 09:08:16.000', 'master-bin.000159', '831907922', '1', '更新数据条数与当前时间', '2018-11-07 09:08:18', '2018-11-07 17:50:04', '2018-11-07 17:50:01.000', 'master-bin.000160', '132607309');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('115', '20181107', '162.16.4.9:3306', 'risk_uat', 'inf_customer', '2018-11-07 10:08:21.000', 'master-bin.000159', '850634820', '17', '更新数据条数', '2018-11-07 10:08:23', '2018-11-07 17:35:28', '2018-11-07 17:35:14.000', 'master-bin.000160', '129982969');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('116', '20181107', '162.16.4.9:3306', 'risk_uat', 'customer_credit_apply_log', '2018-11-07 15:06:22.000', 'master-bin.000159', '898663637', '6', '更新数据条数', '2018-11-07 15:06:25', '2018-11-07 17:35:28', '2018-11-07 17:35:11.000', 'master-bin.000160', '129858861');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('117', '20181107', '162.16.4.9:3306', 'risk_uat', 'inf_customer_credit', '2018-11-07 15:06:22.000', 'master-bin.000159', '898665556', '24', '更新数据条数', '2018-11-07 15:06:25', '2018-11-07 17:36:30', '2018-11-07 17:35:29.000', 'master-bin.000160', '130152225');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('118', '20181107', '162.16.4.9:3306', 'migration_sdv_isop', 'customer', '2018-11-07 15:06:23.000', 'master-bin.000159', '898671084', '6', '更新数据条数', '2018-11-07 15:06:25', '2018-11-07 17:35:28', '2018-11-07 17:35:06.000', 'master-bin.000160', '129824162');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('119', '20181107', '162.16.4.9:3306', 'risk_uat', 'interface_log', '2018-11-07 15:06:23.000', 'master-bin.000159', '898701519', '26', '更新数据条数', '2018-11-07 15:06:25', '2018-11-07 17:35:28', '2018-11-07 17:35:14.000', 'master-bin.000160', '129926932');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('120', '20181107', '162.16.4.9:3306', 'risk_uat', 'inf_baiqishi', '2018-11-07 15:06:23.000', 'master-bin.000159', '898702057', '6', '更新数据条数', '2018-11-07 15:06:25', '2018-11-07 17:35:28', '2018-11-07 17:35:12.000', 'master-bin.000160', '129881872');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('121', '20181107', '162.16.4.9:3306', 'risk_uat', 'inf_tongdun', '2018-11-07 15:06:24.000', 'master-bin.000159', '898708957', '6', '更新数据条数', '2018-11-07 15:06:25', '2018-11-07 17:35:28', '2018-11-07 17:35:13.000', 'master-bin.000160', '129895180');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('122', '20181107', '162.16.4.9:3306', 'risk_uat', 'his_customer_credit', '2018-11-07 15:08:15.000', 'master-bin.000159', '900385030', '12', '更新数据条数', '2018-11-07 15:08:15', '2018-11-07 17:36:30', '2018-11-07 17:35:29.000', 'master-bin.000160', '130151854');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('123', '20181107', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_base', '2018-11-07 15:36:58.000', 'master-bin.000159', '925134397', '6', '更新数据条数', '2018-11-07 15:37:01', '2018-11-07 17:36:30', '2018-11-07 17:35:42.000', 'master-bin.000160', '130210753');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('124', '20181107', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_cust_address', '2018-11-07 15:36:58.000', 'master-bin.000159', '925134734', '6', '更新数据条数', '2018-11-07 15:37:01', '2018-11-07 17:36:30', '2018-11-07 17:35:42.000', 'master-bin.000160', '130211084');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('125', '20181107', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_occupation', '2018-11-07 15:36:58.000', 'master-bin.000159', '925135052', '6', '更新数据条数', '2018-11-07 15:37:01', '2018-11-07 17:36:30', '2018-11-07 17:35:42.000', 'master-bin.000160', '130211402');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('126', '20181107', '162.16.4.9:3306', 'prodccsdb', 'ccs_customer', '2018-11-07 17:50:01.000', 'master-bin.000160', '132604931', '1', '初始化记录', '2018-11-07 17:50:04', '2018-11-07 17:50:04', '2018-11-07 17:50:01.000', 'master-bin.000160', '132604931');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('127', '20181107', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg', '2018-11-07 17:50:01.000', 'master-bin.000160', '132614185', '2', '更新数据条数', '2018-11-07 17:50:04', '2018-11-07 17:50:47', '2018-11-07 17:50:02.000', 'master-bin.000160', '132622618');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('128', '20181107', '162.16.4.9:3306', 'prodccsdb', 'ccs_order', '2018-11-07 17:50:01.000', 'master-bin.000160', '132615626', '3', '更新数据条数', '2018-11-07 17:50:04', '2018-11-07 17:50:47', '2018-11-07 17:50:02.000', 'master-bin.000160', '132623694');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('129', '20181107', '162.16.6.181:3306', 'riskcontrol', 'inf_customer_credit', '2018-11-07 19:05:18.000', 'mysql-bin.000016', '461946222', '200872', '更新数据条数', '2018-11-07 19:04:48', '2018-11-07 23:58:16', '2018-11-07 23:58:46.000', 'mysql-bin.000016', '748375636');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('130', '20181107', '162.16.6.181:3306', 'riskcontrol', 'inf_customer', '2018-11-07 19:06:01.000', 'mysql-bin.000016', '461950512', '1200420', '更新数据条数', '2018-11-07 19:05:31', '2018-11-07 23:58:16', '2018-11-07 23:58:07.000', 'mysql-bin.000016', '748369706');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('131', '20181107', '162.16.4.9:3306', 'wechat2', 'feedback_record', '2018-11-07 22:00:02.000', 'master-bin.000160', '167844391', '1', '初始化记录', '2018-11-07 22:00:17', '2018-11-07 22:00:17', '2018-11-07 22:00:02.000', 'master-bin.000160', '167844391');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('132', '20181108', '162.16.6.181:3306', 'riskcontrol', 'inf_customer', '2018-11-08 00:01:21.000', 'mysql-bin.000016', '748384143', '11554409', '更新数据条数', '2018-11-08 00:00:36', '2018-11-08 23:59:21', '2018-11-08 23:59:59.000', 'mysql-bin.000019', '14220449');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('133', '20181108', '162.16.6.181:3306', 'riskcontrol', 'inf_customer_credit', '2018-11-08 00:01:21.000', 'mysql-bin.000016', '748384584', '1094939', '更新数据条数', '2018-11-08 00:00:36', '2018-11-08 16:29:52', '2018-11-08 16:21:06.000', 'mysql-bin.000017', '549873615');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('134', '20181108', '162.16.4.9:3306', 'wechat2', 'wechatmember', '2018-11-08 02:30:30.000', 'master-bin.000160', '197705156', '34', '更新数据条数', '2018-11-08 02:30:48', '2018-11-09 08:15:43', '2018-11-08 21:54:34.000', 'master-bin.000160', '405630326');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('135', '20181108', '162.16.4.9:3306', 'wechat2', 'feedback_record', '2018-11-08 02:40:15.000', 'master-bin.000160', '198599783', '17', '更新数据条数', '2018-11-08 02:40:38', '2018-11-08 19:44:08', '2018-11-08 19:23:06.000', 'master-bin.000160', '384734410');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('136', '20181108', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan', '2018-11-08 09:03:23.000', 'master-bin.000160', '234323644', '122', '更新数据条数', '2018-11-08 09:03:40', '2018-11-08 19:44:08', '2018-11-08 18:19:04.000', 'master-bin.000160', '374076255');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('137', '20181108', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg_hst', '2018-11-08 09:03:23.000', 'master-bin.000160', '234329700', '20', '更新数据条数', '2018-11-08 09:03:40', '2018-11-08 19:44:08', '2018-11-08 18:00:55.000', 'master-bin.000160', '368418924');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('138', '20181108', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg', '2018-11-08 09:03:23.000', 'master-bin.000160', '234330487', '58', '更新数据条数', '2018-11-08 09:03:40', '2018-11-08 19:44:08', '2018-11-08 18:51:19.000', 'master-bin.000160', '379447546');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('139', '20181108', '162.16.4.9:3306', 'prodccsdb', 'ccs_plan', '2018-11-08 09:03:24.000', 'master-bin.000160', '234391077', '294', '更新数据条数', '2018-11-08 09:03:40', '2018-11-08 19:44:08', '2018-11-08 18:19:04.000', 'master-bin.000160', '374078175');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('140', '20181108', '162.16.4.9:3306', 'prodccsdb', 'ccs_acct', '2018-11-08 09:03:24.000', 'master-bin.000160', '234401385', '165', '更新数据条数', '2018-11-08 09:03:40', '2018-11-08 19:44:08', '2018-11-08 18:51:18.000', 'master-bin.000160', '379438235');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('141', '20181108', '162.16.4.9:3306', 'prodccsdb', 'ccs_order', '2018-11-08 09:04:07.000', 'master-bin.000160', '234750108', '379', '更新数据条数', '2018-11-08 09:04:25', '2018-11-08 19:44:08', '2018-11-08 18:51:19.000', 'master-bin.000160', '379448620');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('142', '20181108', '162.16.4.9:3306', 'prodccsdb', 'ccs_customer', '2018-11-08 09:14:21.000', 'master-bin.000160', '242303598', '9', '更新数据条数', '2018-11-08 09:14:39', '2018-11-08 19:44:08', '2018-11-08 17:45:05.000', 'master-bin.000160', '364439389');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('143', '20181108', '162.16.4.9:3306', 'risk_uat', 'his_customer_credit', '2018-11-08 09:35:46.000', 'master-bin.000160', '244859361', '49', '更新数据条数与当前时间', '2018-11-08 09:36:03', '2018-11-08 20:16:10', '2018-11-08 20:16:10.000', 'master-bin.000160', '393384670');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('144', '20181108', '162.16.4.9:3306', 'risk_uat', 'inf_customer_credit', '2018-11-08 09:35:46.000', 'master-bin.000160', '244860603', '63', '更新数据条数', '2018-11-08 09:36:03', '2018-11-09 08:15:43', '2018-11-08 20:16:10.000', 'master-bin.000160', '393383942');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('145', '20181108', '162.16.4.9:3306', 'migration_sdv_isop', 'customer_account', '2018-11-08 09:37:49.000', 'master-bin.000160', '245222469', '23', '更新数据条数', '2018-11-08 09:38:05', '2018-11-08 19:44:08', '2018-11-08 19:42:25.000', 'master-bin.000160', '388472821');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('146', '20181108', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_base', '2018-11-08 09:42:49.000', 'master-bin.000160', '246157649', '16', '更新数据条数', '2018-11-08 09:43:04', '2018-11-08 19:44:08', '2018-11-08 19:42:27.000', 'master-bin.000160', '388494104');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('147', '20181108', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_cust_address', '2018-11-08 09:42:49.000', 'master-bin.000160', '246157983', '14', '更新数据条数', '2018-11-08 09:43:04', '2018-11-08 19:44:08', '2018-11-08 19:42:27.000', 'master-bin.000160', '388494378');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('148', '20181108', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_occupation', '2018-11-08 09:42:49.000', 'master-bin.000160', '246158301', '14', '更新数据条数', '2018-11-08 09:43:05', '2018-11-08 19:44:08', '2018-11-08 19:42:27.000', 'master-bin.000160', '388494608');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('149', '20181108', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_contact', '2018-11-08 09:42:49.000', 'master-bin.000160', '246161865', '20', '更新数据条数', '2018-11-08 09:43:05', '2018-11-08 19:44:08', '2018-11-08 19:23:45.000', 'master-bin.000160', '384823207');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('150', '20181108', '162.16.4.9:3306', 'migration_sdv_isop', 'customer', '2018-11-08 09:44:42.000', 'master-bin.000160', '246985366', '24', '更新数据条数', '2018-11-08 09:44:59', '2018-11-09 08:15:43', '2018-11-08 20:16:13.000', 'master-bin.000160', '393461010');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('151', '20181108', '162.16.4.9:3306', 'risk_uat', 'inf_customer', '2018-11-08 09:44:42.000', 'master-bin.000160', '246987349', '26', '更新数据条数', '2018-11-08 09:44:59', '2018-11-09 08:15:43', '2018-11-08 20:16:10.000', 'master-bin.000160', '393322020');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('152', '20181108', '162.16.4.9:3306', 'risk_uat', 'inf_tongdun', '2018-11-08 09:44:42.000', 'master-bin.000160', '246989033', '16', '更新数据条数与当前时间', '2018-11-08 09:44:59', '2018-11-08 20:16:10', '2018-11-08 20:16:08.000', 'master-bin.000160', '393238480');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('153', '20181108', '162.16.4.9:3306', 'risk_uat', 'interface_log', '2018-11-08 09:45:45.000', 'master-bin.000160', '247309701', '36', '更新数据条数', '2018-11-08 09:46:03', '2018-11-09 08:15:43', '2018-11-08 20:16:09.000', 'master-bin.000160', '393267227');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('154', '20181108', '162.16.4.9:3306', 'risk_uat', 'call_ack_task', '2018-11-08 09:45:46.000', 'master-bin.000160', '247355350', '4', '更新数据条数', '2018-11-08 09:46:03', '2018-11-08 09:48:34', '2018-11-08 09:47:22.000', 'master-bin.000160', '247692214');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('155', '20181108', '162.16.4.9:3306', 'risk_uat', 'customer_credit_apply_log', '2018-11-08 09:47:01.000', 'master-bin.000160', '247502134', '11', '更新数据条数与当前时间', '2018-11-08 09:47:17', '2018-11-08 20:16:10', '2018-11-08 20:16:07.000', 'master-bin.000160', '393181119');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('156', '20181108', '162.16.4.9:3306', 'wechat2', 'loan_user_info', '2018-11-08 15:25:59.000', 'master-bin.000160', '316904269', '26', '更新数据条数', '2018-11-08 15:26:00', '2018-11-09 08:15:43', '2018-11-08 20:16:02.000', 'master-bin.000160', '393159458');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('157', '20181108', '162.16.4.9:3306', 'wechat2', 'customer_login_record', '2018-11-08 15:28:20.000', 'master-bin.000160', '317225366', '26', '更新数据条数', '2018-11-08 15:28:21', '2018-11-09 08:15:43', '2018-11-08 20:14:30.000', 'master-bin.000160', '392946173');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('158', '20181108', '162.16.4.9:3306', 'wechat2', 'his_loan_user_info', '2018-11-08 15:56:56.000', 'master-bin.000160', '322494806', '12', '更新数据条数与当前时间', '2018-11-08 15:56:57', '2018-11-08 20:16:04', '2018-11-08 20:16:02.000', 'master-bin.000160', '393159702');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('159', '20181108', '162.16.4.9:3306', 'risk_uat', 'inf_baiqishi', '2018-11-08 16:17:08.000', 'master-bin.000160', '326744681', '15', '更新数据条数与当前时间', '2018-11-08 16:17:08', '2018-11-08 20:16:10', '2018-11-08 20:16:08.000', 'master-bin.000160', '393216215');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('160', '20181108', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_borrow', '2018-11-08 17:26:36.000', 'master-bin.000160', '338126279', '30', '更新数据条数', '2018-11-08 17:27:19', '2018-11-08 19:44:08', '2018-11-08 18:43:39.000', 'master-bin.000160', '378083370');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('161', '20181108', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_decoration', '2018-11-08 17:44:45.000', 'master-bin.000160', '364346411', '26', '更新数据条数', '2018-11-08 17:44:46', '2018-11-08 19:44:08', '2018-11-08 19:23:45.000', 'master-bin.000160', '384833269');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('162', '20181108', '162.16.4.9:3306', 'prodccsdb', 'ccs_order_hst', '2018-11-08 17:52:58.000', 'master-bin.000160', '366089135', '85', '更新数据条数', '2018-11-08 17:53:00', '2018-11-08 19:44:08', '2018-11-08 18:14:46.000', 'master-bin.000160', '371258895');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('163', '20181108', '162.16.6.181:3306', 'canal_tsdb', 'test_table2', '2018-11-08 19:34:54.000', 'mysql-bin.000017', '767935287', '10', '更新数据条数', '2018-11-08 19:34:10', '2018-11-08 20:04:42', '2018-11-08 20:00:32.000', 'mysql-bin.000017', '767998327');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('164', '20181109', '162.16.6.181:3306', 'riskcontrol', 'inf_customer', '2018-11-09 00:00:05.000', 'mysql-bin.000019', '14226392', '50561358', '更新数据条数', '2018-11-09 08:16:32', '2018-11-09 19:22:43', '2018-11-09 19:22:12.000', 'mysql-bin.000026', '704959296');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('165', '20181109', '162.16.4.9:3306', 'risk_uat', 'inf_credit_frozen', '2018-11-09 09:27:59.000', 'master-bin.000160', '498833686', '2', '更新数据条数与当前时间', '2018-11-09 09:28:01', '2018-11-09 11:04:48', '2018-11-09 11:04:47.000', 'master-bin.000160', '526390359');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('166', '20181109', '162.16.4.9:3306', 'risk_uat', 'his_customer_credit', '2018-11-09 09:27:59.000', 'master-bin.000160', '498833994', '14', '更新数据条数', '2018-11-09 09:28:01', '2018-11-09 19:20:36', '2018-11-09 11:10:05.000', 'master-bin.000160', '527130058');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('167', '20181109', '162.16.4.9:3306', 'risk_uat', 'inf_customer_credit', '2018-11-09 09:27:59.000', 'master-bin.000160', '498834385', '14', '更新数据条数', '2018-11-09 09:28:01', '2018-11-09 19:20:36', '2018-11-09 11:10:05.000', 'master-bin.000160', '527130643');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('168', '20181109', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_occupation', '2018-11-09 09:51:37.000', 'master-bin.000160', '501894794', '2', '更新数据条数与当前时间', '2018-11-09 09:51:41', '2018-11-09 11:13:05', '2018-11-09 11:13:03.000', 'master-bin.000160', '528098097');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('169', '20181109', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_contact', '2018-11-09 09:51:37.000', 'master-bin.000160', '501897663', '2', '初始化记录', '2018-11-09 09:51:41', '2018-11-09 09:51:41', '2018-11-09 09:51:37.000', 'master-bin.000160', '501897663');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('170', '20181109', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_base', '2018-11-09 09:51:37.000', 'master-bin.000160', '501899306', '2', '更新数据条数与当前时间', '2018-11-09 09:51:41', '2018-11-09 11:13:05', '2018-11-09 11:13:03.000', 'master-bin.000160', '528097448');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('171', '20181109', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_cust_address', '2018-11-09 09:51:38.000', 'master-bin.000160', '501920767', '2', '更新数据条数与当前时间', '2018-11-09 09:51:41', '2018-11-09 11:13:05', '2018-11-09 11:13:03.000', 'master-bin.000160', '528097779');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('172', '20181109', '162.16.4.9:3306', 'migration_sdv_isop', 'customer_account', '2018-11-09 09:51:38.000', 'master-bin.000160', '501921341', '1', '初始化记录', '2018-11-09 09:51:41', '2018-11-09 09:51:41', '2018-11-09 09:51:38.000', 'master-bin.000160', '501921341');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('173', '20181109', '162.16.4.9:3306', 'migration_sdv_isop', 'inf_customer_borrow', '2018-11-09 09:51:38.000', 'master-bin.000160', '501923014', '3', '初始化记录', '2018-11-09 09:51:41', '2018-11-09 09:51:41', '2018-11-09 09:51:38.000', 'master-bin.000160', '501923014');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('174', '20181109', '162.16.4.9:3306', 'migration_sdv_isop', 'customer', '2018-11-09 09:51:38.000', 'master-bin.000160', '501924304', '2', '更新数据条数', '2018-11-09 09:51:41', '2018-11-09 10:26:57', '2018-11-09 10:12:19.000', 'master-bin.000160', '505514273');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('175', '20181109', '162.16.4.9:3306', 'risk_uat', 'customer_credit_apply_log', '2018-11-09 10:12:19.000', 'master-bin.000160', '505506867', '1', '初始化记录', '2018-11-09 10:12:19', '2018-11-09 10:12:19', '2018-11-09 10:12:19.000', 'master-bin.000160', '505506867');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('176', '20181109', '162.16.4.9:3306', 'risk_uat', 'inf_customer', '2018-11-09 10:12:19.000', 'master-bin.000160', '505507192', '2', '更新数据条数', '2018-11-09 10:12:19', '2018-11-09 10:26:57', '2018-11-09 10:12:22.000', 'master-bin.000160', '505632681');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('177', '20181109', '162.16.4.9:3306', 'risk_uat', 'interface_log', '2018-11-09 10:12:20.000', 'master-bin.000160', '505547741', '4', '更新数据条数', '2018-11-09 10:12:22', '2018-11-09 10:26:57', '2018-11-09 10:12:22.000', 'master-bin.000160', '505578154');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('178', '20181109', '162.16.4.9:3306', 'risk_uat', 'inf_baiqishi', '2018-11-09 10:12:20.000', 'master-bin.000160', '505548279', '1', '初始化记录', '2018-11-09 10:12:22', '2018-11-09 10:12:22', '2018-11-09 10:12:20.000', 'master-bin.000160', '505548279');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('179', '20181109', '162.16.4.9:3306', 'risk_uat', 'inf_tongdun', '2018-11-09 10:12:20.000', 'master-bin.000160', '505555608', '1', '初始化记录', '2018-11-09 10:12:23', '2018-11-09 10:12:23', '2018-11-09 10:12:20.000', 'master-bin.000160', '505555608');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('180', '20181109', '162.16.4.9:3306', 'prodccsdb', 'ccs_order', '2018-11-09 10:20:20.000', 'master-bin.000160', '506984632', '400', '更新数据条数', '2018-11-09 10:20:23', '2018-11-09 19:22:44', '2018-11-09 19:22:00.000', 'master-bin.000160', '661810746');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('181', '20181109', '162.16.4.9:3306', 'prodccsdb', 'ccs_acct', '2018-11-09 10:20:25.000', 'master-bin.000160', '507104705', '58', '更新数据条数', '2018-11-09 10:20:26', '2018-11-09 19:20:36', '2018-11-09 18:12:07.000', 'master-bin.000160', '651903470');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('182', '20181109', '162.16.4.9:3306', 'prodccsdb', 'ccs_plan', '2018-11-09 10:20:25.000', 'master-bin.000160', '507107744', '106', '更新数据条数', '2018-11-09 10:20:26', '2018-11-09 19:20:36', '2018-11-09 18:12:07.000', 'master-bin.000160', '651890636');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('183', '20181109', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan', '2018-11-09 10:20:58.000', 'master-bin.000160', '507396975', '42', '更新数据条数', '2018-11-09 10:21:00', '2018-11-09 19:20:36', '2018-11-09 18:12:07.000', 'master-bin.000160', '651906133');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('184', '20181109', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg_hst', '2018-11-09 10:20:58.000', 'master-bin.000160', '507399077', '7', '更新数据条数', '2018-11-09 10:21:00', '2018-11-09 19:20:36', '2018-11-09 18:12:05.000', 'master-bin.000160', '651816492');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('185', '20181109', '162.16.4.9:3306', 'prodccsdb', 'ccs_loan_reg', '2018-11-09 10:20:58.000', 'master-bin.000160', '507399853', '22', '更新数据条数', '2018-11-09 10:21:00', '2018-11-09 19:20:36', '2018-11-09 18:12:05.000', 'master-bin.000160', '651817279');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('186', '20181109', '162.16.4.9:3306', 'risk_uat', 'inf_credit_unfrozen', '2018-11-09 11:04:47.000', 'master-bin.000160', '526388886', '1', '初始化记录', '2018-11-09 11:04:48', '2018-11-09 11:04:48', '2018-11-09 11:04:47.000', 'master-bin.000160', '526388886');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('187', '20181109', '162.16.4.9:3306', 'wechat2', 'wechatmember', '2018-11-09 11:33:39.000', 'master-bin.000160', '535398243', '5', '更新数据条数', '2018-11-09 11:33:40', '2018-11-09 19:20:36', '2018-11-09 18:17:07.000', 'master-bin.000160', '652648165');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('188', '20181109', '162.16.4.9:3306', 'wechat2', 'feedback_record', '2018-11-09 11:33:52.000', 'master-bin.000160', '535418563', '2', '更新数据条数', '2018-11-09 11:33:55', '2018-11-09 19:20:36', '2018-11-09 15:11:37.000', 'master-bin.000160', '575011400');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('189', '20181109', '162.16.4.9:3306', 'prodccsdb', 'ccs_order_hst', '2018-11-09 14:57:56.000', 'master-bin.000160', '571364128', '59', '更新数据条数', '2018-11-09 14:57:58', '2018-11-09 19:20:36', '2018-11-09 18:12:04.000', 'master-bin.000160', '651715759');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('190', '20181109', '162.16.6.181:3306', 'riskcontrol', 'inf_customer_credit', '2018-11-09 18:28:59.000', 'mysql-bin.000026', '100261754', '239528', '更新数据条数', '2018-11-09 18:28:18', '2018-11-09 19:22:43', '2018-11-09 19:22:24.000', 'mysql-bin.000026', '707920079');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('191', '20181109', '162.16.6.181:3306', 'isop', 'customer', '2018-11-09 19:10:47.000', 'mysql-bin.000026', '492815020', '208734', '更新数据条数', '2018-11-09 19:10:14', '2018-11-09 19:22:43', '2018-11-09 19:22:15.000', 'mysql-bin.000026', '705894774');
+INSERT INTO `canal_extract_tbl_monitor` VALUES ('192', '20181109', '162.16.6.181:3306', 'wechat', 'wechatmember', '2018-11-09 19:19:09.000', 'mysql-bin.000026', '649900546', '12096', '更新数据条数', '2018-11-09 19:18:31', '2018-11-09 19:22:43', '2018-11-09 19:22:17.000', 'mysql-bin.000026', '706452562');
 
 -- ----------------------------
 -- Table structure for hbase_tbl_batch_del_audit
@@ -414,7 +454,7 @@ CREATE TABLE `hbase_tbl_batch_del_cfg` (
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uidx_hbase_delete_db_table` (`db_name`,`table_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of hbase_tbl_batch_del_cfg
@@ -422,6 +462,7 @@ CREATE TABLE `hbase_tbl_batch_del_cfg` (
 INSERT INTO `hbase_tbl_batch_del_cfg` VALUES ('1', 'ccs', 'account', '-1', '4', '1', null, null, null);
 INSERT INTO `hbase_tbl_batch_del_cfg` VALUES ('2', 'ccs', 'customer', '-1', '4', '1', null, null, null);
 INSERT INTO `hbase_tbl_batch_del_cfg` VALUES ('3', 'ccs', 'order', '-1', '4', '1', null, null, null);
+INSERT INTO `hbase_tbl_batch_del_cfg` VALUES ('4', '22', '11', '11', '11', '9', '2018-11-07 15:13:19', '2018-11-07 17:56:55', '修改为删除状态');
 
 -- ----------------------------
 -- Table structure for kafka_topic_grp_cfg
@@ -437,17 +478,35 @@ CREATE TABLE `kafka_topic_grp_cfg` (
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uidx_kafka_topic_group_cfg` (`topic_name`,`grp_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of kafka_topic_grp_cfg
 -- ----------------------------
-INSERT INTO `kafka_topic_grp_cfg` VALUES ('2', 'test-topic-1', 'ConsumerToHDFSApp', '1', '2018-10-25 14:43:06', '2018-10-25 14:43:06', null);
-INSERT INTO `kafka_topic_grp_cfg` VALUES ('3', 'test-topic-2', 'ConsumerToHDFSApp', '1', '2018-10-25 14:43:06', '2018-10-25 14:43:06', null);
-INSERT INTO `kafka_topic_grp_cfg` VALUES ('6', 'test-topic-3', 'ConsumerToHBaseApp', '1', null, null, null);
-INSERT INTO `kafka_topic_grp_cfg` VALUES ('7', 'test-topic-2', 'ConsumerToHBaseApp', '1', null, null, null);
-INSERT INTO `kafka_topic_grp_cfg` VALUES ('9', 'test-topic-1', 'ConsumerToHBaseApp', '1', null, null, null);
-INSERT INTO `kafka_topic_grp_cfg` VALUES ('10', 'test-topic-3', 'ConsumerToHDFSApp', '1', null, null, null);
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('2', 'test-topic-1', 'ConsumerToHDFSApp', '1', '2018-10-25 14:43:06', '2018-11-07 17:26:37', 'for test');
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('3', 'test-topic-2', 'ConsumerToHDFSApp', '1', '2018-10-25 14:43:06', '2018-10-25 14:43:06', 'for test');
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('4', 'test-topic-3', 'ConsumerToHDFSApp', '1', '2018-10-25 14:43:06', '2018-10-25 14:43:06', 'for test');
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('6', 'test-topic-3', 'ConsumerToHBaseApp', '1', '2018-10-25 14:43:06', '2018-10-25 14:43:06', 'for test');
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('7', 'test-topic-2', 'ConsumerToHBaseApp', '1', '2018-10-25 14:43:06', '2018-10-25 14:43:06', 'for test');
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('9', 'test-topic-1', 'ConsumerToHBaseApp', '1', '2018-10-25 14:43:06', '2018-10-25 14:43:06', 'for test');
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('11', 'test-topic-3', 'ConsumerToKuduApp', '1', '2018-10-25 14:43:06', '2018-10-25 14:43:06', 'for test');
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('12', 'test-topic-2', 'ConsumerToKuduApp', '1', '2018-10-25 14:43:06', '2018-10-25 14:43:06', 'for test');
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('13', 'test-topic-1', 'ConsumerToKuduApp', '1', '2018-10-25 14:43:06', '2018-10-25 14:43:06', 'for test');
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('14', 'test_sync_migration_sdv_isop_0', 'ConsumerToHDFSApp', '1', '2018-11-07 11:20:40', '2018-11-07 17:51:00', null);
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('15', 'test_sync_risk_uat_0', 'ConsumerToHDFSApp', '1', '2018-11-07 11:22:57', '2018-11-07 17:51:20', null);
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('16', 'test_sync_prodccsdb_0', 'ConsumerToHDFSApp', '1', '2018-11-07 11:24:23', '2018-11-07 17:51:07', null);
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('17', 'test_sync_wechat2_0', 'ConsumerToHDFSApp', '1', '2018-11-07 11:24:45', '2018-11-07 17:51:28', null);
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('18', 'test_sync_riskcontrol_0', 'ConsumerToHDFSApp', '1', '2018-11-07 11:25:03', '2018-11-07 11:25:03', null);
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('19', 'test_sync_migration_sdv_isop_0', 'ConsumerToKuduApp', '1', '2018-11-07 11:26:59', '2018-11-07 11:26:59', null);
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('20', 'test_sync_risk_uat_0', 'ConsumerToKuduApp', '1', '2018-11-07 11:30:01', '2018-11-07 11:30:01', null);
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('21', 'test_sync_prodccsdb_0', 'ConsumerToKuduApp', '1', '2018-11-07 11:30:48', '2018-11-08 08:58:53', null);
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('25', 'test_sync_wechat2_0', 'ConsumerToKuduApp', '1', '2018-11-07 11:24:45', '2018-11-07 17:51:28', '');
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('26', 'test_sync_riskcontrol_0', 'ConsumerToKuduApp', '1', '2018-11-07 11:25:03', '2018-11-07 11:25:03', '');
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('27', 'test_sync_migration_sdv_isop_0', 'ConsumerToHBaseApp', '1', '2018-11-07 11:25:03', '2018-11-07 11:25:03', null);
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('28', 'test_sync_risk_uat_0', 'ConsumerToHBaseApp', '1', '2018-11-07 11:25:03', '2018-11-07 11:25:03', null);
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('29', 'test_sync_prodccsdb_0', 'ConsumerToHBaseApp', '1', '2018-11-07 11:25:03', '2018-11-07 11:25:03', null);
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('30', 'test_sync_wechat2_0', 'ConsumerToHBaseApp', '1', '2018-11-07 11:25:03', '2018-11-07 11:25:03', null);
+INSERT INTO `kafka_topic_grp_cfg` VALUES ('31', 'test_sync_riskcontrol_0', 'ConsumerToHBaseApp', '1', '2018-11-07 11:25:03', '2018-11-07 11:25:03', null);
 
 -- ----------------------------
 -- Table structure for kafka_topic_grp_monitor
@@ -467,7 +526,7 @@ CREATE TABLE `kafka_topic_grp_monitor` (
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uidx_kafka_topic_group_partition_monitor` (`topic_name`,`partition_id`,`grp_name`,`date_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of kafka_topic_grp_monitor
@@ -505,6 +564,111 @@ INSERT INTO `kafka_topic_grp_monitor` VALUES ('40', '20181105', 'test-topic-3', 
 INSERT INTO `kafka_topic_grp_monitor` VALUES ('41', '20181105', 'test-topic-2', '0', 'ConsumerToHBaseApp', '0', '200000', '200000', null, '2018-11-05 09:01:00', '2018-11-05 11:17:47');
 INSERT INTO `kafka_topic_grp_monitor` VALUES ('42', '20181105', 'test-topic-1', '0', 'ConsumerToHBaseApp', '10129200', '10329200', '10329200', null, '2018-11-05 09:01:00', '2018-11-05 11:17:47');
 INSERT INTO `kafka_topic_grp_monitor` VALUES ('43', '20181105', 'test-topic-3', '0', 'ConsumerToHDFSApp', '0', '2206185', '4206185', null, '2018-11-05 09:01:00', '2018-11-05 11:17:47');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('44', '20181107', 'test-topic-1', '0', 'ConsumerToHDFSApp', '2424096', '2424096', '2424096', null, '2018-11-07 11:36:33', '2018-11-07 17:24:37');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('45', '20181107', 'test-topic-2', '1', 'ConsumerToHDFSApp', '0', '887380', '887433', null, '2018-11-07 11:36:33', '2018-11-07 23:53:33');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('46', '20181107', 'test-topic-2', '0', 'ConsumerToHDFSApp', '0', '888908', '889067', null, '2018-11-07 11:36:33', '2018-11-07 23:53:33');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('47', '20181107', 'test-topic-3', '1', 'ConsumerToHDFSApp', '1984', '2219', '2219', null, '2018-11-07 11:36:33', '2018-11-07 23:53:33');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('48', '20181107', 'test-topic-3', '0', 'ConsumerToHDFSApp', '2016', '2281', '2281', null, '2018-11-07 11:36:33', '2018-11-07 23:53:33');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('49', '20181107', 'test-topic-3', '1', 'ConsumerToHBaseApp', '1984', null, '2219', null, '2018-11-07 11:36:33', '2018-11-07 23:53:33');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('50', '20181107', 'test-topic-3', '0', 'ConsumerToHBaseApp', '2016', null, '2281', null, '2018-11-07 11:36:33', '2018-11-07 23:53:33');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('51', '20181107', 'test-topic-2', '1', 'ConsumerToHBaseApp', '0', null, '887433', null, '2018-11-07 11:36:33', '2018-11-07 23:53:34');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('52', '20181107', 'test-topic-2', '0', 'ConsumerToHBaseApp', '0', null, '889067', null, '2018-11-07 11:36:33', '2018-11-07 23:53:34');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('53', '20181107', 'test-topic-1', '0', 'ConsumerToHBaseApp', '2424096', null, '2424096', null, '2018-11-07 11:36:33', '2018-11-07 23:53:34');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('54', '20181107', 'test-topic-3', '1', 'ConsumerToKuduApp', '1984', '2219', '2219', null, '2018-11-07 11:36:33', '2018-11-07 23:53:34');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('55', '20181107', 'test-topic-3', '0', 'ConsumerToKuduApp', '2016', '2281', '2281', null, '2018-11-07 11:36:33', '2018-11-07 23:53:34');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('56', '20181107', 'test-topic-2', '1', 'ConsumerToKuduApp', '0', '887270', '887433', null, '2018-11-07 11:36:33', '2018-11-07 23:53:34');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('57', '20181107', 'test-topic-2', '0', 'ConsumerToKuduApp', '0', '888930', '889067', null, '2018-11-07 11:36:33', '2018-11-07 23:53:34');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('58', '20181107', 'test-topic-1', '0', 'ConsumerToKuduApp', '2424096', '2424096', '2424096', null, '2018-11-07 11:36:33', '2018-11-07 23:53:34');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('59', '20181108', 'test-topic-2', '1', 'ConsumerToHDFSApp', '0', '1748436', '1748436', null, '2018-11-07 23:53:44', '2018-11-08 23:53:19');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('60', '20181108', 'test-topic-2', '0', 'ConsumerToHDFSApp', '0', '1752736', '1752736', null, '2018-11-07 23:53:44', '2018-11-08 23:53:19');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('61', '20181108', 'test-topic-3', '1', 'ConsumerToHDFSApp', '1984', '2219', '2219', null, '2018-11-07 23:53:44', '2018-11-08 23:53:19');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('62', '20181108', 'test-topic-3', '0', 'ConsumerToHDFSApp', '2016', '2281', '2281', null, '2018-11-07 23:53:44', '2018-11-08 23:53:19');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('63', '20181108', 'test-topic-3', '1', 'ConsumerToHBaseApp', '1984', null, '2219', null, '2018-11-07 23:53:44', '2018-11-08 23:53:19');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('64', '20181108', 'test-topic-3', '0', 'ConsumerToHBaseApp', '2016', null, '2281', null, '2018-11-07 23:53:44', '2018-11-08 23:53:19');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('65', '20181108', 'test-topic-2', '1', 'ConsumerToHBaseApp', '0', null, '1748436', null, '2018-11-07 23:53:44', '2018-11-08 23:53:19');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('66', '20181108', 'test-topic-2', '0', 'ConsumerToHBaseApp', '0', null, '1752736', null, '2018-11-07 23:53:44', '2018-11-08 23:53:19');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('67', '20181108', 'test-topic-1', '0', 'ConsumerToHBaseApp', '2424096', null, '2424096', null, '2018-11-07 23:53:44', '2018-11-08 23:53:19');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('68', '20181108', 'test-topic-3', '1', 'ConsumerToKuduApp', '1984', '2219', '2219', null, '2018-11-07 23:53:44', '2018-11-08 23:53:19');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('69', '20181108', 'test-topic-3', '0', 'ConsumerToKuduApp', '2016', '2281', '2281', null, '2018-11-07 23:53:44', '2018-11-08 23:53:19');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('70', '20181108', 'test-topic-2', '1', 'ConsumerToKuduApp', '0', '1748436', '1748436', null, '2018-11-07 23:53:44', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('71', '20181108', 'test-topic-2', '0', 'ConsumerToKuduApp', '0', '1752736', '1752736', null, '2018-11-07 23:53:44', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('72', '20181108', 'test-topic-1', '0', 'ConsumerToKuduApp', '2424096', '2424096', '2424096', null, '2018-11-07 23:53:44', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('83', '20181108', 'test-topic-1', '0', 'ConsumerToHDFSApp', '2424096', '2424096', '2424096', null, '2018-11-08 15:31:15', '2018-11-08 23:53:19');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('104', '20181108', 'test_sync_migration_sdv_isop_0', '1', 'ConsumerToHDFSApp', '0', '142', '142', null, '2018-11-08 15:40:56', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('105', '20181108', 'test_sync_migration_sdv_isop_0', '0', 'ConsumerToHDFSApp', '0', '105', '105', null, '2018-11-08 15:40:56', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('106', '20181108', 'test_sync_risk_uat_0', '1', 'ConsumerToHDFSApp', '0', '226', '226', null, '2018-11-08 15:41:08', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('107', '20181108', 'test_sync_risk_uat_0', '0', 'ConsumerToHDFSApp', '0', '141', '141', null, '2018-11-08 15:41:08', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('108', '20181108', 'test_sync_prodccsdb_0', '1', 'ConsumerToHDFSApp', '0', '450', '450', null, '2018-11-08 15:41:08', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('109', '20181108', 'test_sync_prodccsdb_0', '0', 'ConsumerToHDFSApp', '0', '732', '732', null, '2018-11-08 15:41:08', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('110', '20181108', 'test_sync_wechat2_0', '1', 'ConsumerToHDFSApp', '0', '96', '96', null, '2018-11-08 15:41:08', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('111', '20181108', 'test_sync_wechat2_0', '0', 'ConsumerToHDFSApp', '0', '105', '105', null, '2018-11-08 15:41:08', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('112', '20181108', 'test_sync_riskcontrol_0', '0', 'ConsumerToHDFSApp', '0', '250873', '251005', null, '2018-11-08 15:41:08', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('113', '20181108', 'test_sync_riskcontrol_0', '1', 'ConsumerToHDFSApp', '0', '258043', '258043', null, '2018-11-08 15:41:08', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('114', '20181108', 'test_sync_migration_sdv_isop_0', '1', 'ConsumerToKuduApp', '0', '142', '142', null, '2018-11-08 15:41:20', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('115', '20181108', 'test_sync_migration_sdv_isop_0', '0', 'ConsumerToKuduApp', '0', '105', '105', null, '2018-11-08 15:41:20', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('116', '20181108', 'test_sync_risk_uat_0', '1', 'ConsumerToKuduApp', '0', '226', '226', null, '2018-11-08 15:41:32', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('117', '20181108', 'test_sync_risk_uat_0', '0', 'ConsumerToKuduApp', '0', '141', '141', null, '2018-11-08 15:41:32', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('118', '20181108', 'test_sync_prodccsdb_0', '1', 'ConsumerToKuduApp', '0', '450', '450', null, '2018-11-08 15:41:32', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('119', '20181108', 'test_sync_prodccsdb_0', '0', 'ConsumerToKuduApp', '0', '732', '732', null, '2018-11-08 15:41:32', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('120', '20181108', 'test_sync_wechat2_0', '1', 'ConsumerToKuduApp', '0', '96', '96', null, '2018-11-08 15:41:32', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('121', '20181108', 'test_sync_wechat2_0', '0', 'ConsumerToKuduApp', '0', '105', '105', null, '2018-11-08 15:41:32', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('122', '20181108', 'test_sync_riskcontrol_0', '0', 'ConsumerToKuduApp', '0', '251005', '251005', null, '2018-11-08 15:41:32', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('123', '20181108', 'test_sync_riskcontrol_0', '1', 'ConsumerToKuduApp', '0', '258043', '258043', null, '2018-11-08 15:41:32', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('124', '20181108', 'test_sync_migration_sdv_isop_0', '1', 'ConsumerToHBaseApp', '0', null, '142', null, '2018-11-08 15:41:32', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('125', '20181108', 'test_sync_migration_sdv_isop_0', '0', 'ConsumerToHBaseApp', '0', null, '105', null, '2018-11-08 15:41:32', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('126', '20181108', 'test_sync_risk_uat_0', '1', 'ConsumerToHBaseApp', '0', null, '226', null, '2018-11-08 15:41:32', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('127', '20181108', 'test_sync_risk_uat_0', '0', 'ConsumerToHBaseApp', '0', null, '141', null, '2018-11-08 15:41:32', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('128', '20181108', 'test_sync_prodccsdb_0', '1', 'ConsumerToHBaseApp', '0', null, '450', null, '2018-11-08 15:41:32', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('129', '20181108', 'test_sync_prodccsdb_0', '0', 'ConsumerToHBaseApp', '0', null, '732', null, '2018-11-08 15:41:32', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('130', '20181108', 'test_sync_wechat2_0', '1', 'ConsumerToHBaseApp', '0', null, '96', null, '2018-11-08 15:41:32', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('131', '20181108', 'test_sync_wechat2_0', '0', 'ConsumerToHBaseApp', '0', null, '105', null, '2018-11-08 15:41:32', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('132', '20181108', 'test_sync_riskcontrol_0', '0', 'ConsumerToHBaseApp', '0', null, '251005', null, '2018-11-08 15:41:33', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('133', '20181108', 'test_sync_riskcontrol_0', '1', 'ConsumerToHBaseApp', '0', null, '258043', null, '2018-11-08 15:41:33', '2018-11-08 23:53:20');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('134', '20181109', 'test-topic-1', '0', 'ConsumerToHDFSApp', '2424096', null, '2424096', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('135', '20181109', 'test-topic-2', '1', 'ConsumerToHDFSApp', '0', null, '1748436', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('136', '20181109', 'test-topic-2', '0', 'ConsumerToHDFSApp', '0', null, '1752736', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('137', '20181109', 'test-topic-3', '1', 'ConsumerToHDFSApp', '1984', null, '2219', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('138', '20181109', 'test-topic-3', '0', 'ConsumerToHDFSApp', '2016', null, '2281', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('139', '20181109', 'test-topic-3', '1', 'ConsumerToHBaseApp', '1984', null, '2219', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('140', '20181109', 'test-topic-3', '0', 'ConsumerToHBaseApp', '2016', null, '2281', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('141', '20181109', 'test-topic-2', '1', 'ConsumerToHBaseApp', '0', null, '1748436', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('142', '20181109', 'test-topic-2', '0', 'ConsumerToHBaseApp', '0', null, '1752736', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('143', '20181109', 'test-topic-1', '0', 'ConsumerToHBaseApp', '2424096', null, '2424096', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('144', '20181109', 'test-topic-3', '1', 'ConsumerToKuduApp', '1984', null, '2219', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('145', '20181109', 'test-topic-3', '0', 'ConsumerToKuduApp', '2016', null, '2281', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('146', '20181109', 'test-topic-2', '1', 'ConsumerToKuduApp', '0', null, '1748436', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('147', '20181109', 'test-topic-2', '0', 'ConsumerToKuduApp', '0', null, '1752736', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('148', '20181109', 'test-topic-1', '0', 'ConsumerToKuduApp', '2424096', null, '2424096', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('149', '20181109', 'test_sync_migration_sdv_isop_0', '1', 'ConsumerToHDFSApp', '0', '152', '152', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('150', '20181109', 'test_sync_migration_sdv_isop_0', '0', 'ConsumerToHDFSApp', '0', '109', '109', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('151', '20181109', 'test_sync_risk_uat_0', '1', 'ConsumerToHDFSApp', '0', '260', '260', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('152', '20181109', 'test_sync_risk_uat_0', '0', 'ConsumerToHDFSApp', '0', '161', '161', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('153', '20181109', 'test_sync_prodccsdb_0', '1', 'ConsumerToHDFSApp', '0', '909', '909', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('154', '20181109', 'test_sync_prodccsdb_0', '0', 'ConsumerToHDFSApp', '0', '1124', '1124', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('155', '20181109', 'test_sync_wechat2_0', '1', 'ConsumerToHDFSApp', '0', '108', '108', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('156', '20181109', 'test_sync_wechat2_0', '0', 'ConsumerToHDFSApp', '0', '107', '107', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('157', '20181109', 'test_sync_riskcontrol_0', '0', 'ConsumerToHDFSApp', '0', '1003110', '1003177', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('158', '20181109', 'test_sync_riskcontrol_0', '1', 'ConsumerToHDFSApp', '0', '1002679', '1002708', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('159', '20181109', 'test_sync_migration_sdv_isop_0', '1', 'ConsumerToKuduApp', '0', '152', '152', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('160', '20181109', 'test_sync_migration_sdv_isop_0', '0', 'ConsumerToKuduApp', '0', '109', '109', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('161', '20181109', 'test_sync_risk_uat_0', '1', 'ConsumerToKuduApp', '0', '260', '260', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('162', '20181109', 'test_sync_risk_uat_0', '0', 'ConsumerToKuduApp', '0', '161', '161', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('163', '20181109', 'test_sync_prodccsdb_0', '1', 'ConsumerToKuduApp', '0', '909', '909', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('164', '20181109', 'test_sync_prodccsdb_0', '0', 'ConsumerToKuduApp', '0', '1124', '1124', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('165', '20181109', 'test_sync_wechat2_0', '1', 'ConsumerToKuduApp', '0', '108', '108', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('166', '20181109', 'test_sync_wechat2_0', '0', 'ConsumerToKuduApp', '0', '107', '107', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('167', '20181109', 'test_sync_riskcontrol_0', '0', 'ConsumerToKuduApp', '0', '1003110', '1003185', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('168', '20181109', 'test_sync_riskcontrol_0', '1', 'ConsumerToKuduApp', '0', '1002697', '1002708', null, '2018-11-08 23:53:50', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('169', '20181109', 'test_sync_migration_sdv_isop_0', '1', 'ConsumerToHBaseApp', '0', null, '152', null, '2018-11-08 23:53:51', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('170', '20181109', 'test_sync_migration_sdv_isop_0', '0', 'ConsumerToHBaseApp', '0', null, '109', null, '2018-11-08 23:53:51', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('171', '20181109', 'test_sync_risk_uat_0', '1', 'ConsumerToHBaseApp', '0', null, '260', null, '2018-11-08 23:53:51', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('172', '20181109', 'test_sync_risk_uat_0', '0', 'ConsumerToHBaseApp', '0', null, '161', null, '2018-11-08 23:53:51', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('173', '20181109', 'test_sync_prodccsdb_0', '1', 'ConsumerToHBaseApp', '0', null, '909', null, '2018-11-08 23:53:51', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('174', '20181109', 'test_sync_prodccsdb_0', '0', 'ConsumerToHBaseApp', '0', null, '1124', null, '2018-11-08 23:53:51', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('175', '20181109', 'test_sync_wechat2_0', '1', 'ConsumerToHBaseApp', '0', null, '108', null, '2018-11-08 23:53:51', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('176', '20181109', 'test_sync_wechat2_0', '0', 'ConsumerToHBaseApp', '0', null, '107', null, '2018-11-08 23:53:51', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('177', '20181109', 'test_sync_riskcontrol_0', '0', 'ConsumerToHBaseApp', '0', null, '1003193', null, '2018-11-08 23:53:51', '2018-11-09 19:23:10');
+INSERT INTO `kafka_topic_grp_monitor` VALUES ('178', '20181109', 'test_sync_riskcontrol_0', '1', 'ConsumerToHBaseApp', '0', null, '1002708', null, '2018-11-08 23:53:51', '2018-11-09 19:23:10');
 
 -- ----------------------------
 -- Table structure for oozie_task
@@ -546,11 +710,12 @@ CREATE TABLE `sync_table_schema` (
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uidx_table_schema_db_tbl` (`table_id`,`db_id`,`version`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sync_table_schema
 -- ----------------------------
+INSERT INTO `sync_table_schema` VALUES ('1', 'account', 'ccs', '1', '[\r\n	{\r\n		\"name\": \"id\",\r\n		\"type\": \"STRING\",\r\n		\"pkType\": \"rangePartition\"\r\n	},\r\n	{\r\n		\"name\": \"name\",\r\n		\"type\": \"STRING\",\r\n		\"nullable\": false\r\n	},\r\n	{\r\n		\"name\": \"cert_id\",\r\n		\"type\": \"STRING\",\r\n		\"nullable\": false\r\n	},\r\n	{\r\n		\"name\": \"gender\",\r\n		\"type\": \"INT8\",\r\n		\"nullable\": true\r\n	},\r\n	{\r\n		\"name\": \"year_income\",\r\n		\"type\": \"FLOAT\",\r\n		\"nullable\": true\r\n	},\r\n	{\r\n		\"name\": \"birth\",\r\n		\"type\": \"UNIXTIME_MICROS\",\r\n		\"nullable\": true\r\n	}\r\n]', '1', '1', null, null, null);
 
 -- ----------------------------
 -- Table structure for sys_btn_res
@@ -621,7 +786,7 @@ CREATE TABLE `sys_res` (
   `mark` varchar(255) DEFAULT NULL,
   `res_icon` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=279 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=284 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_res
@@ -813,6 +978,11 @@ INSERT INTO `sys_res` VALUES ('275', '273', '1', 'canal监控', 'canal', '1', '2
 INSERT INTO `sys_res` VALUES ('276', '273', '1', 'kafka主题', 'kafka', '2', '2018-10-29 10:39:31', '2018-10-29 16:39:40', '', 'bug');
 INSERT INTO `sys_res` VALUES ('277', '276', '1', '主题配置', 'kafkaCfg', '1', '2018-10-29 16:38:10', '2018-10-29 16:37:38', '', 'edit');
 INSERT INTO `sys_res` VALUES ('278', '276', '1', '监控数据', 'kafkaMonitor', '2', '2018-10-29 16:38:49', '2018-10-29 16:52:29', '', 'bug');
+INSERT INTO `sys_res` VALUES ('279', '275', '1', 'canal配置', 'canalCfg', '1', '2018-11-07 09:58:53', '2018-11-07 09:58:53', '', 'documentation');
+INSERT INTO `sys_res` VALUES ('280', '275', '1', 'canal监控', 'canalMonitor', '2', '2018-11-07 10:18:31', '2018-11-07 10:18:31', '', 'bug');
+INSERT INTO `sys_res` VALUES ('281', '273', '1', 'hbase监控', 'hbase', '100', '2018-11-07 14:53:54', '2018-11-07 14:53:54', '', 'bug');
+INSERT INTO `sys_res` VALUES ('282', '281', '1', 'hbase配置', 'hbaseCfg', '1', '2018-11-07 14:54:17', '2018-11-07 14:54:17', '', 'documentation');
+INSERT INTO `sys_res` VALUES ('283', '281', '1', 'hbase审计', 'hbaseAudit', '100', '2018-11-07 14:55:01', '2018-11-07 14:55:01', '', 'bug');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -1233,14 +1403,14 @@ CREATE TABLE `sys_user` (
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES ('1', 'admin', '696847befefd6e5ce7236b0e00f6b6ba', 'admin', 'administrator', '110@qq.com', '110', '1111', 'none', '1', '1', '2018-08-09 09:03:36', '2018-11-02 15:32:35');
-INSERT INTO `sys_user` VALUES ('27', 'xyr', '696847befefd6e5ce7236b0e00f6b6ba', '向艳蓉', '向艳蓉', '1002@hncy58.com', '18888886666', '0101', '主任', '1', '1', '2018-08-23 10:10:04', '2018-11-05 15:39:15');
+INSERT INTO `sys_user` VALUES ('27', 'xyr', '696847befefd6e5ce7236b0e00f6b6ba', '向艳蓉', '向艳蓉', '1002@hncy58.com', '18888886666', '0101', '主任', '1', '1', '2018-08-23 10:10:04', '2018-11-07 10:50:37');
 INSERT INTO `sys_user` VALUES ('28', 'wrx', '696847befefd6e5ce7236b0e00f6b6ba', '王仁兴', '王仁兴', 'wrx@hncy58.com', '18888886666', '0101', 'fasdf', '1', '1', '2018-08-24 10:57:11', '2018-09-27 08:54:00');
-INSERT INTO `sys_user` VALUES ('29', 'xuehaiwei', '7ce634a719db7a92ad2dd3d85b307f9f', '薛海伟23', 'fasdfasdf', '', '18888888888', '信息科技部', 'asdfasd', '1', '1', '2018-08-25 16:42:16', '2018-10-24 09:29:07');
-INSERT INTO `sys_user` VALUES ('71', 'tokings', '696847befefd6e5ce7236b0e00f6b6ba', 'tokings', '', '', '', '0', '', '1', '1', '2018-08-29 11:50:23', '2018-11-05 19:34:48');
-INSERT INTO `sys_user` VALUES ('81', 'lds', '7ce634a719db7a92ad2dd3d85b307f9f', 'lds', '', '', '', '0', '', '1', '1', '2018-08-29 11:59:50', '2018-11-06 19:22:27');
+INSERT INTO `sys_user` VALUES ('29', 'xuehaiwei', '7ce634a719db7a92ad2dd3d85b307f9f', '薛海伟23', 'fasdfasdf', '', '18888888888', '信息科技部', 'asdfasd', '1', '1', '2018-08-25 16:42:16', '2018-11-07 18:57:33');
+INSERT INTO `sys_user` VALUES ('71', 'tokings', '696847befefd6e5ce7236b0e00f6b6ba', 'tokings', '', '', '', '0', '', '1', '1', '2018-08-29 11:50:23', '2018-11-07 19:19:26');
+INSERT INTO `sys_user` VALUES ('81', 'lds', '7ce634a719db7a92ad2dd3d85b307f9f', 'lds', '', '', '', '0', '', '1', '1', '2018-08-29 11:59:50', '2018-11-09 18:51:46');
 INSERT INTO `sys_user` VALUES ('82', 'zhuhong', '7ce634a719db7a92ad2dd3d85b307f9f', '朱虹', '', '', '18888888888', '风险合规部', '', '1', '0', '2018-09-10 14:58:46', '2018-11-02 17:38:48');
-INSERT INTO `sys_user` VALUES ('107', 'wjl01', '7ce634a719db7a92ad2dd3d85b307f9f', '12', '', '', '', '12', '', '1', '1', '2018-09-18 09:10:13', '2018-11-07 09:08:00');
-INSERT INTO `sys_user` VALUES ('124', 'lzc', '7ce634a719db7a92ad2dd3d85b307f9f', 'liuzhichao', '', '', '', '信息科技部', '', '1', '1', '2018-10-09 08:41:24', '2018-11-05 19:26:10');
+INSERT INTO `sys_user` VALUES ('107', 'wjl01', '7ce634a719db7a92ad2dd3d85b307f9f', '12', '', '', '', '12', '', '1', '1', '2018-09-18 09:10:13', '2018-11-07 14:43:00');
+INSERT INTO `sys_user` VALUES ('124', 'lzc', '7ce634a719db7a92ad2dd3d85b307f9f', 'liuzhichao', '', '', '', '信息科技部', '', '1', '1', '2018-10-09 08:41:24', '2018-11-07 11:21:12');
 INSERT INTO `sys_user` VALUES ('130', 'tanfei', '7ce634a719db7a92ad2dd3d85b307f9f', '谭斐', '测试人员', null, '', '测试', '', '1', '1', '2018-10-24 10:00:39', '2018-10-29 17:24:23');
 INSERT INTO `sys_user` VALUES ('131', 'xiaoning', '7ce634a719db7a92ad2dd3d85b307f9f', '邓小宁', '测试人员', null, '', '软件测试', '', '1', '1', '2018-10-24 10:36:26', '2018-11-01 11:14:26');
 INSERT INTO `sys_user` VALUES ('132', 'zhangwenchao', '7ce634a719db7a92ad2dd3d85b307f9f', '张文超', '测试人员', '', '', '账务开发', '', '1', '1', '2018-10-24 10:40:28', '2018-10-24 16:14:40');
@@ -1283,7 +1453,7 @@ CREATE TABLE `sys_user_opr_log` (
   KEY `idx_opr_log_user_id` (`user_id`) USING HASH,
   KEY `idx_opr_log_token` (`token`),
   KEY `idx_opr_log_opr_time` (`opr_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=772973 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=919810 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_user_opr_log
@@ -1302,7 +1472,7 @@ CREATE TABLE `sys_user_role` (
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_uni_user_role` (`user_id`,`role_id`) COMMENT '用户角色关联关系唯一索引'
-) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_user_role
@@ -1332,3 +1502,4 @@ INSERT INTO `sys_user_role` VALUES ('146', '81', '2', null, null, null);
 INSERT INTO `sys_user_role` VALUES ('147', '81', '27', null, null, null);
 INSERT INTO `sys_user_role` VALUES ('148', '81', '47', null, null, null);
 INSERT INTO `sys_user_role` VALUES ('149', '81', '50', null, null, null);
+INSERT INTO `sys_user_role` VALUES ('150', '81', '1', null, null, null);
