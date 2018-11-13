@@ -26,6 +26,8 @@ public class AgentDomain implements Serializable {
 	private int source_type = -1;
 	private int dest_type = -1;
 	private int status = -1;
+	private int heartbeat_interval = -1;
+	private int max_heartbeat_fail_cnt = -1;
 	private String remark;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -40,6 +42,22 @@ public class AgentDomain implements Serializable {
 
 	public AgentDomain() {
 		super();
+	}
+
+	public int getHeartbeat_interval() {
+		return heartbeat_interval;
+	}
+
+	public void setHeartbeat_interval(int heartbeat_interval) {
+		this.heartbeat_interval = heartbeat_interval;
+	}
+
+	public int getMax_heartbeat_fail_cnt() {
+		return max_heartbeat_fail_cnt;
+	}
+
+	public void setMax_heartbeat_fail_cnt(int max_heartbeat_fail_cnt) {
+		this.max_heartbeat_fail_cnt = max_heartbeat_fail_cnt;
 	}
 
 	public int getId() {

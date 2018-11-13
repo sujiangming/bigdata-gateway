@@ -47,18 +47,24 @@ public interface AgentMapper {
 			+ "	<if test='status >= 0'> "
 			+ "		and status = #{status} "
 			+ "	</if> "
+			+ "	<if test='heartbeat_interval >= 0'> "
+			+ "		and heartbeat_interval = #{heartbeat_interval} "
+			+ "	</if> "
+			+ "	<if test='max_heartbeat_fail_cnt >= 0'> "
+			+ "		and max_heartbeat_fail_cnt = #{max_heartbeat_fail_cnt} "
+			+ "	</if> "
 			+ "	<if test=\"remark != null and remark != ''\"> "
 			+ "		and remark like '%${remark}%' "
 			+ "	</if> "
 			+ "<choose>"
 			+ "	<when test=\"startTime != null and endTime != null\"> "
-			+ "		and opr_time  between #{startTime} and #{endTime} "
+			+ "		and update_time  between #{startTime} and #{endTime} "
 			+ "	</when> "
 			+ "	<when test=\"startTime != null\"> "
-			+ "		and opr_time  &gt;= #{startTime} "
+			+ "		and update_time  &gt;= #{startTime} "
 			+ "	</when> "
 			+ "	<when test=\"endTime != null\"> "
-			+ "		and opr_time  &lt;= #{endTime} "
+			+ "		and update_time  &lt;= #{endTime} "
 			+ "	</when> "
 			+ "</choose>"
 			+ "</where> "
@@ -75,6 +81,8 @@ public interface AgentMapper {
 			,@Result(column="source_type", property="source_type")
 			,@Result(column="dest_type", property="dest_type")
 			,@Result(column="status", property="status")
+			,@Result(column="heartbeat_interval", property="heartbeat_interval")
+			,@Result(column="max_heartbeat_fail_cnt", property="max_heartbeat_fail_cnt")
 			,@Result(column="remark", property="remark")
 			,@Result(column="create_time", property="create_time", jdbcType=JdbcType.TIMESTAMP)
 			,@Result(column="update_time", property="update_time", jdbcType=JdbcType.TIMESTAMP)
@@ -108,13 +116,13 @@ public interface AgentMapper {
 			+ "	</if> "
 			+ "<choose>"
 			+ "	<when test=\"startTime != null and endTime != null\"> "
-			+ "		and opr_time  between #{startTime} and #{endTime} "
+			+ "		and update_time  between #{startTime} and #{endTime} "
 			+ "	</when> "
 			+ "	<when test=\"startTime != null\"> "
-			+ "		and opr_time  &gt;= #{startTime} "
+			+ "		and update_time  &gt;= #{startTime} "
 			+ "	</when> "
 			+ "	<when test=\"endTime != null\"> "
-			+ "		and opr_time  &lt;= #{endTime} "
+			+ "		and update_time  &lt;= #{endTime} "
 			+ "	</when> "
 			+ "</choose>"
 			+ "</where> "

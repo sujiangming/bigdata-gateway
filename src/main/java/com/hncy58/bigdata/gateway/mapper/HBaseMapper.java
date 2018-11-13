@@ -41,7 +41,7 @@ public interface HBaseMapper {
 			+ "	</if> "
 			+ "<choose>"
 			+ "	<when test=\"start_time != null and end_time != null\"> "
-			+ "		and update_time  between #{start_time} and #{end_time} "
+			+ "		and create_time  between #{start_time} and #{end_time} "
 			+ "	</when> "
 			+ "	<when test=\"start_time != null\"> "
 			+ "		and create_time  &gt;= #{start_time} "
