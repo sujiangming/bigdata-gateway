@@ -36,6 +36,8 @@ public interface BtnResourceService {
 	List<BtnResource> getByGroupCode(int userId, String groupCode);
 
 	List<BtnResource> getByGroupCode(String groupCode);
+	
+	List<BtnResource> getByRoleId(String roleId);
 
 	int linkRole(String roleId, List<String> resIds);
 	

@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.Page;
-import com.hncy58.bigdata.gateway.domain.datasync.CanalMonitorDomain;
 import com.hncy58.bigdata.gateway.domain.datasync.CanalConfDomain;
-import com.hncy58.bigdata.gateway.model.datasync.CanalMonitorInfo;
+import com.hncy58.bigdata.gateway.domain.datasync.CanalMonitorDomain;
+import com.hncy58.bigdata.gateway.domain.datasync.CanalSpeConfDomain;
 import com.hncy58.bigdata.gateway.model.datasync.CanalConfInfo;
+import com.hncy58.bigdata.gateway.model.datasync.CanalMonitorInfo;
+import com.hncy58.bigdata.gateway.model.datasync.CanalSpeConfInfo;
 import com.hncy58.bigdata.gateway.service.datasync.CanalService;
 import com.hncy58.bigdata.gateway.util.Constant;
 
@@ -39,7 +41,7 @@ public class CanalExtractorController {
 	private CanalService service;
 
 	@RequestMapping(value = "/conf/select", method = RequestMethod.GET)
-	public Map<String, Object> selectByPage(int pageNo, int pageSize, CanalConfDomain domain) {
+	public Map<String, Object> selectConfByPage(int pageNo, int pageSize, CanalConfDomain domain) {
 
 		Map<String, Object> ret = new HashMap<>();
 
@@ -59,7 +61,7 @@ public class CanalExtractorController {
 	}
 	
 	@RequestMapping(value = "/monitor/select", method = RequestMethod.GET)
-	public Map<String, Object> selectAuditByPage(int pageNo, int pageSize, CanalMonitorDomain domain) {
+	public Map<String, Object> selectMonitorByPage(int pageNo, int pageSize, CanalMonitorDomain domain) {
 		
 		Map<String, Object> ret = new HashMap<>();
 		
@@ -146,6 +148,98 @@ public class CanalExtractorController {
 			ret.put("code", "6203");
 			ret.put("msg", "删除配置失败," + e.getMessage());
 		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/conf/spe/add")
+	public Map<String, Object> addSpeConf(CanalSpeConfInfo model) {
+		
+		Map<String, Object> ret = new HashMap<>();
+		model.setUpdate_time(new Date());
+		model.setCreate_time(new Date());
+		
+		try {
+			int num = service.addSpeConf(model);
+			if (num > 0) {
+				ret.put("code", Constant.REQ_SUCCESS_CODE);
+			} else {
+				ret.put("code", "6204");
+				ret.put("msg", "添加Canal抽数监控配置失败");
+			}
+		} catch (Exception e) {
+			ret.put("code", "6204");
+			ret.put("msg", "添加Canal抽数监控配置失败," + e.getMessage());
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/conf/spe/modify")
+	public Map<String, Object> modifySpeConf(CanalSpeConfInfo model) {
+		
+		Map<String, Object> ret = new HashMap<>();
+		model.setUpdate_time(new Date());
+		
+		try {
+			int num = service.modifySpeConf(model);
+			if (num > 0) {
+				ret.put("code", Constant.REQ_SUCCESS_CODE);
+			} else {
+				ret.put("code", "6205");
+				ret.put("msg", "修改Canal抽数监控配置失败");
+			}
+		} catch (Exception e) {
+			ret.put("code", "6205");
+			ret.put("msg", "修改Canal抽数监控配置失败," + e.getMessage());
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/conf/spe/delete", method = {RequestMethod.GET, RequestMethod.POST})
+	public Map<String, Object> deleteSpeConf(String ids) {
+		
+		Map<String, Object> ret = new HashMap<>();
+		
+		if(StringUtils.isEmpty(ids)) {
+			ret.put("code", "6206");
+			ret.put("msg", "删除配置失败，没有传入正确的配置ID");
+			return ret;
+		}
+		
+		try {
+			int num = service.deleteSpeConf(ids);
+			if (num > 0) {
+				ret.put("code", Constant.REQ_SUCCESS_CODE);
+			} else {
+				ret.put("code", "删除");
+				ret.put("msg", "删除配置失败");
+			}
+		} catch (Exception e) {
+			ret.put("code", "删除");
+			ret.put("msg", "删除配置失败," + e.getMessage());
+		}
+		
+		return ret;
+	}
+	
+	@RequestMapping(value = "/conf/spe/select", method = RequestMethod.GET)
+	public Map<String, Object> selectSpeConfByPage(int pageNo, int pageSize, CanalSpeConfDomain domain) {
+		
+		Map<String, Object> ret = new HashMap<>();
+		
+		if (!StringUtils.isEmpty(domain.getSortField()))
+			domain.setSortFiled();
+		
+		Page<CanalSpeConfInfo> pageRet = service.selectSpeConf(pageNo, pageSize, domain);
+		
+		ret.put("code", Constant.REQ_SUCCESS_CODE);
+		ret.put("total", pageRet.getTotal());
+		ret.put("pages", pageRet.getPages());
+		ret.put("curPageNum", pageRet.getPageNum());
+		ret.put("pageSize", pageRet.getPageSize());
+		ret.put("data", pageRet.getResult());
 		
 		return ret;
 	}

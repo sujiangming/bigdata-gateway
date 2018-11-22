@@ -11,8 +11,10 @@ import org.apache.ibatis.type.JdbcType;
 import com.github.pagehelper.Page;
 import com.hncy58.bigdata.gateway.domain.datasync.CanalConfDomain;
 import com.hncy58.bigdata.gateway.domain.datasync.CanalMonitorDomain;
+import com.hncy58.bigdata.gateway.domain.datasync.CanalSpeConfDomain;
 import com.hncy58.bigdata.gateway.model.datasync.CanalConfInfo;
 import com.hncy58.bigdata.gateway.model.datasync.CanalMonitorInfo;
+import com.hncy58.bigdata.gateway.model.datasync.CanalSpeConfInfo;
 
 /**
  * 
@@ -38,6 +40,9 @@ public interface CanalMapper {
 			+ "	</if> "
 			+ "	<if test='date_id >= 0'> "
 			+ "		and date_id = #{date_id} "
+			+ "	</if> "
+			+ "	<if test='update_count >= 0'> "
+			+ "		and update_count = #{update_count} "
 			+ "	</if> "
 			+ "	<if test=\"remark != null and remark != ''\"> "
 			+ "		and remark like '%${remark}%' "
@@ -68,6 +73,7 @@ public interface CanalMapper {
 			,@Result(column="start_time", property="start_time", jdbcType=JdbcType.TIMESTAMP)
 			,@Result(column="start_bin_file", property="start_bin_file")
 			,@Result(column="start_offset", property="start_offset")
+			,@Result(column="update_count", property="update_count")
 			,@Result(column="remark", property="remark")
 			,@Result(column="create_time", property="create_time", jdbcType=JdbcType.TIMESTAMP)
 			,@Result(column="update_time", property="update_time", jdbcType=JdbcType.TIMESTAMP)
@@ -133,15 +139,83 @@ public interface CanalMapper {
 	})
 	Page<CanalConfInfo> selectConf(CanalConfDomain queryDomain);
 
-	@Update("update canal_extract_tbl_cfg set db_id=#{db_id}, tbl_id=#{tbl_id}, server_grp=#{server_grp}, canal_id=#{canal_id}, node_id=#{node_id}, status=#{status}, remark=#{remark}, update_time = #{update_time,jdbcType=TIMESTAMP} "
-			+ "where id=#{id}")
-	int modifyConf(CanalConfInfo domain);
-
 	@Insert("insert into canal_extract_tbl_cfg(id,db_id,tbl_id,server_grp,canal_id,node_id,status,create_time,update_time,remark) "
 			+ "values(#{id}, #{db_id}, #{tbl_id}, #{server_grp}, #{canal_id}, #{node_id}, #{status},#{create_time,jdbcType=TIMESTAMP},#{update_time,jdbcType=TIMESTAMP}, #{remark})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	int addConf(CanalConfInfo domain);
 
+	@Update("update canal_extract_tbl_cfg set db_id=#{db_id}, tbl_id=#{tbl_id}, server_grp=#{server_grp}, canal_id=#{canal_id}, node_id=#{node_id}, status=#{status}, remark=#{remark}, update_time = #{update_time,jdbcType=TIMESTAMP} "
+			+ "where id=#{id}")
+	int modifyConf(CanalConfInfo domain);
+	
 	@Update("update canal_extract_tbl_cfg set status=9, remark='修改为删除状态', update_time = now() where id=#{id}")
 	int deleteConf(String id);
+	
+
+	@Insert("insert into canal_extract_tbl_spe_cfg(id,db_id,tbl_id,server_grp,canal_id,topic_name,status,create_time,update_time,remark) "
+			+ "values(#{id}, #{db_id}, #{tbl_id}, #{server_grp}, #{canal_id}, #{topic_name}, #{status},#{create_time,jdbcType=TIMESTAMP},#{update_time,jdbcType=TIMESTAMP}, #{remark})")
+	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
+	int addSpeConf(CanalSpeConfInfo model);
+
+	@Update("update canal_extract_tbl_spe_cfg set db_id=#{db_id}, tbl_id=#{tbl_id}, server_grp=#{server_grp}, canal_id=#{canal_id}, topic_name=#{topic_name}, status=#{status}, remark=#{remark}, update_time = #{update_time,jdbcType=TIMESTAMP} "
+			+ "where id=#{id}")
+	int modifySpeConf(CanalSpeConfInfo model);
+
+	@Update("update canal_extract_tbl_spe_cfg set status=9, remark='修改为删除状态', update_time = now() where id=#{id}")
+	int deleteSpeConf(String id);
+
+	@Select("<script>"
+			+ "select * from canal_extract_tbl_spe_cfg "
+			+ "<where>  "
+			+ "	<if test=\"server_grp != null and server_grp != ''\"> "
+			+ "		and server_grp = #{server_grp} "
+			+ "	</if> "
+			+ "	<if test=\"canal_id != null and canal_id != ''\"> "
+			+ "		and canal_id = #{canal_id} "
+			+ "	</if> "
+			+ "	<if test=\"db_id != null and db_id != ''\"> "
+			+ "		and db_id = #{db_id} "
+			+ "	</if> "
+			+ "	<if test=\"tbl_id != null and tbl_id != ''\"> "
+			+ "		and tbl_id = #{tbl_id} "
+			+ "	</if> "
+			+ "	<if test='status >= 0'> "
+			+ "		and status = #{status} "
+			+ "	</if> "
+			+ "	<if test=\"topic_name != null and topic_name != ''\"> "
+			+ "		and topic_name = #{topic_name} "
+			+ "	</if> "
+			+ "	<if test=\"remark != null and remark != ''\"> "
+			+ "		and remark like '%${remark}%' "
+			+ "	</if> "
+			+ "<choose>"
+			+ "	<when test=\"start_time != null and end_time != null\"> "
+			+ "		and update_time  between #{start_time} and #{end_time} "
+			+ "	</when> "
+			+ "	<when test=\"start_time != null\"> "
+			+ "		and update_time  &gt;= #{start_time} "
+			+ "	</when> "
+			+ "	<when test=\"end_time != null\"> "
+			+ "		and update_time  &lt;= #{end_time} "
+			+ "	</when> "
+			+ "</choose>"
+			+ "</where> "
+			+ "	<if test=\"sortField != null and sortField != '' and sortType != null and sortType != ''\"> "
+			+ "		order by ${sortField} ${sortType}"
+			+ "	</if> "
+			+ "</script>"
+			)
+	@Results(id="all_spe_conf_cols", value={
+			@Result(column="id", property="id")
+			,@Result(column="server_grp", property="server_grp")
+			,@Result(column="canal_id", property="canal_id")
+			,@Result(column="db_id", property="db_id")
+			,@Result(column="tbl_id", property="tbl_id")
+			,@Result(column="topic_name", property="topic_name")
+			,@Result(column="status", property="status")
+			,@Result(column="remark", property="remark")
+			,@Result(column="create_time", property="create_time", jdbcType=JdbcType.TIMESTAMP)
+			,@Result(column="update_time", property="update_time", jdbcType=JdbcType.TIMESTAMP)
+	})
+	Page<CanalSpeConfInfo> selectSpeConf(CanalSpeConfDomain domain);
 }

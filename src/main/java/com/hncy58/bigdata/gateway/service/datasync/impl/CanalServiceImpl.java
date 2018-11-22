@@ -9,9 +9,11 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hncy58.bigdata.gateway.domain.datasync.CanalConfDomain;
 import com.hncy58.bigdata.gateway.domain.datasync.CanalMonitorDomain;
+import com.hncy58.bigdata.gateway.domain.datasync.CanalSpeConfDomain;
 import com.hncy58.bigdata.gateway.mapper.CanalMapper;
 import com.hncy58.bigdata.gateway.model.datasync.CanalConfInfo;
 import com.hncy58.bigdata.gateway.model.datasync.CanalMonitorInfo;
+import com.hncy58.bigdata.gateway.model.datasync.CanalSpeConfInfo;
 import com.hncy58.bigdata.gateway.service.datasync.CanalService;
 
 @Service
@@ -42,8 +44,8 @@ public class CanalServiceImpl implements CanalService {
 
 		Page<CanalConfInfo> page = PageHelper.startPage(pageNo, pageSize, true);
 		canalMapper.selectConf(domain);
-		log.debug("total monitor : {}", page.getTotal());
-		log.debug("ret monitor : {}", page.getResult());
+		log.debug("total conf : {}", page.getTotal());
+		log.debug("ret conf : {}", page.getResult());
 
 		Page<CanalConfInfo> pageRet = new Page<>(pageNo, pageSize);
 		pageRet.setTotal(page.getTotal());
@@ -65,6 +67,36 @@ public class CanalServiceImpl implements CanalService {
 	@Override
 	public int deleteConf(String id) {
 		return canalMapper.deleteConf(id);
+	}
+
+	@Override
+	public int addSpeConf(CanalSpeConfInfo model) {
+		return canalMapper.addSpeConf(model);
+	}
+
+	@Override
+	public int modifySpeConf(CanalSpeConfInfo model) {
+		return canalMapper.modifySpeConf(model);
+		}
+
+	@Override
+	public int deleteSpeConf(String id) {
+		return canalMapper.deleteSpeConf(id);
+		}
+
+	@Override
+	public Page<CanalSpeConfInfo> selectSpeConf(int pageNo, int pageSize, CanalSpeConfDomain domain) {
+
+		Page<CanalSpeConfInfo> page = PageHelper.startPage(pageNo, pageSize, true);
+		canalMapper.selectSpeConf(domain);
+		log.debug("total conf : {}", page.getTotal());
+		log.debug("ret conf : {}", page.getResult());
+
+		Page<CanalSpeConfInfo> pageRet = new Page<>(pageNo, pageSize);
+		pageRet.setTotal(page.getTotal());
+		pageRet.addAll(page.getResult());
+
+		return pageRet;
 	}
 
 }

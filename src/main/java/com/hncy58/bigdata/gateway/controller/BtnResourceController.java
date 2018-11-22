@@ -122,6 +122,21 @@ public class BtnResourceController {
 		return ResponseEntity.ok(ret);
 	}
 
+	/**
+	 * 通过角色ID获取按钮组列表信息
+	 * 
+	 * @param req
+	 * @param groupCode
+	 * @return
+	 */
+	@RequestMapping(value = "/getByRoleId", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getByRoleId(HttpServletRequest req, String roleId) {
+		Map<String, Object> ret = new HashMap<>();
+		ret.put("data", btnResourceService.getByRoleId(roleId));
+		ret.put("code", Constant.REQ_SUCCESS_CODE);
+		return ResponseEntity.ok(ret);
+	}
+
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public Map<String, Object> selectAll() {
 		Map<String, Object> ret = new HashMap<>();

@@ -97,6 +97,11 @@ public class BtnResServiceImpl implements BtnResourceService {
 	}
 
 	@Override
+	public List<BtnResource> getByRoleId(String roleId) {
+		return btnResourceMapper.getByRoleId(roleId);
+	}
+
+	@Override
 	public List<BtnResource> getByGroupCode(String groupCode) {
 		return btnResourceMapper.getByGroupCode(groupCode);
 	}

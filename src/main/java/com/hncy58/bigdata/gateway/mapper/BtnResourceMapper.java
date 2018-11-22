@@ -49,7 +49,7 @@ public interface BtnResourceMapper {
 	 * 获取所有资源列表
 	 * @return
 	 */
-	@Select("select * from sys_btn_res")
+	@Select("select * from sys_btn_res order by group_code,update_time")
 	@ResultMap("all_cols")
 	List<BtnResource> selectAll();
 	
@@ -137,8 +137,9 @@ public interface BtnResourceMapper {
 	 * @return
 	 */
 	@Select("select distinct br.* from sys_btn_res br "
-			+ "left join sys_role_btn_res rr on rr.res_id = br.id "
-			+ "where rr.role_id = #{roleId, jdbcType=INTEGER}")
+			+ " left join sys_role_btn_res rr on rr.res_id = br.id "
+			+ " where rr.role_id = #{roleId, jdbcType=INTEGER} "
+			+ " order by group_code,update_time ")
 	@ResultMap("all_cols")
 	List<BtnResource> getByRoleId(String roleId);
 	

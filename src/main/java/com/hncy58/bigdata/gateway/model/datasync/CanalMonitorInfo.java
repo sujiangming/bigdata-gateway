@@ -26,6 +26,7 @@ public class CanalMonitorInfo implements Serializable {
 	private Date start_time;
 	private String start_bin_file;
 	private long start_offset = -1;
+	private int update_count = 0;
 	private String remark;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date create_time;
@@ -35,6 +36,14 @@ public class CanalMonitorInfo implements Serializable {
 	private Date cur_time;
 	private String cur_bin_file;
 	private long cur_offset = -1;
+
+	public int getUpdate_count() {
+		return update_count;
+	}
+
+	public void setUpdate_count(int update_count) {
+		this.update_count = update_count;
+	}
 
 	public int getId() {
 		return id;
