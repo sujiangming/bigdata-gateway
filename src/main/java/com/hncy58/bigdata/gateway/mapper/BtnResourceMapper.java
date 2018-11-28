@@ -184,11 +184,13 @@ public interface BtnResourceMapper {
 	@Select("select distinct br.* from sys_btn_res br "
 			+ "left join sys_role_btn_res rr on rr.res_id = br.id "
 			+ "left join sys_user_role ur on rr.role_id = ur.role_id "
-			+ "where ur.user_id = #{userId} and br.group_code = #{groupCode}")
+			+ "where ur.user_id = #{userId} and br.group_code = #{groupCode}"
+			+ " order by group_code,update_time desc ")
 	@ResultMap("all_cols")
 	List<BtnResource> getByGroupCodeByUserId(@Param("userId")int userId, @Param("groupCode")String groupCode);
 
-	@Select("select distinct br.* from sys_btn_res br where br.group_code = #{groupCode}")
+	@Select("select distinct br.* from sys_btn_res br where br.group_code = #{groupCode}"
+			+ " order by group_code,update_time desc ")
 	@ResultMap("all_cols")
 	List<BtnResource> getByGroupCode(String groupCode);
 	
