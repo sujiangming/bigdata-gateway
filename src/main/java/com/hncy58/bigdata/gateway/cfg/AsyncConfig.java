@@ -2,6 +2,7 @@ package com.hncy58.bigdata.gateway.cfg;
 
 import java.util.concurrent.Executor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -9,23 +10,25 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
  * 
- * @author	tokings
- * @company	hncy58	湖南长银五八
- * @website	http://www.hncy58.com
+ * @author tokings
+ * @company hncy58 湖南长银五八
+ * @website http://www.hncy58.com
  * @version 1.0
- * @date	2018年12月11日 上午11:23:33
+ * @date 2018年12月11日 上午11:23:33
  *
  */
 @Configuration
 @EnableAsync
 public class AsyncConfig {
 
-	/*
-	 * 此处成员变量应该使用@Value从配置中读取
-	 */
-	private int corePoolSize = 10;
-	private int maxPoolSize = 200;
-	private int queueCapacity = 10;
+	@Value("${schedule.corePoolSize:10}")
+	private int corePoolSize;
+
+	@Value("${schedule.maxPoolSize:200}")
+	private int maxPoolSize;
+
+	@Value("${schedule.queueCapacity:10}")
+	private int queueCapacity;
 
 	@Bean
 	public Executor taskExecutor() {

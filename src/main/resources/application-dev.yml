@@ -1,6 +1,19 @@
 server:
   port: 9000
-
+# Token缓存失效配置
+cache:
+  token:
+    expire: 1800
+# 审计数据删除配置
+audit:
+  data:
+    deleteDays: 7
+# 定时调度池配置
+schedule:
+  corePoolSize: 10
+  maxPoolSize: 200
+  queueCapacity: 10
+# redis订阅配置
 redis:
   pubsub:
     auth_topic: 
